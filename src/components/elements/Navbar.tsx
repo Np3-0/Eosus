@@ -1,9 +1,9 @@
-import MoonSVG from "../../assets/MoonSVG";
-import SunSVG from "../../assets/SunSVG";
 import { useThemeStore } from "../../store/ThemeStore";
 import BtnLink from "../shared/BtnLink";
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
+import MoonSVG from "../../assets/MoonSVG";
+import SunSVG from "../../assets/SunSVG";
 
 const navItems = [
     {href: "#", text: "Home"},
@@ -45,8 +45,10 @@ export default function Navbar() {
                     </div>
 
                     {/* Light/Dark Mode Switch */}
-                    <div className="min-w-max flex center-items gap-x-3">
-                            <button onClick={toggleTheme} className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 border border-box-border cursor-pointer">
+                    <div className="min-w-max flex items-center gap-x-3">
+                            <button onClick={toggleTheme} className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                                                                    cursor-pointer hover:bg-platinum duration-300 ease-linear"
+                            >
                                 {theme === "dark" ? <MoonSVG /> : <SunSVG />}
                             </button>
                     </div>

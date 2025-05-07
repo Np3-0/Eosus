@@ -1,29 +1,35 @@
 @import "tailwindcss";
 
 @theme {
+  --color-bg: #FFFFFF;
+  --color-box: #FFFFFF;
+  --box-border: #E5E7EB;
+  --box-sd: #E2E8F080;
+  --heading-1: #172554;
+  --heading-2: #1F2937;
+  --heading-3: #374151;
+
   --color-platinum: #D8DBE2;
   --color-yale: #1B4079;
   --color-cordovan: #902D41;
   --color-fern: #44763B;
   --color-ash: #94A191;
+  --color-gr-orange: #EF709B;
 
-  --color-bg: #ffffff;
-  --color-box: #ffffff;
-  --box-border: #e5e7eb;
-  --box-sd: rgba(#e2e8f0, 0.5);
-  --heading-1: #172554;
-  --heading-2: #1f2937;
-  --heading-3: #374151;
 }
 
+/* For some reason these need to be rgb or it breaks */
 .dark {
-  --color-bg: #030712;
-  --color-box: #111827;
-  --box-border: rgba(243, 244, 246, 0.1);
+  --color-bg: 3 7 18;
+  --color-box: 17 24 39;
+  --box-border: 243 244 246 / 0.1;
   --box-sd: transparent;
-  --heading-1: #ffffff;
-  --heading-2: #f3f4f6;
-  --heading-3: #d1d5db;
+  --heading-1: 255 255 255; 
+  --heading-2: 243 244 246;
+  --heading-3: 209 213 219;
+
+  /* Platinum is really just a highlight color, so just make it dark for the dark mode.*/
+  --color-platinum: #1f273f;
 }
 
 @layer utilities {
