@@ -1,7 +1,7 @@
 import Container from "../shared/Container";
 import Title from "../shared/Title";
 
-const logos = ["EPA", "FEMA", "NASA", "NOAA", "NPS", "Red_Cross", "USGS"];
+const logos = ["EPA", "FEMA", "NASA", "NOAA", "NPS", "CDC", "USGS"];
 
 export default function Brands() {
     
