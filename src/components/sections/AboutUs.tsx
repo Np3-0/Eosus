@@ -18,7 +18,7 @@ export default function AboutUs() {
                     </div>
                 </div>
 
-                <div className="w-full md:w-7/12 lg:w-1/2 flex flex-col">
+                <div className="w-full md:w-7/12 lg:w-1/2 flex flex-col space-y-4">
                     <Title>About Our Mission</Title>
                     <Paragraph>
                         Our mission is to speed up the time it takes for everyday citizens to receive information on ecological, chemical, or industrial events.
