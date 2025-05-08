@@ -14,8 +14,8 @@ export default function Layout({ title, children }: LayoutProps) {
         <>
             <Navbar />
 
-            <main className="flex flex-column gap-y-20 md:gap-y-32 overflow-hidden">{children}</main>
-
+            <main className="flex flex-col gap-y-20 md:gap-y-32 overflow-hidden">{children}</main>
+            
             <Footer />
         </>
     );
