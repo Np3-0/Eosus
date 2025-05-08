@@ -5,11 +5,11 @@ import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
 
-const navItems = [
+export const navItems = [
     {href: "#", text: "Home"},
+    {href: "#brands", text: "Brands"},
     {href: "#services", text: "Services"},
     {href: "#about-us", text: "About Us"},
-    {href: "#features", text: "Features"},
 ];
 
 export default function Navbar() {

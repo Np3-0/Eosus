@@ -6,10 +6,10 @@ const logos = ["EPA", "FEMA", "NASA", "NOAA", "NPS", "CDC", "USGS"];
 export default function Brands() {
     
     return (
-        <section>
+        <section id="brands">
             <Container className="space-y-8">
                 <div className="text-center max-w-3xl mx-auto">
-                    <Title>Information Provided Via</Title>
+                    <Title>Information Gathered From</Title>
                 </div>
                 <div className="flex justify-center flex-wrap gap-4">
                     {logos.map((logo, key) => (
