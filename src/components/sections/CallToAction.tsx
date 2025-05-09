@@ -11,7 +11,7 @@ export default function CallToAction() {
                         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-heading-1">
                             Help your 
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange ml-3 mr-3 md:ml-4 md:mr-4">local community</span> 
-                            today
+                            today.
                         </h1>
                         <Paragraph className="pt-10">
                             Report local biological, natural, and industrial events in your community.
