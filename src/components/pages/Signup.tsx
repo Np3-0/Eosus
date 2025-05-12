@@ -15,24 +15,49 @@ export default function Signup() {
         <section className="relative flex justify-center pt-32 lg:pt-36">
             <Container className="flex flex-col items-center justify-center w-full">
                 <div className="relative flex flex-col items-center text-center w-full max-w-3xl">
-                    <h1 className="text-cordovan text-4xl xl:text-5xl font-bold text-center">Eosus</h1>
-                    <div className="flex justify-center gap-4 pt-4 text-heading-2 text-lg sm:text-xl md:text-2xl xl:text-3xl font-semibold text-center mt-4">
+                    <h1 className="text-cordovan text-5xl xl:text-6xl font-bold text-center">Eosus</h1>
+                    <div className="flex justify-center gap-4 pt-4 text-heading-2 text-xl md:text-2xl xl:text-3xl font-semibold text-center mt-4">
                         <Paragraph>Sign Up</Paragraph>
                     </div>
                     <div className="flex justify-center items-center mt-10 p-5 sm:p-6 w-4/5 rounded-3xl bg-box-bg border border-box-border shadow-lg shadow-box-shadow">
                         <form action="#" className="w-full">
                             <div className="flex flex-col justify-center gap-y-8 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
                                 <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold border-b-3 border-platinum">
-                                    <label className="hover:bg-platinum hover:rounded-3xl px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl">
-                                        <input id="emailToggle" onClick={handleEmailClick} type="radio" name="mode" className="appearance-none"/>
+                                    <label
+                                        className={`px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl rounded-3xl duration-300 ease-linear
+                                                    ${usingEmail ? "bg-cordovan text-white dark" : ""} 
+                                                    ${usingEmail ? "hover:bg-cordovan hover:text-white hover:dark" : "hover:bg-platinum hover:rounded-3xl"}`}
+                                        htmlFor="emailToggle"
+                                    >
+                                        <input
+                                            id="emailToggle"
+                                            onClick={handleEmailClick}
+                                            type="radio"
+                                            name="mode"
+                                            className="appearance-none"
+                                            checked={usingEmail}
+                                            readOnly
+                                        />
                                         Email
                                     </label>
-                                    <label className="hover:bg-platinum hover:rounded-3xl px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl">
-                                        <input id="phoneToggle" onClick={handleEmailClick} type="radio" name="mode" className="appearance-none"/>
+                                    <label
+                                        className={`px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl rounded-3xl duration-300 ease-linear
+                                                    ${!usingEmail ? "bg-cordovan text-white dark" : ""}
+                                                    ${!usingEmail ? "hover:bg-cordovan hover:text-white hover:dark" : "hover:bg-platinum hover:rounded-3xl"}`}
+                                        htmlFor="phoneToggle"
+                                    >
+                                        <input
+                                            id="phoneToggle"
+                                            onClick={handleEmailClick}
+                                            type="radio"
+                                            name="mode"
+                                            className="appearance-none"
+                                            checked={!usingEmail}
+                                            readOnly
+                                        />
                                         Phone Number
                                     </label>
                                 </div>
-
                                 <label className="text-left">{usingEmail ? "Email" : "Phone Number"}</label>
                                 <input 
                                     type= {usingEmail ? "email" : "tel"}
