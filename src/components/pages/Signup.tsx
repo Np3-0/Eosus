@@ -7,9 +7,9 @@ export default function Signup() {
 
     const [usingEmail, setUsingEmail] = useState(true);
 
-    const handleEmailClick = (isEmail: boolean) => {
-        setUsingEmail(isEmail);
-    };
+    const handleEmailClick = (e: React.MouseEvent<HTMLInputElement>) => {
+        setUsingEmail((e.target as HTMLInputElement).id === "emailToggle");
+    }
 
     return (
         <section className="relative flex justify-center pt-32 lg:pt-36">
@@ -22,9 +22,15 @@ export default function Signup() {
                     <div className="flex justify-center items-center mt-10 p-5 sm:p-6 w-4/5 rounded-3xl bg-box-bg border border-box-border shadow-lg shadow-box-shadow">
                         <form action="#" className="w-full">
                             <div className="flex flex-col justify-center gap-y-8 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
-                                <div className="flex flex-row items-center justify-center gap-x-4 text-heading-3 font-semibold border-b-3 border-platinum">
-                                    <button type="button" onClick={() => handleEmailClick(true)} className="cursor-pointer hover:bg-platinum p-2 px-5 mb-3 rounded-3xl active:font-bold">Email</button>
-                                    <button type="button" onClick={() => handleEmailClick(false)} className="cursor-pointer hover:bg-platinum p-2 px-5 mb-3 rounded-3xl active:font-bold">Phone Number</button>
+                                <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold border-b-3 border-platinum">
+                                    <label className="hover:bg-platinum hover:rounded-3xl px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl">
+                                        <input id="emailToggle" onClick={handleEmailClick} type="radio" name="mode" className="appearance-none"/>
+                                        Email
+                                    </label>
+                                    <label className="hover:bg-platinum hover:rounded-3xl px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl">
+                                        <input id="phoneToggle" onClick={handleEmailClick} type="radio" name="mode" className="appearance-none"/>
+                                        Phone Number
+                                    </label>
                                 </div>
 
                                 <label className="text-left">{usingEmail ? "Email" : "Phone Number"}</label>
