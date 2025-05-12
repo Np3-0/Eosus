@@ -40,10 +40,10 @@ export default function Navbar() {
                         
                         {/* Call to action button */}
                         <div className="lg:min-w-max flex items-center sm:w-max w-full pb-6 lg:pb-0 border-b border-box-border lg:border-0 px-6 lg:px-0">
-                            <BtnLink text="Get Started!" href="#cta" className=""/>
+                            <BtnLink text="Get Started!" href="/signup" className=""/>
                         </div>
                     </div>
-
+                    
                     {/* Light/Dark Mode Switch */}
                     <div className="min-w-max flex items-center gap-x-3">
                             <button onClick={toggleTheme} className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 

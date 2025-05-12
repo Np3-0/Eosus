@@ -1,21 +1,15 @@
-import Layout from "./components/Layout";
-import AboutUs from "./components/sections/AboutUs";
-import Brands from "./components/sections/Brands";
-import CallToAction from "./components/sections/CallToAction";
-import Hero from "./components/sections/Hero";
-import Services from "./components/sections/Services";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LandingPage from "./components/pages/LandingPage";
+import Signup from "./components/pages/Signup";
 
 export default function App() {
   return (
-    <>
-      <Layout title="Eosus">
-        <Hero />
-        <Brands />
-        <Services />
-        <AboutUs />
-        <CallToAction />
-      </Layout>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
       
-    </>
+    </BrowserRouter>
   )
 }

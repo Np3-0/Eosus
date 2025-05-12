@@ -3,11 +3,11 @@ import Footer from "./elements/Footer";
 import Navbar from "./elements/Navbar";
 
 interface LayoutProps {
-    title: string;
+    title?: string;
     children: React.ReactNode;
 }
 
-export default function Layout({ title, children }: LayoutProps) {
+export default function Layout({ title = "Eosus", children }: LayoutProps) {
     useEffect(() => {document.title = title}, [title]);
     
     return (
