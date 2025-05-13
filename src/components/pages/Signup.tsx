@@ -2,13 +2,19 @@ import { useState } from "react";
 import Button from "../shared/Button";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
+import handleSignIn from "../../utils/handleSignIn";
 
 export default function Signup() {
 
     const [usingEmail, setUsingEmail] = useState(true);
+    const [logInInfo, setLogInInfo] = useState("");
+    const [buttonUsed, setButtonUsed] = useState("");
 
     const handleEmailClick = (e: React.MouseEvent<HTMLInputElement>) => {
         setUsingEmail((e.target as HTMLInputElement).id === "emailToggle");
+        const logInInput = document.getElementById("logInInfo") as HTMLInputElement;
+        logInInput.value = "";
+        setLogInInfo("");
     }
     
     return (
@@ -20,7 +26,7 @@ export default function Signup() {
                         <Paragraph>Sign Up</Paragraph>
                     </div>
                     <div className="flex justify-center items-center mt-10 p-5 sm:p-6 w-4/5 rounded-3xl bg-box-bg border border-box-border shadow-lg shadow-box-shadow">
-                        <form action="#" className="w-full">
+                        <form onSubmit={(e) => handleSignIn(e, buttonUsed, logInInfo)} className="w-full">
                             <div className="flex flex-col justify-center gap-y-8 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
                                 <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold border-b-3 border-platinum">
                                     <label
@@ -60,9 +66,12 @@ export default function Signup() {
                                 </div>
                                 <label className="text-left">{usingEmail ? "Email" : "Phone Number"}</label>
                                 <input 
+                                    id="logInInfo"
+                                    value={logInInfo}
                                     type= {usingEmail ? "email" : "tel"}
                                     placeholder= {usingEmail ? "johndoe@gmail.com" : "+1 234 567 8900"}
                                     className="text-heading-3 font-normal text-base md:text-lg lg:text-xl w-full pb-2 border-b-3 bg-transparent outline-none"
+                                    onChange={(e) => setLogInInfo(e.target.value)}
                                 />
                                 
                                 <Button className="text-white text-center">Continue</Button>
