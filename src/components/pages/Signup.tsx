@@ -12,8 +12,6 @@ export default function Signup() {
 
     const handleEmailClick = (e: React.MouseEvent<HTMLInputElement>) => {
         setUsingEmail((e.target as HTMLInputElement).id === "emailToggle");
-        const logInInput = document.getElementById("logInInfo") as HTMLInputElement;
-        logInInput.value = "";
         setLogInInfo("");
     }
     
@@ -26,7 +24,13 @@ export default function Signup() {
                         <Paragraph>Sign Up</Paragraph>
                     </div>
                     <div className="flex justify-center items-center mt-10 p-5 sm:p-6 w-4/5 rounded-3xl bg-box-bg border border-box-border shadow-lg shadow-box-shadow">
-                        <form onSubmit={(e) => handleSignIn(e, buttonUsed, logInInfo)} className="w-full">
+                        <form 
+                            onSubmit={(e) => {
+                                handleSignIn(e, buttonUsed, logInInfo);
+                                setLogInInfo("");
+                                setButtonUsed("");}} 
+                            className="w-full"
+                        >
                             <div className="flex flex-col justify-center gap-y-8 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
                                 <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold border-b-3 border-platinum">
                                     <label
@@ -70,11 +74,17 @@ export default function Signup() {
                                     value={logInInfo}
                                     type= {usingEmail ? "email" : "tel"}
                                     placeholder= {usingEmail ? "johndoe@gmail.com" : "+1 234 567 8900"}
+                                    required
+                                    pattern={
+                                        !usingEmail
+                                        ? "^\\+?\\d{1,3}(\\s|-)?\\d{3}(\\s|-)?\\d{3}(\\s|-)?\\d{4}$"
+                                        : undefined
+                                    }
                                     className="text-heading-3 font-normal text-base md:text-lg lg:text-xl w-full pb-2 border-b-3 bg-transparent outline-none"
                                     onChange={(e) => setLogInInfo(e.target.value)}
                                 />
                                 
-                                <Button className="text-white text-center">Continue</Button>
+                                <Button type="submit" onClick={() => setButtonUsed("continue")} className="text-white text-center">Continue</Button>
 
                                 {/* Or thing */}
                                 <div className="flex items-center justify-center gap-x-4">
@@ -82,11 +92,19 @@ export default function Signup() {
                                     <Paragraph>Or</Paragraph>
                                     <div className="h-px w-1/2 bg-box-border"></div>
                                 </div>
-                                <Button className="flex flex-row w-full justify-center md:gap-x-4 items-center mx-auto lg:mx-0 text-white">
+                                <Button
+                                    type="button"
+                                    onClick={(e) => handleSignIn(e, "google", logInInfo)}
+                                    className="flex flex-row w-full justify-center md:gap-x-4 items-center mx-auto lg:mx-0 text-white"
+                                >
                                     <img src="src/assets/logos/google_logo.svg" className="h-8 hidden md:block" alt="Google Logo"/>
                                     Google
                                 </Button>
-                                <Button className="flex flex-row w-full justify-center md:gap-x-4 items-center mx-auto lg:mx-0 text-white">
+                                <Button
+                                    type="button"
+                                    onClick={(e) => handleSignIn(e, "apple", logInInfo)}
+                                    className="flex flex-row w-full justify-center md:gap-x-4 items-center mx-auto lg:mx-0 text-white"
+                                >
                                     <img src="src/assets/logos/apple_logo.svg" className="h-8 hidden md:block" alt="Apple Logo"/>
                                     Apple
                                 </Button>

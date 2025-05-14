@@ -1,10 +1,15 @@
+import { useState } from "react";
 import EmailIconSVG from "../../assets/EmailIconSVG";
+import handleSignIn from "../../utils/handleSignIn";
 import Button from "../shared/Button";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
 import Numbers from "./Numbers";
 
 export default function Hero() {
+
+    const [ email, setEmail ] = useState("");
+
     return (
         <section className="relative pt-32 lg:pt-36 ">
             <Container className="flex flex-col lg:flex-row gap-10 lg:gap-12">
@@ -33,7 +38,7 @@ export default function Hero() {
                     </Paragraph>
                     <div className="mt-10 w-full flex max-w-md mx-auto lg:mx-0">
                         <div className="flex sm:flex-row flex-col gap-5 w-full">
-                            <form action="#" className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3
+                            <form onSubmit={(e) => handleSignIn(e, "continue", email)} className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3
                                                         shadow-lg shadow-box-shadow border border-box-border
                                                         bg-box-bg rounded-full ease-linear focus-within:bg-body
                                                         focus-within:border-primary"
@@ -41,8 +46,14 @@ export default function Hero() {
                                 <span className="min-w-max pr-2 border-r border-box-border">
                                     <EmailIconSVG />
                                 </span>
-                                <input type="email" placeholder="johndoe@gmail.com" className="w-full py-3 outline-none bg-transparent"/>
-                                <Button className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]">
+                                <input 
+                                    type="email" 
+                                    placeholder="johndoe@gmail.com" 
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                    className="w-full py-3 outline-none bg-transparent"/>
+                                <Button type="submit" className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]">
                                     <span className="relative z-[5]">Get Started</span>
                                 </Button>
                             </form>

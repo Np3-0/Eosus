@@ -1,4 +1,4 @@
-import Button from "../shared/Button";
+import BtnLink from "../shared/BtnLink";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
 
@@ -18,7 +18,7 @@ export default function CallToAction() {
                             Join today, and help the spread of information for <span className="font-bold">completely free</span>.
                         </Paragraph>
                         <div className="mx-auto max-w-md sm:max-w-xl pt-10 text-white">
-                            <Button className="transform transition duration-300 hover:scale-[1.02]"> Sign Up Today</Button>
+                            <BtnLink className="py-5" href="/signup" text="Get Started!"/>
                         </div>
                     </div>
                 </div>
