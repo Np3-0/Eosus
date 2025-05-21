@@ -30,7 +30,7 @@ export default function AboutUs() {
                         <Info title="Mission" description="Our mission is to create an application that spreads awareness on local events.">
                             <LightningSVG />
                         </Info>
-                        <Info title="Vision" description="Our vision is for everyone to have the same access to emergency information.">
+                        <Info title="Vision" description="Our vision is for everyone to have the same access to emergency information, no matter what.">
                             <LightningSVG />
                         </Info>
                     </div>

@@ -100,14 +100,7 @@ export default function Signup() {
                                     <img src="src/assets/logos/google_logo.svg" className="h-8 hidden md:block" alt="Google Logo"/>
                                     Google
                                 </Button>
-                                <Button
-                                    type="button"
-                                    onClick={(e) => handleSignIn(e, "apple", logInInfo)}
-                                    className="flex flex-row w-full justify-center md:gap-x-4 items-center mx-auto lg:mx-0 text-white"
-                                >
-                                    <img src="src/assets/logos/apple_logo.svg" className="h-8 hidden md:block" alt="Apple Logo"/>
-                                    Apple
-                                </Button>
+                                
                             </div>
                         </form>
                     </div>

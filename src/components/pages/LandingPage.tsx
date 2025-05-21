@@ -7,7 +7,7 @@ import Services from "../sections/Services";
 
 export default function LandingPage() {
     return (
-        <Layout title="Eosus">
+        <Layout>
             <Hero />
             <Brands />
             <Services />

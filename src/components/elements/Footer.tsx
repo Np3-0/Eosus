@@ -20,6 +20,7 @@ export default function Footer() {
                     </ul>
                 </div>
                 <Paragraph className="pt-6 text-heading-2 text-left font-medium">&copy;2025 Eosus. Created for the 2025 Congressional App Challenge. Photos sourced from Pexels.</Paragraph>
+                <Paragraph className="pt-1 text-heading-2 text-left font-medium">If in immediate danger, call 911.</Paragraph>
             </Container>
         </footer>
     );

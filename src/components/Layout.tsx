@@ -1,14 +1,11 @@
-import { useEffect } from "react";
 import Footer from "./elements/Footer";
 import Navbar from "./elements/Navbar";
 
 interface LayoutProps {
-    title?: string;
     children: React.ReactNode;
 }
 
-export default function Layout({ title = "Eosus", children }: LayoutProps) {
-    useEffect(() => {document.title = title}, [title]);
+export default function Layout({children }: LayoutProps) {
     
     return (
         <>
