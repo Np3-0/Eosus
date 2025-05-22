@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
+import Layout from "../Layout";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
+    console.log(user?.photoURL);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -25,8 +27,12 @@ export default function Dashboard() {
     if (!user) return null; // Redirecting
 
     return (
-        <>
-            <h1>HI</h1>
-        </>
+        <Layout navType={1} userImg={user?.photoURL ?? undefined}>
+            
+            <div className="flex flex-col items-center justify-center h-screen">
+                <h1 className="text-heading-1 text-5xl">Hello, {user.displayName}</h1>
+                
+            </div>
+        </Layout>
     );
 }

@@ -17,7 +17,7 @@ export default function CallToAction() {
                             Report local biological, natural, and industrial events in your community.
                             Join today, and help the spread of information for <span className="font-bold">completely free</span>.
                         </Paragraph>
-                        <div className="mx-auto max-w-md sm:max-w-xl pt-10 text-white">
+                        <div className="mx-auto max-w-md sm:max-w-xl pt-10 text-white transform transition duration-300 hover:scale-[1.02]">
                             <BtnLink className="py-5" href="/signup" text="Get Started!"/>
                         </div>
                     </div>

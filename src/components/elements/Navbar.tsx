@@ -4,15 +4,14 @@ import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
+import { navbarItems } from "../../utils/navbar_items";
 
-export const navItems = [
-    {href: "#", text: "Home"},
-    {href: "#brands", text: "Brands"},
-    {href: "#services", text: "Services"},
-    {href: "#about-us", text: "About Us"},
-];
+interface NavbarProps {
+    type: number;
+    userImg?: string;
+}
 
-export default function Navbar() {
+export default function Navbar({ type, userImg }: NavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
 
     return (
@@ -33,15 +32,26 @@ export default function Navbar() {
                         <ul className="border-t border-box-border lg:border-t-0 px-6 lg:px-0 pt-6 lg:pt-0 flex flex-col lg:flex-row gap-y-4 
                                         gap-x-3 text-lg text-heading-2 w-full lg:justify-center lg:items-center"
                         >
-                            {navItems.map((item, key) => (
+                            {navbarItems[type].map((item, key) => (
                                 <NavItem href={item.href} text={item.text} key={key}/>
                             ))}
                         </ul>
                         
                         {/* Call to action button */}
-                        <div className="lg:min-w-max flex items-center sm:w-max w-full pb-6 lg:pb-0 border-b border-box-border lg:border-0 px-6 lg:px-0">
-                            <BtnLink text="Get Started!" href="/signup" className=""/>
-                        </div>
+                        {type === 0 && (
+                            <div className="lg:min-w-max flex items-center sm:w-max w-full pb-6 lg:pb-0 border-b border-box-border lg:border-0 px-6 lg:px-0">
+                                <BtnLink text="Get Started!" href="/signup" className=""/>
+                            </div>
+                        )}
+                        
+                        {/* User Profile */}
+                        {type === 1 && (
+                            <a href="/profile" className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                                                                    cursor-pointer hover:bg-platinum duration-300 ease-linear"
+                            >
+                                {userImg ? <img src={userImg} className="w-8 h-8 rounded-full"/> : <SunSVG />}
+                            </a>
+                        )}
                     </div>
                     
                     {/* Light/Dark Mode Switch */}
