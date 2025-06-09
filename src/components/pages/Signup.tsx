@@ -6,14 +6,9 @@ import handleSignIn from "../../utils/handleSignIn";
 
 export default function Signup() {
 
-    const [usingEmail, setUsingEmail] = useState(true);
     const [logInInfo, setLogInInfo] = useState("");
     const [buttonUsed, setButtonUsed] = useState("");
 
-    const handleEmailClick = (e: React.MouseEvent<HTMLInputElement>) => {
-        setUsingEmail((e.target as HTMLInputElement).id === "emailToggle");
-        setLogInInfo("");
-    }
     
     return (
         <section className="relative flex justify-center pt-32 lg:pt-36">
@@ -32,54 +27,13 @@ export default function Signup() {
                             className="w-full"
                         >
                             <div className="flex flex-col justify-center gap-y-8 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
-                                <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold border-b-3 border-platinum">
-                                    <label
-                                        className={`px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl rounded-3xl duration-300 ease-linear
-                                                    ${usingEmail ? "bg-cordovan text-white dark" : ""} 
-                                                    ${usingEmail ? "hover:bg-cordovan hover:text-white hover:dark" : "hover:bg-platinum hover:rounded-3xl"}`}
-                                        htmlFor="emailToggle"
-                                    >
-                                        <input
-                                            id="emailToggle"
-                                            onClick={handleEmailClick}
-                                            type="radio"
-                                            name="mode"
-                                            className="appearance-none"
-                                            checked={usingEmail}
-                                            readOnly
-                                        />
-                                        Email
-                                    </label>
-                                    <label
-                                        className={`px-4 p-2 mb-2 cursor-pointer text-lg lg:text-xl xl:text-2xl rounded-3xl duration-300 ease-linear
-                                                    ${!usingEmail ? "bg-cordovan text-white dark" : ""}
-                                                    ${!usingEmail ? "hover:bg-cordovan hover:text-white hover:dark" : "hover:bg-platinum hover:rounded-3xl"}`}
-                                        htmlFor="phoneToggle"
-                                    >
-                                        <input
-                                            id="phoneToggle"
-                                            onClick={handleEmailClick}
-                                            type="radio"
-                                            name="mode"
-                                            className="appearance-none"
-                                            checked={!usingEmail}
-                                            readOnly
-                                        />
-                                        Phone Number
-                                    </label>
-                                </div>
-                                <label className="text-left">{usingEmail ? "Email" : "Phone Number"}</label>
+                                <label className="text-left">Email</label>
                                 <input 
                                     id="logInInfo"
                                     value={logInInfo}
-                                    type= {usingEmail ? "email" : "tel"}
-                                    placeholder= {usingEmail ? "johndoe@gmail.com" : "+1 234 567 8900"}
+                                    type="email"
+                                    placeholder=  "johndoe@gmail.com"
                                     required
-                                    pattern={
-                                        !usingEmail
-                                        ? "^\\+?\\d{1,3}(\\s|-)?\\d{3}(\\s|-)?\\d{3}(\\s|-)?\\d{4}$"
-                                        : undefined
-                                    }
                                     className="text-heading-3 font-normal text-base md:text-lg lg:text-xl w-full pb-2 border-b-3 bg-transparent outline-none"
                                     onChange={(e) => setLogInInfo(e.target.value)}
                                 />
@@ -100,7 +54,6 @@ export default function Signup() {
                                     <img src="src/assets/logos/google_logo.svg" className="h-8 hidden md:block" alt="Google Logo"/>
                                     Google
                                 </Button>
-                                
                             </div>
                         </form>
                     </div>

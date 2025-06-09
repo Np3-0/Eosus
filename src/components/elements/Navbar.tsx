@@ -5,6 +5,7 @@ import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
 import { navbarItems } from "../../utils/navbar_items";
+import UserSVG from "../../assets/UserSVG";
 
 interface NavbarProps {
     type: number;
@@ -46,10 +47,10 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                         
                         {/* User Profile */}
                         {type === 1 && (
-                            <a href="/profile" className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
-                                                                    cursor-pointer hover:bg-platinum duration-300 ease-linear"
+                            <a href="/profile" className={`outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                                                            cursor-pointer ${userImg ? "" : "hover:bg-platinum duration-300 ease-linear"}`}
                             >
-                                {userImg ? <img src={userImg} className="w-8 h-8 rounded-full"/> : <SunSVG />}
+                                {userImg ? <img src={userImg} className="w-10 h-10 rounded-full"/> : <UserSVG />}
                             </a>
                         )}
                     </div>

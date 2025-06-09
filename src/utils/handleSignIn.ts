@@ -4,23 +4,26 @@ import { sendSignInLinkToEmail, signInWithPopup, GoogleAuthProvider } from "fire
 export default async function handleSignIn(
     event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
     buttonUsed: string,
-    logInInfo?: string
+    logInInfo?: string,
 ) {
     event.preventDefault();
+    // google oauth, and sends to dashboard
     if (buttonUsed == "google") {
         await signInWithPopup(auth, new GoogleAuthProvider());
         window.location.href = "/dashboard";
         return;
+    // checks input for validity
     } else if (!logInInfo || logInInfo === "") {
         alert("Please enter a valid email address.");
         return;
     }
 
+    // settings for email auth
     const actionCodeSettings = {
         url: window.location.origin + "/auth",
         handleCodeInApp: true,
         iOS: {
-            bundleId: "com.example.ios",
+           bundleId: "com.example.ios",
         },
         android: {
             packageName: "com.example.android",
@@ -29,6 +32,7 @@ export default async function handleSignIn(
         },
     };
 
+    //sends link if possible
     try {
         await sendSignInLinkToEmail(auth, logInInfo, actionCodeSettings);
         alert("Sign-in link sent! Please check your email.");
@@ -39,4 +43,6 @@ export default async function handleSignIn(
         console.error(err);
         alert("Failed to send sign-in link. Please try again.");
     }
-}
+    
+    }
+
