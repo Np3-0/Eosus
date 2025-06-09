@@ -8,6 +8,7 @@ export const navbarItems = [
     [
         {href: "/dashboard", text: "Dashboard"},
         {href: "/create", text: "Create"},
-        {href: "/profile", text: "Profile"},
+        {href: "/map", text: "Map"},
+        //ADD SOME SORT OF "GUIDANCE" THING HERE
     ]
 ]

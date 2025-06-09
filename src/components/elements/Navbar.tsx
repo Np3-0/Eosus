@@ -6,6 +6,7 @@ import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
 import { navbarItems } from "../../utils/navbar_items";
 import UserSVG from "../../assets/UserSVG";
+import { useState } from "react";
 
 interface NavbarProps {
     type: number;
@@ -14,6 +15,7 @@ interface NavbarProps {
 
 export default function Navbar({ type, userImg }: NavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
+    const [imgError, setImgError] = useState(false);
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 py-6">
@@ -46,11 +48,19 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                         )}
                         
                         {/* User Profile */}
-                        {type === 1 && (
-                            <a href="/profile" className={`outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
-                                                            cursor-pointer ${userImg ? "" : "hover:bg-platinum duration-300 ease-linear"}`}
-                            >
-                                {userImg ? <img src={userImg} className="w-10 h-10 rounded-full"/> : <UserSVG />}
+                         {type === 1 && (
+                            <a href="/profile" className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                                                            cursor-pointer hover:bg-platinum duration-300 ease-linear">
+                                {userImg && !imgError ? (
+                                    <img
+                                        src={userImg}
+                                        className="w-10 h-10 rounded-full"
+                                        onError={() => setImgError(true)}
+                                        alt="Profile"
+                                    />
+                                ) : (
+                                    <UserSVG />
+                                )}
                             </a>
                         )}
                     </div>

@@ -9,7 +9,6 @@ export default function Signup() {
     const [logInInfo, setLogInInfo] = useState("");
     const [buttonUsed, setButtonUsed] = useState("");
 
-    
     return (
         <section className="relative flex justify-center pt-32 lg:pt-36">
             <Container className="flex flex-col items-center justify-center w-full">
