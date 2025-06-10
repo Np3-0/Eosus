@@ -39,6 +39,6 @@ export default function AuthController() {
     }, [navigate]);
 
     return (
-        <h1 className="text-center text-3xl mt-20 text-semibold">Processing sign-in...</h1>
+        <h1 className="text-center text-3xl mt-20 text-semibold text-heading-1">Processing sign-in...</h1>
     );
 }

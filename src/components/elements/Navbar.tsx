@@ -50,8 +50,17 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                             </div>
                         )}
                         
-                        {/* User Profile */}
-                         {type === 1 && (
+                    
+                    {/* Light/Dark Mode Switch */}
+                    <div className="min-w-max flex items-center gap-x-3 mr-4">
+                            <button onClick={toggleTheme} className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                                                                    cursor-pointer hover:bg-platinum duration-300 ease-linear"
+                            >
+                                {theme === "dark" ? <MoonSVG /> : <SunSVG />}
+                            </button>
+                    </div>
+                    {/* User Profile */}
+                        {type === 1 && (
                             <div>
                                 <button className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
                                                     cursor-pointer hover:bg-platinum duration-300 ease-linear"
@@ -60,7 +69,7 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                                     {userImg && !imgError ? (
                                         <img
                                             src={userImg}
-                                            className="w-10 h-10 rounded-full"
+                                            className="w-12 h-10 rounded-full"
                                             onError={() => setImgError(true)}
                                             alt="Profile"
                                         />
@@ -88,15 +97,6 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                                 }
                             </div>
                         )}
-                    </div>
-                    
-                    {/* Light/Dark Mode Switch */}
-                    <div className="min-w-max flex items-center gap-x-3">
-                            <button onClick={toggleTheme} className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
-                                                                    cursor-pointer hover:bg-platinum duration-300 ease-linear"
-                            >
-                                {theme === "dark" ? <MoonSVG /> : <SunSVG />}
-                            </button>
                     </div>
                 </nav>
             </Container>
