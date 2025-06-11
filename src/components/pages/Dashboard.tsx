@@ -26,8 +26,14 @@ export default function Dashboard() {
     if (loading) return <h1 className="text-center text-3xl mt-20 text-semibold">Loading...</h1>;
     if (!user) return null; // Redirecting
 
+    const userObj = {
+        img: user.photoURL ?? undefined,
+        email: user.email ?? undefined,
+        name: user.displayName ?? "User",
+    };
+
     return (
-        <Layout navType={1} userImg={user?.photoURL ?? undefined}>
+        <Layout navType={1} userObj={userObj}>
             
             <div className="flex flex-col items-center justify-center h-screen">
                 <h1 className="text-heading-1 text-5xl">Hello, {user.displayName}</h1>

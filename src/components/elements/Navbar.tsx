@@ -8,14 +8,15 @@ import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
 import UserSVG from "../../assets/UserSVG";
+import type { UserObj } from "../../utils/userObj";
 
 
 interface NavbarProps {
     type: number;
-    userImg?: string;
+    userObj?: UserObj;
 }
 
-export default function Navbar({ type, userImg }: NavbarProps) {
+export default function Navbar({ type, userObj }: NavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
     const [imgError, setImgError] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -59,6 +60,7 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                                 {theme === "dark" ? <MoonSVG /> : <SunSVG />}
                             </button>
                     </div>
+
                     {/* User Profile */}
                         {type === 1 && (
                             <div>
@@ -66,9 +68,9 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                                                     cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                                     onClick={() => setIsExpanded(!isExpanded)}
                                 >
-                                    {userImg && !imgError ? (
+                                    {userObj?.img && !imgError ? (
                                         <img
-                                            src={userImg}
+                                            src={userObj?.img}
                                             className="w-12 h-10 rounded-full"
                                             onError={() => setImgError(true)}
                                             alt="Profile"
@@ -77,11 +79,12 @@ export default function Navbar({ type, userImg }: NavbarProps) {
                                         <UserSVG />
                                     )}
                                 </button>
+                                {/* Dropdown Menu */}
                                 { isExpanded && 
-                                    <div className="bg-box-bg rounded-lg shadow-lg mt-2 px-4 py-2 z-50 absolute text-heading-1 divide-y-[2px] divide-platinum">
+                                    <div className="bg-box-bg rounded-lg shadow-lg mt-2 px-4 py-2 z-50 absolute right-0 text-heading-1 divide-y-[2px] divide-platinum">
                                         <div className="px-4 py-3 text-sm">
-                                            <div>USER NAME</div>
-                                            <div className="font-medium truncate">email@email.com</div>
+                                            <div>{userObj?.name}</div>
+                                            <div className="font-medium truncate">{userObj?.email}</div>
                                         </div>
                                         <ul className="py-2 text-sm" aria-labelledby="dropdownInformationButton">
                                             {dropdownItems.map((item, key) => (
