@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import type { User } from "firebase/auth";
+
 import Button from "../shared/Button";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
-import handleSignIn from "../../utils/handleSignIn";
+import { handleSignIn } from "../../utils/handleSignIn";
 
 export default function Signup() {
 
     const [logInInfo, setLogInInfo] = useState("");
     const [buttonUsed, setButtonUsed] = useState("");
+    const [, setUser] = useState<User | null>(null);
+    const navigate = useNavigate();
+
+    // navigates to dashboard if user is already logged in
+    useEffect(() => {
+        const checkUserState = onAuthStateChanged(auth, (firebaseUser) => {
+                    setUser(firebaseUser);
+                    if (firebaseUser) {
+                        navigate("/dashboard");
+                    }
+                });
+                return () => checkUserState();
+    }, [navigate]
+);
 
     return (
         <section className="relative flex justify-center pt-32 lg:pt-36">

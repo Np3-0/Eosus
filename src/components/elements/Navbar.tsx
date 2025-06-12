@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useThemeStore } from "../../store/ThemeStore";
 import { navbarItems } from "../../utils/navbar_items";
 import { dropdownItems } from "../../utils/dropdown_items";
+import { handleSignOut } from "../../utils/handleSignIn";
 import BtnLink from "../shared/BtnLink";
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
@@ -9,6 +10,7 @@ import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
 import UserSVG from "../../assets/UserSVG";
 import type { UserObj } from "../../utils/userObj";
+import { useNavigate } from "react-router-dom";
 
 
 interface NavbarProps {
@@ -20,6 +22,7 @@ export default function Navbar({ type, userObj }: NavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
     const [imgError, setImgError] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
+    const navigate = useNavigate();
 
     return (
         <header className="absolute inset-x-0 top-0 z-50 py-6">
@@ -94,7 +97,8 @@ export default function Navbar({ type, userObj }: NavbarProps) {
                                             ))}
                                         </ul>
                                         <div className="pt-2">
-                                            <a href="#" className="block px-4 py-2 text-sm hover:bg-platinum hover:rounded-full hover:text-cordovan">Sign out</a>
+                                            
+                                            <button onClick={() => handleSignOut(() => navigate("/"))} className="block px-4 w-full text-left py-2 text-sm hover:bg-platinum hover:rounded-full hover:text-cordovan">Sign out</button>
                                         </div>
                                     </div>
                                 }

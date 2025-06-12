@@ -1,6 +1,6 @@
 import { useState } from "react";
 import EmailIconSVG from "../../assets/EmailIconSVG";
-import handleSignIn from "../../utils/handleSignIn";
+import { handleSignIn } from "../../utils/handleSignIn";
 import Button from "../shared/Button";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
@@ -27,7 +27,7 @@ export default function Hero() {
                 >
                     <h1 className="text-heading-1 text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold">
                         The modern way to 
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange ml-3 md:ml-4">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange ml-2 sm:ml-3 md:ml-4">
                             stay aware.
                         </span>
                     </h1>

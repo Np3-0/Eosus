@@ -1,7 +1,7 @@
 import { auth } from "../config/firebase.ts";
 import { sendSignInLinkToEmail, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
-export default async function handleSignIn(
+export async function handleSignIn(
     event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,
     buttonUsed: string,
     logInInfo?: string,
@@ -44,5 +44,15 @@ export default async function handleSignIn(
         alert("Failed to send sign-in link. Please try again.");
     }
     
-    }
+}
 
+export async function handleSignOut(callback?: () => void) {
+    try {
+        await auth.signOut();
+        window.localStorage.removeItem("emailForSignIn");
+        if (callback) callback();
+    } catch (error) {
+        console.error("Sign out error:", error);
+        alert("Failed to sign out. Please try again.");
+    }
+}
