@@ -1,6 +1,7 @@
 import type { UserObj } from "../utils/userObj";
 import Footer from "./elements/Footer";
-import Navbar from "./elements/Navbar";
+import AppNavbar from "./elements/AppNavbar";
+import LandingNavbar from "./elements/LandingNavbar";
 
 interface LayoutProps {
     navType: number;
@@ -12,7 +13,9 @@ export default function Layout({ navType, userObj = {}, children }: LayoutProps)
     
     return (
         <>
-            <Navbar type={navType} userObj={userObj}/>
+            {navType === 0 ? <LandingNavbar /> : <AppNavbar userObj={userObj} />}
+            
+            {/* Main content area */}
 
             <main className="flex flex-col gap-y-20 md:gap-y-32 overflow-hidden">{children}</main>
             
