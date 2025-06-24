@@ -11,10 +11,10 @@ export default function DropDown({ name, email }: DropDownProps) {
     const navigate = useNavigate();
 
     return (
-        <div className="bg-box-bg rounded-lg shadow-lg mt-2 px-4 py-2 z-150 absolute right-0 text-heading-1 divide-y-[2px] divide-platinum">
+        <div className="bg-box-bg rounded-lg shadow-lg mt-2 px-4 py-2 absolute right-0 text-heading-1 divide-y-[2px] divide-platinum">
             <div className="px-4 py-3 text-sm">
-                <div>{name}</div>
-                <div className="font-medium truncate">{email}</div>
+                <div className="duration-300 ease-linear">{name}</div>
+                <div className="font-medium truncate duration-300 ease-linear ">{email}</div>
             </div>
             <ul className="py-2 text-sm" aria-labelledby="dropdownInformationButton">
                 {dropdownItems.map((item, key) => (

@@ -64,6 +64,7 @@ export default function Signup() {
                                     <Paragraph>Or</Paragraph>
                                     <div className="h-px w-1/2 bg-box-border"></div>
                                 </div>
+                                
                                 <Button
                                     type="button"
                                     onClick={(e) => handleSignIn(e, "google", logInInfo)}

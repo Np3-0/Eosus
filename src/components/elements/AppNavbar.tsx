@@ -92,7 +92,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
 
                     {/* Collapsed navbar */}
                     <div 
-                        className={`lg:hidden absolute top-full left-0 w-full bg-body border border-box-border rounded-lg mt-2 
+                        className={`bg-box-bg lg:hidden absolute top-full left-0 w-full bg-body shadow-lg rounded-lg mt-2 
                                   transition-all duration-300 ease-in-out ${
                                       isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                                   }`}
@@ -105,7 +105,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                     <li key={key}>
                                         <a 
                                             href={item.href}
-                                            className="block py-2 px-3 text-heading-2 rounded-lg hover:bg-platinum 
+                                            className="block py-2 px-3 text-heading-2 rounded-full hover:bg-platinum 
                                                      duration-300 ease-linear"
                                         >
                                             {item.text}
@@ -118,7 +118,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                 <div className="flex items-center justify-between">
                                     <button 
                                         onClick={toggleTheme} 
-                                        className="outline-hidden flex items-center gap-2 text-heading-2 rounded-lg p-2 
+                                        className="outline-hidden flex items-center gap-2 text-heading-2 rounded-full p-2 
                                                  cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                     >
                                         {theme === "dark" ? <MoonSVG /> : <SunSVG />}
