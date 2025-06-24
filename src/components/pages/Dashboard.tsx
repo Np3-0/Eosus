@@ -16,7 +16,6 @@ export default function Dashboard() {
             setUser(firebaseUser);
             setLoading(false);
             if (!firebaseUser) {
-                alert("You are not logged in. Redirecting to sign up page.");
                 navigate("/signup");
             }
         });

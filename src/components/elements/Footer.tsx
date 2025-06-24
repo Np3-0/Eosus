@@ -9,7 +9,7 @@ interface FooterProps {
 
 export default function Footer({ type } : FooterProps) {
     return(
-        <footer className="relative pt-15 rounded-t-3xl bg-box-bg">
+        <footer className={`relative pt-15 rounded-t-3xl bg-box-bg ${type === 0 ? "" : "hidden lg:block"}`}>
             <Container className="pb-8">
                 <div className="flex flex-col md:flex-row justify-between items-center">
                     <div className="flex items-center gap-3 mb-4 md:mb-0">
