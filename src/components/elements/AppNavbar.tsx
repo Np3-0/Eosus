@@ -106,7 +106,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                         <a 
                                             href={item.href}
                                             className="block py-2 px-3 text-heading-2 rounded-full hover:bg-platinum 
-                                                     duration-300 ease-linear"
+                                                     duration-300 ease-linear hover:text-cordovan"
                                         >
                                             {item.text}
                                         </a>

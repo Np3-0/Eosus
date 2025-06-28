@@ -35,7 +35,7 @@ export default function Dashboard() {
         <Layout navType={1} userObj={userObj}>
             
             <div className="flex flex-col items-center justify-center h-screen">
-                <h1 className="text-heading-1 text-5xl">Hello, {user.displayName}</h1>
+                <h1 className="text-heading-1 text-5xl">Hello, {userObj.name}</h1>
                 
             </div>
         </Layout>
