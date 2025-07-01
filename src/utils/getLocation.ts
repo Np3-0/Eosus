@@ -16,11 +16,10 @@ export default async function getLocation() {
     // geocoding API call
     try {
         const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${(await data).latitude}&lon=${(await data).longitude}&format=json`);
-        console.log("Location data:", response.data);
-        return response.data.address.town;
+        return response.data.address.city || response.data.address.town || response.data.address.village || "Unknown Location";
     } catch (err) {
         console.error("Error fetching location data:", err);
-        return "Error";
+        return "Unknown Location";
     }
     
 }
