@@ -15,18 +15,17 @@ export default function RadioInput({ items, clickFunction }: RadioInputProps) {
         
         // Pass the updated userData object to the parent
         const isPublic = item === "Public";
-        clickFunction?.(prevData => ({
+        clickFunction?.((prevData: any) => ({
             ...prevData,
             public: isPublic
         }));
     }
 
     return (
-        <div className="flex flex-row items-center w-full justify-center gap-x-8 text-heading-3 font-semibold mt-6">
+        <div className="flex flex-col lg:flex-row items-center w-full justify-center gap-x-8 gap-y-6 text-heading-3 font-semibold mt-6">
             {items.map((item, index) => (
                 <div key={index}>
-                    <label className={`rounded-3xl hover:text-black px-6 py-3 mb-2 cursor-pointer text-lg 
-                                        lg:text-xl xl:text-2xl transition duration-300 ease-linear
+                    <label className={`rounded-3xl hover:text-black px-6 py-3 mb-2 cursor-pointertext-2xl transition duration-300 ease-linear
                                         ${selectedItem === item ? "bg-cordovan text-white rounded-3xl hover:bg-cordovan hover:text-white" : "hover:bg-platinum"} 
                     `}>
                     <input 
