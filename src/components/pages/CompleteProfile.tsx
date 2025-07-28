@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged, type User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { auth } from "../../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
+import updateProfile from "../../utils/updateProfile";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
 import Title from "../shared/Title";
-import { auth } from "../../config/firebase";
 import InputGroup from "../shared/InputGroup";
 import Button from "../shared/Button";
 import getLocation from "../../utils/getLocation";
 import FileUpload from "../shared/FileUpload";
 import RadioInput from "../shared/RadioInput";
+import checkUserStatus from "../../utils/checkUserStatus";
 
 export default function CompleteProfile() {
 
@@ -20,7 +24,7 @@ export default function CompleteProfile() {
         email: "",
         name: "",
         location: "",
-        public: false,
+        privacy: false,
     });
     const [selectedFileName, setSelectedFileName] = useState<string>("");
 
@@ -32,25 +36,33 @@ export default function CompleteProfile() {
         }));
     }
 
+    // using different check to store user data easier.
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+        const checkStatus = onAuthStateChanged(auth, async (firebaseUser) => {
             setUser(firebaseUser);
             if (!firebaseUser) {
                 navigate("/signup");
             } else {
-                setUserData((prev) => ({
-                    ...prev,
-                    email: firebaseUser.email ?? "",
-                    img: firebaseUser.photoURL ?? "",
-                    name: firebaseUser.displayName ?? "User",
-                }));
-                // If user already has a photo URL, show it as selected
-                if (firebaseUser.photoURL) {
-                    setSelectedFileName("Current profile picture");
+                const userDoc = doc(db, "users", firebaseUser.uid);
+                const userSnapshot = await getDoc(userDoc);
+                if (userSnapshot.exists()) {
+                    navigate("/dashboard");
+                } else {
+                    setUserData((prev) => ({
+                        ...prev,
+                        email: firebaseUser.email ?? "",
+                        img: firebaseUser.photoURL ?? "",
+                        name: firebaseUser.displayName ?? "User",
+                    }));
+                    // If user already has a photo URL, show it as selected
+                    if (firebaseUser.photoURL) {
+                        setSelectedFileName("Current profile picture");
+                    }
                 }
+                
             }
         });
-        return () => unsubscribe();
+        return () => checkStatus();
     }, [navigate]);
 
     console.log(userData);
@@ -141,7 +153,19 @@ export default function CompleteProfile() {
                             </div>
                             { /* Submit button to save profile data */ }
 
-                            <Button onClick={(e) => {}} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
+                            <Button onClick={async (e) => {
+                                e.preventDefault();
+                                try {
+                                    if (user) {
+                                        await updateProfile(userData);
+                                        checkUserStatus(navigate);
+                                    }
+                                } catch (err) {
+                                    console.error("Error updating profile:", err);
+                                    alert("There was an error updating your profile. Please try again.");
+                                }
+
+                            }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
                                 Complete Profile
                             </Button>
                         </div>

@@ -23,7 +23,7 @@ export default function Footer({ type } : FooterProps) {
                         ))}
                     </ul>
                 </div>
-                <Paragraph className="pt-6 text-heading-2 text-left font-medium">&copy;2025 Eosus. Created for the 2025 Congressional App Challenge. Photos sourced from Pexels.</Paragraph>
+                <Paragraph className="pt-6 text-heading-2 text-left font-medium">&copy;2025 Eosus Natural Disaster Awareness. Created for the 2025 Congressional App Challenge. Photos sourced from Pexels.</Paragraph>
                 <Paragraph className="pt-1 text-heading-2 text-left text-sm md:text-sm font-medium">
                     If currently in an emergency situation, call 911. Eosus is not an alternative to local, state, and federal law enforcement.
                 </Paragraph>

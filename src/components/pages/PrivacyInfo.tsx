@@ -18,7 +18,7 @@ export default function PrivacyInfo() {
                         <Title>We never sell your data, <span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange">ever</span>.</Title>
                         <Paragraph className="m-10">
                             Eosus was created without profits in mind, and we do not make money off of your data. 
-                            Your data is stored via Google Firebase, and no other company has access to it.
+                            Your data is stored via Google Firebase, and no other company has access to sensitive data.
                         </Paragraph>
                     </div>
                     <div className="mt-20">
@@ -27,7 +27,7 @@ export default function PrivacyInfo() {
                             The only data collected by Eosus is what you provide in your profile. At a minimum, this includes your email address, name,
                             and privacy settings. In addition, you can provide a profile picture and location, which is entirely optional, and only
                             will impact the personalization of the app. Location data is only used to show users nearby disasters, and a profile photo is only for
-                            customization.
+                            customization. Profile photos are stored with Supabase.
                         </Paragraph>
                     </div>
                     <div className="mt-20">
