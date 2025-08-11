@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useThemeStore } from "../../store/ThemeStore";
-import type { UserObj } from "../../utils/userObj";
 import { navbarItems } from "../../utils/navbar_items";
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
@@ -11,15 +10,17 @@ import HamburgerSVG from "../../assets/HamburgerSVG";
 import { useNavigate } from "react-router-dom";
 
 interface AppNavbarProps {
-    userObj: UserObj | null;
+    img: string;
+    name: string;
+    email: string;
 }
 
-export default function AppNavbar({ userObj }: AppNavbarProps) {
+export default function AppNavbar({ img, name, email }: AppNavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
-    const [imgError, setImgError] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
+    console.log(img)
     
     return (
         <header className="absolute inset-x-0 top-0 z-50 py-6">
@@ -45,7 +46,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                     <div className="hidden lg:flex items-center gap-2">
                         <button 
                             onClick={toggleTheme} 
-                            className="outline-hidden flex relative text-heading-2 rounded-full p-2 lg:p-3 
+                            className="outline-hidden flex relative text-heading-2 rounded-full p-3 lg:p-4   
                                      cursor-pointer hover:bg-platinum duration-300 ease-linear"
                         >
                             {theme === "dark" ? <MoonSVG /> : <SunSVG />}
@@ -58,20 +59,11 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                          cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                 onClick={() => setIsExpanded(!isExpanded)}
                             >
-                                {userObj?.img && !imgError ? (
-                                    <img
-                                        src={userObj?.img}
-                                        className="w-8 h-8 rounded-full"
-                                        onError={() => setImgError(true)}
-                                        alt="Profile"
-                                    />
-                                ) : (
-                                    <p>Not yet</p>
-                                )}
+                                <img src={img} alt="Profile" className="w-8 h-8"/>
                             </button>
                             {isExpanded && (
                                 <div className="absolute right-0 top-full mt-2">
-                                    <DropDown name={userObj?.name} email={userObj?.email}/>
+                                    <DropDown name={name} email={email}/>
                                 </div>
                             )}
                         </div>
@@ -91,7 +83,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
 
                     {/* Collapsed navbar */}
                     <div 
-                        className={`bg-box-bg lg:hidden absolute top-full left-0 w-full bg-body shadow-lg rounded-lg mt-2 
+                        className={`bg-box-bg lg:hidden absolute top-full left-0 w-full shadow-lg rounded-lg mt-2 z-50
                                   transition-all duration-300 ease-in-out ${
                                       isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                                   }`}
@@ -117,7 +109,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                 <div className="flex items-center justify-between">
                                     <button 
                                         onClick={toggleTheme} 
-                                        className="outline-hidden flex items-center gap-2 text-heading-2 rounded-full p-2 
+                                        className="outline-hidden flex items-center gap-2 text-heading-2 rounded-full p-2 py-2 px-4  
                                                  cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                     >
                                         {theme === "dark" ? <MoonSVG /> : <SunSVG />}
@@ -126,20 +118,16 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
 
                                     {/* Dropdown toggle */}
                                     <button 
-                                        className="outline-hidden flex items-center gap-2 text-heading-2 rounded-full p-2 
+                                        className="outline-hidden flex items-center gap-2 text-heading-2 py-2 px-4 rounded-full
                                                  cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                         onClick={() => navigate("/profile")}
                                     >
-                                        {/* {userObj?.img && !imgError ? (
-                                            <img
-                                                src={userObj?.img}
-                                                className="w-6 h-6 rounded-full"
-                                                onError={() => setImgError(true)}
-                                                alt="Profile"
-                                            />
-                                        ) : (
-                                            <UserSVG />
-                                        )} */}
+                                        <img
+                                            src={img}
+                                            className="w-6 h-6"
+                                            alt="Profile"
+                                        />
+ 
                                         <span className="text-sm">Account</span>
                                     </button>
                                 </div>

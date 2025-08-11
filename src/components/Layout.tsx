@@ -1,19 +1,20 @@
-import type { UserObj } from "../utils/userObj";
 import Footer from "./elements/Footer";
 import AppNavbar from "./elements/AppNavbar";
 import LandingNavbar from "./elements/LandingNavbar";
 
 interface LayoutProps {
     navType: number;
-    userObj?: UserObj;
+    img?: string;
+    email?: string;
+    name?: string;
     children: React.ReactNode;
 }
 
-export default function Layout({ navType, userObj = {}, children }: LayoutProps) {
-    
+export default function Layout({ navType, img, email, name, children }: LayoutProps) {
+
     return (
         <>
-            {navType === 0 ? <LandingNavbar /> : <AppNavbar userObj={userObj} />}
+            {navType === 0 ? <LandingNavbar /> : <AppNavbar img={img ?? ""} email={email ?? ""} name={name ?? ""} />}
             
             {/* Main content area */}
 

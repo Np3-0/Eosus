@@ -20,7 +20,7 @@ export default async function updateProfile({ email, name, location, privacy } :
     const data = {
         email: email,
         location: location || "N/A",
-        img: `https://viwuaxxlyqybdjkjkmoi.supabase.co/storage/v1/object/public/profile-photos/icon_${randomNum}.svg`,
+        img: `https://viwuaxxlyqybdjkjkmoi.supabase.co/storage/v1/object/public/profile-photos/avatars/icon_${randomNum}.svg`,
         name: name,
         privacy: privacy,
         uid: userUid,
