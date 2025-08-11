@@ -6,7 +6,6 @@ import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";
 import SunSVG from "../../assets/SunSVG";
-import UserSVG from "../../assets/UserSVG";
 import DropDown from "../shared/DropDown";
 import HamburgerSVG from "../../assets/HamburgerSVG";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +66,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                         alt="Profile"
                                     />
                                 ) : (
-                                    <UserSVG />
+                                    <p>Not yet</p>
                                 )}
                             </button>
                             {isExpanded && (
@@ -131,7 +130,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                                  cursor-pointer hover:bg-platinum duration-300 ease-linear"
                                         onClick={() => navigate("/profile")}
                                     >
-                                        {userObj?.img && !imgError ? (
+                                        {/* {userObj?.img && !imgError ? (
                                             <img
                                                 src={userObj?.img}
                                                 className="w-6 h-6 rounded-full"
@@ -140,7 +139,7 @@ export default function AppNavbar({ userObj }: AppNavbarProps) {
                                             />
                                         ) : (
                                             <UserSVG />
-                                        )}
+                                        )} */}
                                         <span className="text-sm">Account</span>
                                     </button>
                                 </div>

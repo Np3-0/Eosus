@@ -11,22 +11,18 @@ import Title from "../shared/Title";
 import InputGroup from "../shared/InputGroup";
 import Button from "../shared/Button";
 import getLocation from "../../utils/getLocation";
-import FileUpload from "../shared/FileUpload";
 import RadioInput from "../shared/RadioInput";
 import checkUserStatus from "../../utils/checkUserStatus";
 
 export default function CompleteProfile() {
-
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [userData, setUserData] = useState({
-        img: "",
         email: "",
         name: "",
         location: "",
         privacy: false,
     });
-    const [selectedFileName, setSelectedFileName] = useState<string>("");
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -34,9 +30,9 @@ export default function CompleteProfile() {
             ...prevData,
             [name]: value,
         }));
-    }
+    };
 
-    // using different check to store user data easier.
+
     useEffect(() => {
         const checkStatus = onAuthStateChanged(auth, async (firebaseUser) => {
             setUser(firebaseUser);
@@ -51,15 +47,11 @@ export default function CompleteProfile() {
                     setUserData((prev) => ({
                         ...prev,
                         email: firebaseUser.email ?? "",
-                        img: firebaseUser.photoURL ?? "",
                         name: firebaseUser.displayName ?? "User",
                     }));
-                    // If user already has a photo URL, show it as selected
-                    if (firebaseUser.photoURL) {
-                        setSelectedFileName("Current profile picture");
-                    }
+                    // If user already has a photo URL, fetch and convert to File
+                    
                 }
-                
             }
         });
         return () => checkStatus();
@@ -112,36 +104,7 @@ export default function CompleteProfile() {
                                 </div>
                             </div>
                             
-                            {/* File upload for profile picture */}
-                            <div className="gap-y-2">
-                                <label className="text-heading-2">Profile Picture</label>
-                                <p className="text-gray-500 text-sm md:text-base lg:text-lg">Optional</p>
-                                <div className="flex flex-col lg:flex-row gap-x-2">
-                                    <input 
-                                        className="flex-1 text-heading-3 font-normal text-base md:text-lg lg:text-xl p-2 border-b-3 min-w-max outline-none"
-                                        type="text"
-                                        disabled
-                                        value={selectedFileName || "None Selected"}
-                                        placeholder="No file selected"
-                                    />
-                                    <FileUpload uploadFunction={(file) => {
-                                        if (file) {
-                                            const reader = new FileReader();
-                                            reader.onloadend = () => {
-                                                setUserData((prevData) => ({
-                                                    ...prevData,
-                                                    img: reader.result as string,
-                                                }));
-                                                setSelectedFileName(file.name);
-                                            };
-                                            reader.readAsDataURL(file);
-                                        } else {
-                                            console.error("No file selected.");
-                                        }
-                                    }}/>   
-                                </div>
-                                <p className="mt-1 text-sm text-heading-3" id="file_input_help">SVG, PNG, JPG or GIF.</p>
-                            </div>
+                        
                             <div className="gap-y-2">
                                 <label className="text-heading-2">Profile Visibility</label>
                                 <p 
@@ -154,20 +117,19 @@ export default function CompleteProfile() {
                             { /* Submit button to save profile data */ }
 
                             <Button onClick={async (e) => {
-                                e.preventDefault();
-                                try {
-                                    if (user) {
-                                        await updateProfile(userData);
-                                        checkUserStatus(navigate);
-                                    }
-                                } catch (err) {
-                                    console.error("Error updating profile:", err);
-                                    alert("There was an error updating your profile. Please try again.");
+                            e.preventDefault();
+                            try {
+                                if (user) {
+                                    await updateProfile(userData);
+                                    checkUserStatus(navigate);
                                 }
-
-                            }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
-                                Complete Profile
-                            </Button>
+                            } catch (err) {
+                                console.error("Error updating profile:", err);
+                                alert("There was an error updating your profile. Please try again.");
+                            }
+                        }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
+                            Complete Profile
+                        </Button>
                         </div>
                     </form>
                 </div>
