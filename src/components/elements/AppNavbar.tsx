@@ -20,7 +20,6 @@ export default function AppNavbar({ img, name, email }: AppNavbarProps) {
     const [isExpanded, setIsExpanded] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
-    console.log(img)
     
     return (
         <header className="absolute inset-x-0 top-0 z-50 py-6">
