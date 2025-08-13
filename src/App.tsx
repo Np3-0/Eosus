@@ -6,6 +6,7 @@ import AuthController from "./components/pages/AuthController";
 import NotFound from "./components/pages/NotFound";
 import CompleteProfile from "./components/pages/CompleteProfile";
 import PrivacyInfo from "./components/pages/PrivacyInfo";
+import Create from "./components/pages/Create";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path= "/auth" element={<AuthController />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/create" element={<Create />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
 
         {/* Misc paths */}

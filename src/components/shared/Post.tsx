@@ -22,7 +22,7 @@ export default function Post() {
                     />
                 </div>
                 <Paragraph className="text-sm sm:text-base">
-                    Description
+                    <span className="font-semibold mr-2">Location</span><span className="font-bold">·</span> Description
                 </Paragraph>
                 {/*Like and comment buttons */}
                 <div className="flex flex-row items-center justify-start mt-4">

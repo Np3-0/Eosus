@@ -7,6 +7,9 @@ import { doc, getDoc } from "firebase/firestore";
 import checkUserStatus from "../../utils/checkUserStatus";
 import Layout from "../Layout";
 import Post from "../shared/Post";
+import Title from "../shared/Title";
+import Container from "../shared/Container";
+import Button from "../shared/Button";
 
 export default function Dashboard() {
     const [loading, setLoading] = useState(true);
@@ -61,10 +64,19 @@ export default function Dashboard() {
     if (!user) return null; // Redirecting
     
     return (
-        <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
-            <div className="mt-24 flex flex-col items-center justify-baseline h-screen">
+    <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
+        <Container className="h-screen">
+            <div className="mt-24 flex flex-col items-center justify-baseline">
                 <Post />
+                <Title className="text-center mt-12 mb-4 ">That's all the posts. Why not create one?</Title>
+                <Button 
+                    onClick={() => navigate("/create")} 
+                    className="mt-4 min-w-max text-white transform transition duration-300 hover:scale-[1.02] text-lg lg:text-xl"
+                >
+                    Create Post
+                </Button>
             </div>
-        </Layout>
-    );
+        </Container>
+    </Layout>
+);
 }
