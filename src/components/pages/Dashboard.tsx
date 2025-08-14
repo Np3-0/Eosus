@@ -12,6 +12,7 @@ import Container from "../shared/Container";
 import Button from "../shared/Button";
 
 export default function Dashboard() {
+    const navigate = useNavigate();    
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
     const [userObj, setUserObj] = useState<{ 
@@ -27,7 +28,6 @@ export default function Dashboard() {
         privacy: false,
         location: null
     });
-    const navigate = useNavigate();    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {

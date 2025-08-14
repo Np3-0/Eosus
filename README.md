@@ -1,4 +1,4 @@
-# Eosus
+# Eosus Natural Disaster Awareness
 
 The modern way to stay aware.
 
