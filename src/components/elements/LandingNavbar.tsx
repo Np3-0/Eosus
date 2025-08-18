@@ -1,5 +1,5 @@
 import { useThemeStore } from "../../store/ThemeStore";
-import { navbarItems } from "../../utils/navbar_items";
+import { navbarItems } from "../../utils/items/navbar_items";
 import BtnLink from "../shared/BtnLink";
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";

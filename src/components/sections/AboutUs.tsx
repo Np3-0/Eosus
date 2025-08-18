@@ -28,10 +28,10 @@ export default function AboutUs() {
 
                     <div className="pt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
                         <Info title="Mission" description="Our mission is to create an application that spreads awareness on local events.">
-                            <LightningSVG />
+                            <LightningSVG className="w-4 h-4 sm:w-5 sm:h-5 " />
                         </Info>
                         <Info title="Vision" description="Our vision is for everyone to have the same access to emergency information, no matter what.">
-                            <LightningSVG />
+                            <LightningSVG className="w-4 h-4 sm:w-5 sm:h-5 "/>
                         </Info>
                     </div>
                 </div>

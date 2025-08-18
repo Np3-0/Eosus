@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { dropdownItems } from "../../utils/dropdown_items";
+import { dropdownItems } from "../../utils/items/dropdown_items";
 import { handleSignOut } from "../../utils/handleSignIn";
 
 interface DropDownProps {

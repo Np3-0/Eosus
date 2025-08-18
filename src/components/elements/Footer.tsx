@@ -1,7 +1,7 @@
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
 import Paragraph from "../shared/Paragraph";
-import { navbarItems } from "../../utils/navbar_items";
+import { navbarItems } from "../../utils/items/navbar_items";
 
 interface FooterProps {
     type: number;

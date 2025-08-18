@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useThemeStore } from "../../store/ThemeStore";
-import { navbarItems } from "../../utils/navbar_items";
+import { navbarItems } from "../../utils/items/navbar_items";
 import Container from "../shared/Container";
 import NavItem from "../shared/NavItem";
 import MoonSVG from "../../assets/MoonSVG";

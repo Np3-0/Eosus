@@ -1,4 +1,4 @@
-import { services } from "../../utils/services_data";
+import { services } from "../../utils/items/services_data";
 import Container from "../shared/Container";
 import Paragraph from "../shared/Paragraph";
 import Service from "../cards/Service";

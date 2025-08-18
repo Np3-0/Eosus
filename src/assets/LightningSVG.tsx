@@ -1,4 +1,8 @@
-export default function LightningSVG() {
+interface LightningSVGProps {
+    className?: string;
+}
+
+export default function LightningSVG({ className }: LightningSVGProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +11,7 @@ export default function LightningSVG() {
             viewBox="0 0 24 24"
             strokeWidth="1.5"
             stroke="currentColor"
-            className="w-4 h-4 sm:w-5 sm:h-5"
+            className={`${className}`}
         >
             <path
                 strokeLinecap="round"
