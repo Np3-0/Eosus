@@ -2,35 +2,97 @@ import CommentIconSVG from "../../../assets/logos/CommentIconSVG";
 import LikeIconSVG from "../../../assets/logos/LikeIconSVG";
 import MoreIconSVG from "../../../assets/logos/MoreIconSVG";
 import IconButton from "../../shared/IconButton";
-import Paragraph from "../../shared/Paragraph";
+import { postItems } from "../../../utils/items/post_items";
+import Button from "../../shared/Button";
+import { getLocation } from "../../../utils/getLocation";
 
-export default function CreatePost() {
+interface CreatePostProps {
+    postData: {
+        title: string;
+        content: string;
+        type: string;
+        subType: string;
+        image: string | null;
+    };
+    changeHandler: (updatedData: TypeSelectionProps["postData"]) => void;
+
+}
+
+export default function CreatePost({ postData, changeHandler }: CreatePostProps) {
     return (
         <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
-                                shadow-lg shadow-box-shadow relative overflow-hidden 
-                                w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
-                >
-                    <div className="space-y-4">
-                        <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
-                            Title <span className="text-lg text-gray-500">Category</span>
-                        </h2>
-                        <div className="w-full">
-                            <img 
-                                src="https://images.pexels.com/photos/25682006/pexels-photo-25682006.jpeg" 
-                                alt="Post image"
-                                className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg" 
-                            />
-                        </div>
-                        <Paragraph className="text-sm sm:text-base">
-                            <span className="font-semibold mr-2">Location</span><span className="font-bold">·</span> Description
-                        </Paragraph>
-                        {/*Like and comment buttons */}
-                        <div className="flex flex-row items-center justify-start mt-4">
-                            <IconButton className="px-6 py-3"><LikeIconSVG /></IconButton>
-                            <IconButton className="px-6 py-3"><CommentIconSVG /></IconButton>
-                            <IconButton className="px-6 py-3 ml-auto"><MoreIconSVG /></IconButton>
-                        </div>
-                    </div>
+                        shadow-lg shadow-box-shadow relative overflow-hidden 
+                        w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
+        >
+            <div className="space-y-4">
+                <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
+                    <input 
+                        type="text" 
+                        placeholder="Title" 
+                        className="p-1 min-w-full border-b-3 outline-none"
+                        value={postData.title}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            changeHandler({
+                                ...postData,
+                                title: e.target.value,
+                            });
+                        }}
+                    />
+                    <span className="text-lg min-w-max" style={{ color: postItems.find(item => item.title === postData.type)?.color }}>{postData.subType}</span>
+                </h2>
+                <div className="w-full">
+                    <img 
+                        src="https://images.pexels.com/photos/25682006/pexels-photo-25682006.jpeg" 
+                        alt="Post image"
+                        className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg" 
+                    />
                 </div>
+                <div className="flex flex-col lg:flex-row gap-x-2">
+                    <input
+                        id="location"
+                        type="text"
+                        name="location"
+                        placeholder="Location"           
+                        className="flex-1 text-heading-3 font-semibold text-xl md:text-2xl p-2 border-b-3 outline-none"
+                    />
+                    <Button
+                        className="min-w-max font-semibold lg:w-1/3 text-white transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0"
+                        onClick={async (e) => {
+                            e.preventDefault();
+                            const town = await getLocation();
+                            if (town) {
+                                console.log(town);
+                            } else {
+                                alert("Unable to get location. Please enter it manually.");
+                            }
+                        }}
+                    >
+                        Get Location
+                    </Button>
+                </div>
+                <label className="text-heading-2 text-xl lg:text-2xl font-semibold" htmlFor="description">
+                    Description
+                </label>
+                <textarea 
+                    className="w-full h-32 px-3 py-2 mt-4 rounded-md bg-platinum text-heading-3 text-lg lg:text-xl focus:outline-none focus:ring-0" 
+                    placeholder="Write your description here..."
+                    id="description"
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        changeHandler({
+                            ...postData,
+                            content: e.target.value,
+                        });
+                    }}
+                >
+                </textarea>
+
+                {/*Like and comment buttons */}
+                <div className="flex flex-row items-center justify-start mt-4">
+                    <IconButton className="px-6 py-3"><LikeIconSVG /></IconButton>
+                    <IconButton className="px-6 py-3"><CommentIconSVG /></IconButton>
+                    <IconButton className="px-6 py-3 ml-auto"><MoreIconSVG /></IconButton>
+                </div>
+            </div>
+        </div>
     );
 };

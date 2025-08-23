@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default async function getLocation() {
+export async function getLocation() {
     if (!navigator.geolocation) {
         throw new Error("Geolocation is not supported by this browser.");
     }
@@ -22,4 +22,15 @@ export default async function getLocation() {
         return "Unknown Location";
     }
     
+}
+
+export async function getCoords(town: string) {
+    try {
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?city=${town}&format=json`);
+        const { lat, lon } = response.data[0] || {};
+        return { latitude: lat, longitude: lon };
+    } catch (err) {
+        console.error("Error fetching coordinates:", err);
+        return { latitude: 0, longitude: 0 };
+    }
 }

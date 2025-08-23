@@ -8,7 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
 import type { User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import TypeSelection from "../sections/createSections/typeSelection";
+import TypeSelection from "../sections/createSections/TypeSelection";
 import CreatePost from "../sections/createSections/CreatePost";
 
 
@@ -90,7 +90,9 @@ export default function Create() {
         >
             <Container className="h-screen flex flex-col mt-48 items-center">
                 <Title className="text-center">Create a New Post</Title>
-                {isInTypeSection ? <TypeSelection postData={postData} changeHandler={handleChange} onComplete={() => setIsInTypeSection(false)} /> : <CreatePost />}
+                {isInTypeSection ? 
+                    <TypeSelection postData={postData} changeHandler={handleChange} onComplete={() => setIsInTypeSection(false)} /> 
+                    : <CreatePost postData={postData} changeHandler={handleChange} />}
             </Container>
         </Layout>
     );

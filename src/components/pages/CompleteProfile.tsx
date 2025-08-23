@@ -10,7 +10,7 @@ import Paragraph from "../shared/Paragraph";
 import Title from "../shared/Title";
 import InputGroup from "../shared/InputGroup";
 import Button from "../shared/Button";
-import getLocation from "../../utils/getLocation";
+import { getLocation } from "../../utils/getLocation";
 import RadioInput from "../shared/RadioInput";
 import checkUserStatus from "../../utils/checkUserStatus";
 
