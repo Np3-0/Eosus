@@ -7,7 +7,7 @@ interface IconButtonProps {
 export default function IconButton({ children, className, label }: IconButtonProps) {
     return (
         <label>{label}
-            <button className={`rounded-full outline-none cursor-pointer relative overflow-hidden text-heading-2 hover:bg-platinum transition transform ${className}`}>
+            <button type="button" className={`rounded-full outline-none cursor-pointer relative overflow-hidden text-heading-2 hover:bg-platinum transition transform ${className}`}>
                 {children}
             </button>
         </label>

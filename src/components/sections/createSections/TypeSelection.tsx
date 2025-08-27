@@ -10,6 +10,9 @@ interface TypeSelectionProps {
         type: string;
         subType: string;
         image: string | null;
+        lat: number;
+        long: number;
+        townName: string | null;
     };
     changeHandler: (updatedData: TypeSelectionProps["postData"]) => void;
     onComplete: () => void;
@@ -96,7 +99,7 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
                                 subType: "",
                             });
                         }}
-                        className="text-xl text-heading-1 bg-cordovan hover:scale-[1.1] transition transform "
+                        className="text-xl text-white bg-cordovan hover:scale-[1.1] transition transform "
                     >
                         Reset
                     </Button>
@@ -109,7 +112,7 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
                             }
                             onComplete();
                         }}
-                        className="text-xl text-heading-1 bg-cordovan hover:scale-[1.1] transition transform"
+                        className="text-xl text-white bg-cordovan hover:scale-[1.1] transition transform"
                     >
                         Continue
                     </Button>

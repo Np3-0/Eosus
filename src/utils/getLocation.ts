@@ -27,8 +27,32 @@ export async function getLocation() {
 export async function getCoords(town: string) {
     try {
         const response = await axios.get(`https://nominatim.openstreetmap.org/search?city=${town}&format=json`);
-        const { lat, lon } = response.data[0] || {};
-        return { latitude: lat, longitude: lon };
+        // edge cases
+        if (response.data.length === 0) {
+            return "N/A";
+        } if (response.data.length > 6) {
+            return "OVER";
+        }
+        if (response.data.length === 1) {
+            const { lat, lon } = response.data[0] || {};
+            return { latitude: lat, longitude: lon };
+        }
+
+        type NominatimResult = {
+            lat: string;
+            lon: string;
+            display_name: string;
+        };
+
+        const modData = response.data.map((item: NominatimResult) => ({
+            lat: item.lat,
+            long: item.lon,
+            name: item.display_name
+        }));
+
+        // give it back to the caller for processing.
+        return modData;
+
     } catch (err) {
         console.error("Error fetching coordinates:", err);
         return { latitude: 0, longitude: 0 };

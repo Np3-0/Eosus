@@ -16,6 +16,8 @@
   --color-ash: #94A191;
   --color-gr-orange: #c06316;
 
+  --box-sec: #FFFFFF;
+
 }
 
 /* For some reason these need to be rgb or it breaks */
@@ -30,6 +32,7 @@
 
   /* Platinum is really just a highlight color, so just make it dark for the dark mode.*/
   --color-platinum: #1f273f;
+  --box-sec: #1f273f;
 }
 
 @layer utilities {
@@ -47,6 +50,10 @@
   }
   .text-heading-3 {
     color: rgb(var(--heading-3));
+  }
+
+  .light-box-sec {
+    color: rgb(var(--box-sec));
   }
 }
 

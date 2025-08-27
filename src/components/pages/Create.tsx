@@ -36,17 +36,37 @@ export default function Create() {
         type: string;
         subType: string;
         image: string | null;
+        lat: number;
+        long: number;
+        townName: string | null;
     }>({
         title: "",
         content: "",
         type: "",
         subType: "",
         image: null,
+        lat: 0,
+        long: 0,
+        townName: null,
     });
 
     const handleChange = (updatedData: typeof postData) => {
         setPostData(updatedData);
     };
+
+    const fullReset = () => {
+        setPostData({
+            title: "",
+            content: "",
+            type: "",
+            subType: "",
+            image: null,
+            lat: 0,
+            long: 0,
+            townName: null,
+        });
+        setIsInTypeSection(true);
+    }
 
     // splitting it into separate useEffects makes it work
     useEffect(() => {
@@ -92,7 +112,7 @@ export default function Create() {
                 <Title className="text-center">Create a New Post</Title>
                 {isInTypeSection ? 
                     <TypeSelection postData={postData} changeHandler={handleChange} onComplete={() => setIsInTypeSection(false)} /> 
-                    : <CreatePost postData={postData} changeHandler={handleChange} />}
+                    : <CreatePost postData={postData} changeHandler={handleChange} reset={fullReset} />}
             </Container>
         </Layout>
     );
