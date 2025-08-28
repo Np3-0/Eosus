@@ -2,12 +2,13 @@ interface IconButtonProps {
     children: React.ReactNode;
     className?: string;
     label?: string;
+    type?: "button" | "submit" | "reset";
 }
 
-export default function IconButton({ children, className, label }: IconButtonProps) {
+export default function IconButton({ children, className, label, type }: IconButtonProps) {
     return (
         <label>{label}
-            <button type="button" className={`rounded-full outline-none cursor-pointer relative overflow-hidden text-heading-2 hover:bg-platinum transition transform ${className}`}>
+            <button type={type ? type : "button"} className={`rounded-full outline-none cursor-pointer relative overflow-hidden text-heading-2 hover:bg-platinum transition transform ${className}`}>
                 {children}
             </button>
         </label>

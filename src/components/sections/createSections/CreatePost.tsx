@@ -7,6 +7,7 @@ import { postItems } from "../../../utils/items/post_items";
 import Button from "../../shared/Button";
 import { getCoords, getLocation } from "../../../utils/getLocation";
 import Modal from "../../shared/Modal";
+import DocPlusSVG from "../../../assets/logos/DocPlusSVG";
 
 interface CreatePostProps {
     postData: {
@@ -46,17 +47,32 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                                     ...postData,
                                     title: e.target.value,
                                 });
-                                
+
                             }}
                         />
                         <span className="text-lg min-w-max" style={{ color: postItems.find(item => item.title === postData.type)?.color }}>{postData.subType}</span>
                     </h2>
-                    <div className="w-full">
+                    <div className="w-full relative">
                         <img
                             src="https://images.pexels.com/photos/25682006/pexels-photo-25682006.jpeg"
-                            alt="Post image"
+                            alt="Post stock image"
                             className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg"
                         />
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            id="post-image-upload"
+                            
+                        />
+                        <label
+                            htmlFor="post-image-upload"
+                            className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                        >
+                            <div className="bg-platinum bg-opacity-75 shadow-lg p-5 transform transition hover:scale-[1.1] rounded-full flex items-center justify-center">
+                                <DocPlusSVG className="w-10 h-10 text-heading-1" />
+                            </div>
+                        </label>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-x-2">
                         <input
@@ -108,6 +124,7 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                         placeholder="Write your description here..."
                         required
                         id="description"
+                        value={postData.content}
                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                             changeHandler({
                                 ...postData,
@@ -151,7 +168,7 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                         } if (coords === "OVER") {
                             alert("Multiple locations found. Please be more specific.");
                             return;
-                        // shows modal for location checking
+                            // shows modal for location checking
                         } if (Array.isArray(coords)) {
                             setIsModalOpen(true);
                             setModalData(coords);
