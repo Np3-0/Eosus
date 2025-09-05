@@ -15,6 +15,7 @@ export default function AuthController() {
                 }
                 try {
                     await signInWithEmailLink(auth, email!, window.location.href);
+                    console.log("Sign-in successful");
                     window.localStorage.removeItem("emailForSignIn");
                     navigate("/dashboard");
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars

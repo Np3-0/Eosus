@@ -17,7 +17,7 @@ export default function RadioInput({ items, clickFunction }: RadioInputProps) {
         const isPublic = item === "Public";
         clickFunction?.((prevData: any) => ({
             ...prevData,
-            public: isPublic
+            privacy: isPublic
         }));
     }
 

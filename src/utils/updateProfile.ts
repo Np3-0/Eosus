@@ -1,5 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
+import fetchDownloadURL from "./fetchDownloadURL";
 
 interface userData {
     email: string;
@@ -14,13 +15,16 @@ export default async function updateProfile({ email, name, location, privacy } :
         throw new Error("User is not authenticated");
     }
      
-    const randomNum = Math.floor(Math.random() * (16 - 1) + 1);    
+    const randomNum = Math.floor(Math.random() * (16 - 1) + 1);
+    const imgPath = `avatars/icon_${randomNum}.svg`;
+    console.log(imgPath)
+    const imgURL = await fetchDownloadURL(imgPath);
 
     const userDoc = doc(db, "users", userUid);
     const data = {
         email: email,
         location: location || "N/A",
-        img: `https://viwuaxxlyqybdjkjkmoi.supabase.co/storage/v1/object/public/profile-photos/avatars/icon_${randomNum}.svg`,
+        img: imgURL,
         name: name,
         privacy: privacy,
         uid: userUid,

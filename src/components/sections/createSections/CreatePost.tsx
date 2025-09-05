@@ -8,6 +8,7 @@ import Button from "../../shared/Button";
 import { getCoords, getLocation } from "../../../utils/getLocation";
 import Modal from "../../shared/Modal";
 import DocPlusSVG from "../../../assets/logos/DocPlusSVG";
+import Paragraph from "../../shared/Paragraph";
 
 interface CreatePostProps {
     postData: {
@@ -74,6 +75,7 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                             </div>
                         </label>
                     </div>
+                    <Paragraph className="font-semibold">{postData.image ? "" : "No Image Selected."}</Paragraph>
                     <div className="flex flex-col lg:flex-row gap-x-2">
                         <input
                             id="location"

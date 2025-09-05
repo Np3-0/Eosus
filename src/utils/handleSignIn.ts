@@ -10,6 +10,7 @@ export async function handleSignIn(
     // google oauth, and sends to dashboard
     if (buttonUsed == "google") {
         await signInWithPopup(auth, new GoogleAuthProvider());
+        console.log("Sign-in successful");
         window.location.href = "/dashboard";
         return;
     // checks input for validity
@@ -36,7 +37,6 @@ export async function handleSignIn(
     try {
         await sendSignInLinkToEmail(auth, logInInfo, actionCodeSettings);
         alert("Sign-in link sent! Please check your email.");
-        // Optionally, store the email for completing sign-in after redirect
         window.localStorage.setItem("emailForSignIn", logInInfo);
 
     } catch (err) {

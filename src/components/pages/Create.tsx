@@ -108,7 +108,7 @@ export default function Create() {
             email={userObj.email}
             name={userObj.name}
         >
-            <Container className="h-screen flex flex-col mt-48 items-center">
+            <Container className="min-h-screen flex flex-col mt-48 items-center">
                 <Title className="text-center">Create a New Post</Title>
                 {isInTypeSection ? 
                     <TypeSelection postData={postData} changeHandler={handleChange} onComplete={() => setIsInTypeSection(false)} /> 
