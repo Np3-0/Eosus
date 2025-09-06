@@ -10,10 +10,12 @@ import Post from "../shared/Post";
 import Title from "../shared/Title";
 import Container from "../shared/Container";
 import Button from "../shared/Button";
+import getPosts from "../../utils/getPosts";
 
 export default function Dashboard() {
     const navigate = useNavigate();    
     const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState(Array);
     const [user, setUser] = useState<User | null>(null);
     const [userObj, setUserObj] = useState<{ 
         name: string 
@@ -44,7 +46,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!user) return;
-        const fetchUserData = async () => {
+        const fetchData = async () => {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
@@ -56,18 +58,36 @@ export default function Dashboard() {
                     location: string | null
                 });
             }
+
+            setPosts(await getPosts());
         };
-        fetchUserData();
+        
+        fetchData();
     }, [user]);
 
     if (loading) return <h1 className="text-center text-3xl mt-20 text-semibold">Loading...</h1>;
     if (!user) return null; // Redirecting
-    
     return (
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="h-screen">
             <div className="mt-24 flex flex-col items-center justify-baseline">
-                <Post />
+                {posts.length > 0 && posts.map((post: any) => (
+                    <Post 
+                        key={post.id}
+                        title={post.title}
+                        content={post.content}
+                        type={post.type}
+                        subType={post.subType}
+                        image={post.image}
+                        latitude={post.latitude}
+                        longitude={post.longitude}
+                        townName={post.townName}
+                        author={post.author}
+                        timestamp={post.timestamp}
+                        likes={post.likes}
+                        comments={post.comments}
+                    />
+              ))}
                 <Title className="text-center mt-12 mb-4 ">That's all the posts. Why not create one?</Title>
                 <Button 
                     onClick={() => navigate("/create")} 

@@ -1,10 +1,40 @@
 import CommentIconSVG from "../../assets/logos/CommentIconSVG";
 import LikeIconSVG from "../../assets/logos/LikeIconSVG";
 import MoreIconSVG from "../../assets/logos/MoreIconSVG";
+import { postItems } from "../../utils/items/post_items";
 import IconButton from "./IconButton";
 import Paragraph from "./Paragraph";
 
-export default function Post() {
+interface PostProps {
+    title: string,
+    content: string,
+    type: string,
+    subType: string,
+    image: string,
+    latitude: string,
+    longitude: string,
+    townName: string,
+    author: string,
+    timestamp: Date,
+    likes: number,
+    comments: number,
+}
+
+export default function Post({
+    title,
+    content,
+    type,
+    subType,
+    image,
+    latitude,
+    longitude,
+    townName,
+    author,
+    timestamp,
+    likes,
+    comments,
+}: PostProps) {
+    console.log(image);
     return (
         <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
                         shadow-lg shadow-box-shadow relative overflow-hidden 
@@ -12,17 +42,17 @@ export default function Post() {
         >
             <div className="space-y-4">
                 <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
-                    Title <span className="text-lg text-gray-500">Category</span>
+                    {title} <span className="text-lg text-gray-500" style={{ color: postItems.find(item => item.title === type)?.color }}>{subType}</span>
                 </h2>
                 <div className="w-full">
-                    <img 
-                        src="https://images.pexels.com/photos/25682006/pexels-photo-25682006.jpeg" 
+                    <img
+                        src={image}
                         alt="Post image"
-                        className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg" 
+                        className="w-full h-48 sm:h-56 lg:h-64 object-cover rounded-lg"
                     />
                 </div>
                 <Paragraph className="text-sm sm:text-base">
-                    <span className="font-semibold mr-2">Location</span><span className="font-bold">·</span> Description
+                    <span className="font-semibold mr-2">{townName}</span><span className="font-bold">·</span> {content}
                 </Paragraph>
                 {/*Like and comment buttons */}
                 <div className="flex flex-row items-center justify-start mt-4">

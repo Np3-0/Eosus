@@ -26,8 +26,8 @@ export default function PrivacyInfo() {
                         <Paragraph className="m-10">
                             The only data collected by Eosus is what you provide in your profile. At a minimum, this includes your email address, name,
                             and privacy settings. In addition, you can provide a location, which is entirely optional, and only
-                            will impact the personalization of the app. Location data is only used to show users nearby disasters, 
-                            and profile photos are stored with Supabase, which are randomly given out and have no identifiable information.
+                            will impact the personalization of the app. Location data is only used to show users nearby disasters, and all profile photos
+                            are randomly given out and have no identifiable information.
                         </Paragraph>
                     </div>
                     <div className="mt-20">
