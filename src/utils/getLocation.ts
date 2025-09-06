@@ -30,28 +30,13 @@ export async function getCoords(town: string) {
         // edge cases
         if (response.data.length === 0) {
             return "N/A";
-        } if (response.data.length > 6) {
+        } if (response.data.length > 10) {
             return "OVER";
         }
-        if (response.data.length === 1) {
-            const { lat, lon } = response.data[0] || {};
-            return { latitude: lat, longitude: lon };
-        }
-
-        type NominatimResult = {
-            lat: string;
-            lon: string;
-            display_name: string;
-        };
-
-        const modData = response.data.map((item: NominatimResult) => ({
-            lat: item.lat,
-            long: item.lon,
-            name: item.display_name
-        }));
-
-        // give it back to the caller for processing.
-        return modData;
+       
+        const { lat, lon, name } = response.data[0] || {};
+        return { latitude: lat, longitude: lon, name: name };
+        
 
     } catch (err) {
         console.error("Error fetching coordinates:", err);

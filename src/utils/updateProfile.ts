@@ -17,7 +17,6 @@ export default async function updateProfile({ email, name, location, privacy } :
      
     const randomNum = Math.floor(Math.random() * (16 - 1) + 1);
     const imgPath = `avatars/icon_${randomNum}.svg`;
-    console.log(imgPath)
     const imgURL = await fetchDownloadURL(imgPath);
 
     const userDoc = doc(db, "users", userUid);

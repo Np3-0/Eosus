@@ -9,7 +9,7 @@ interface TypeSelectionProps {
         content: string;
         type: string;
         subType: string;
-        image: string | null;
+        image: File | string | null;
         lat: number;
         long: number;
         townName: string | null;

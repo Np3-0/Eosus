@@ -13,13 +13,13 @@ export default async function checkUserStatus(navigate: (path: string) => void) 
     const uid = user.uid;
     const userDoc = doc(db, "users", uid);
     const userSnapshot = await getDoc(userDoc);
-
-    if (userSnapshot.exists()) {
+    if (userSnapshot.exists() && window.location.pathname === "/complete-profile") {
         navigate("/dashboard");
-        return;
-    } else {
+    } else if (userSnapshot.exists()) {
+        navigate(window.location.pathname);
+    }
+    else {
         navigate("/complete-profile");
-        return;
     }
     return;
 }

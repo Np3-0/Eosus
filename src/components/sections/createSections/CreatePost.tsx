@@ -6,28 +6,29 @@ import IconButton from "../../shared/IconButton";
 import { postItems } from "../../../utils/items/post_items";
 import Button from "../../shared/Button";
 import { getCoords, getLocation } from "../../../utils/getLocation";
-import Modal from "../../shared/Modal";
 import DocPlusSVG from "../../../assets/logos/DocPlusSVG";
 import Paragraph from "../../shared/Paragraph";
 
+type PostData = {
+    title: string;
+    content: string;
+    type: string;
+    subType: string;
+    image: File | string | null;
+    lat: number;
+    long: number;
+    townName: string | null;
+};
+
 interface CreatePostProps {
-    postData: {
-        title: string;
-        content: string;
-        type: string;
-        subType: string;
-        image: string | null;
-        lat: number;
-        long: number;
-        townName: string | null;
-    };
-    changeHandler: (updatedData: CreatePostProps["postData"]) => void;
+    postData: PostData;
+    changeHandler: (updatedData: PostData) => void;
     reset: () => void;
+    submitData: (postData: PostData) => void;
 }
 
-export default function CreatePost({ postData, changeHandler, reset }: CreatePostProps) {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [modalData, setModalData] = useState<Array<{ lat: number; long: number; name: string }>>([]);
+export default function CreatePost({ postData, changeHandler, reset, submitData }: CreatePostProps) {
+    const [isGetLocationUsed, setIsGetLocationUsed] = useState(false);
 
     return (
         <form onSubmit={(e) => e.preventDefault()}>
@@ -64,7 +65,14 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                             accept="image/*"
                             className="hidden"
                             id="post-image-upload"
-                            
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                if (e.target.files) {
+                                    changeHandler({
+                                        ...postData,
+                                        image: e.target.files[0],
+                                    });
+                                }
+                            }}
                         />
                         <label
                             htmlFor="post-image-upload"
@@ -75,7 +83,9 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                             </div>
                         </label>
                     </div>
-                    <Paragraph className="font-semibold">{postData.image ? "" : "No Image Selected."}</Paragraph>
+                    <Paragraph className="font-semibold">
+                        {postData.image instanceof File ? postData.image.name : "No image selected"}
+                    </Paragraph>
                     <div className="flex flex-col lg:flex-row gap-x-2">
                         <input
                             id="location"
@@ -98,15 +108,15 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                                 e.preventDefault();
                                 const town = await getLocation();
                                 if (town) {
-                                    console.log(town);
                                     const coords = await getCoords(town);
-                                    if (coords && coords !== "N/A") {
+                                    if (coords && coords !== "N/A" && coords !== "OVER") {
                                         changeHandler({
                                             ...postData,
                                             lat: coords.latitude,
                                             long: coords.longitude,
                                             townName: town,
                                         });
+                                        setIsGetLocationUsed(true);
                                     } else {
                                         alert("Unable to get coordinates for the location.");
                                     }
@@ -159,31 +169,41 @@ export default function CreatePost({ postData, changeHandler, reset }: CreatePos
                     type="submit"
                     onClick={async (e) => {
                         e.preventDefault();
-                        if (!postData.type || !postData.subType || !postData.townName || !postData.content || !postData.title) {
+                        if (!postData.type || !postData.subType || !postData.townName || !postData.content || !postData.title || !postData.image) {
                             alert("Please fill in all options.");
                             return;
                         }
-                        const coords = await getCoords(postData.townName);
-                        if (coords === "N/A") {
-                            alert("Location not found. Please try again, or use the get location button.");
-                            return;
-                        } if (coords === "OVER") {
-                            alert("Multiple locations found. Please be more specific.");
-                            return;
-                            // shows modal for location checking
-                        } if (Array.isArray(coords)) {
-                            setIsModalOpen(true);
-                            setModalData(coords);
+                        
+                        let latitude = postData.lat;
+                        let longitude = postData.long;
+
+                        if (!isGetLocationUsed) {
+                            const coords = await getCoords(postData.townName);
+                            if (coords === "N/A") {
+                                alert("Location not found. Please try again, or use the get location button.");
+                                return;
+                            }
+                            if (coords === "OVER") {
+                                alert("Too many locations found. Please be more specific.");
+                                return;
+                            }
+                            if (typeof coords === "object" && coords !== null) {
+                                latitude = coords.latitude;
+                                longitude = coords.longitude;
+                            }
                         }
-                        if (!isModalOpen) {
-                            alert("Post created successfully!");
-                        }
+                        submitData({
+                            ...postData,
+                            lat: latitude,
+                            long: longitude,
+                        });
+                        alert("Post created successfully!");
+                        
                     }}
                     className="text-xl text-white bg-cordovan hover:scale-[1.1] transition transform"
                 >
                     Continue
                 </Button>
-                <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} data={modalData} postData={postData} changeHandler={changeHandler} />
             </div>
         </form>
     );
