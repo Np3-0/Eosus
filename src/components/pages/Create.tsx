@@ -12,7 +12,7 @@ import Container from "../shared/Container";
 import Title from "../shared/Title";
 import TypeSelection from "../sections/createSections/TypeSelection";
 import CreatePost from "../sections/createSections/CreatePost";
-import uploadPost from "../../utils/uploadPost";
+import uploadPost from "../../utils/posts/uploadPost";
 
 type PostData = {
     title: string;

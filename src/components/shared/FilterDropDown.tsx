@@ -4,9 +4,10 @@ import Button from "./Button";
 interface FilterDropDownProps {
     items: string[];
     className?: string;
+    onConfirm: (selectedItem: string) => void;
 }
 
-export default function FilterDropDown({ items, className = "" }: FilterDropDownProps) {
+export default function FilterDropDown({ items, className = "", onConfirm }: FilterDropDownProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
@@ -36,7 +37,8 @@ export default function FilterDropDown({ items, className = "" }: FilterDropDown
                         <li 
                             key={index} 
                             className={`flex items-center py-2 ml-1 rounded-full hover:bg-cordovan 
-                                        hover:scale-[1.05] hover:cursor-pointer transform transition ${selectedItem == item ? "bg-cordovan" : ""}`}
+                                        hover:scale-[1.05] hover:cursor-pointer hover:text-white transform transition 
+                                        ${selectedItem == item ? "bg-cordovan text-white" : ""}`}
                             onClick={() => setSelectedItem(item)}
                         >
                             <input id={item} 
@@ -55,7 +57,12 @@ export default function FilterDropDown({ items, className = "" }: FilterDropDown
                     <Button 
                         className="text-white font-semibold transform transition hover:scale-[1.05]"
                         onClick={() => {
-                            alert(`Filter applied: ${selectedItem}`);
+                            if (!selectedItem) {
+                                alert("Please select a filter option.");
+                                return;
+                            }
+                            onConfirm(selectedItem.toString().toLowerCase());
+                            setIsOpen(false);
                         }}
                     >
                         Confirm

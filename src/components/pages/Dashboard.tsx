@@ -18,6 +18,7 @@ export default function Dashboard() {
     const navigate = useNavigate();    
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState(Array);
+    const [filterType, setFilterType] = useState<string>("recent");
     const [user, setUser] = useState<User | null>(null);
     const [userObj, setUserObj] = useState<{ 
         name: string 
@@ -61,11 +62,12 @@ export default function Dashboard() {
                 });
             }
 
-            setPosts(await getPosts());
+            const fetchedPosts = await getPosts(filterType);
+            setPosts(fetchedPosts ?? []);
         };
         
         fetchData();
-    }, [user]);
+    }, [user, filterType]);
 
     if (loading) return <h1 className="text-center text-3xl mt-20 text-semibold">Loading...</h1>;
     if (!user) return null; // Redirecting
@@ -73,7 +75,11 @@ export default function Dashboard() {
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="min-h-screen">
             <div className="mt-24 flex flex-col items-center justify-baseline">
-                <FilterDropDown items={["Recent", "Location", "Liked"]} className="self-start mt-12 " />
+                <FilterDropDown 
+                    items={["Recent", "Location", "Liked"]} 
+                    className="self-start mt-12 " 
+                    onConfirm={(value) => setFilterType(value)}
+                />
                 {posts.length > 0 && posts.map((post: any) => (
                     <Post 
                         key={post.id}
