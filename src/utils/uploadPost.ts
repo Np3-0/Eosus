@@ -37,10 +37,9 @@ export default async function uploadPost({ postData, date }: UploadProps) {
         townName: postData.townName,
         author: uid,
         timestamp: date,
-        likes: 0,
+        likes: [],
         comments: 0,
-        shares: 0,
-    }
+    };
 
     await setDoc(postDoc, data, { merge: true });
 };

@@ -10,7 +10,7 @@ import Post from "../shared/Post";
 import Title from "../shared/Title";
 import Container from "../shared/Container";
 import Button from "../shared/Button";
-import getPosts from "../../utils/getPosts";
+import getPosts from "../../utils/posts/getPosts";
 
 export default function Dashboard() {
     const navigate = useNavigate();    
@@ -69,7 +69,7 @@ export default function Dashboard() {
     if (!user) return null; // Redirecting
     return (
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
-        <Container className="h-screen">
+        <Container className="min-h-screen">
             <div className="mt-24 flex flex-col items-center justify-baseline">
                 {posts.length > 0 && posts.map((post: any) => (
                     <Post 
@@ -84,14 +84,13 @@ export default function Dashboard() {
                         townName={post.townName}
                         author={post.author}
                         timestamp={post.timestamp}
-                        likes={post.likes}
                         comments={post.comments}
                     />
               ))}
                 <Title className="text-center mt-12 mb-4 ">That's all the posts. Why not create one?</Title>
                 <Button 
                     onClick={() => navigate("/create")} 
-                    className="mt-4 min-w-max text-white transform transition duration-300 hover:scale-[1.02] text-lg lg:text-xl"
+                    className="mt-4 mb-8 min-w-max text-white transform transition duration-300 hover:scale-[1.02] text-lg lg:text-xl"
                 >
                     Create Post
                 </Button>

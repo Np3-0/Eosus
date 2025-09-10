@@ -1,12 +1,12 @@
 import { useState } from "react";
-import CommentIconSVG from "../../../assets/logos/CommentIconSVG";
-import LikeIconSVG from "../../../assets/logos/LikeIconSVG";
-import MoreIconSVG from "../../../assets/logos/MoreIconSVG";
+import CommentIconSVG from "../../../assets/CommentIconSVG";
+import LikeIconSVG from "../../../assets/LikeIconSVG";
+import MoreIconSVG from "../../../assets/MoreIconSVG";
 import IconButton from "../../shared/IconButton";
+import DocPlusSVG from "../../../assets/DocPlusSVG";
 import { postItems } from "../../../utils/items/post_items";
-import Button from "../../shared/Button";
 import { getCoords, getLocation } from "../../../utils/getLocation";
-import DocPlusSVG from "../../../assets/logos/DocPlusSVG";
+import Button from "../../shared/Button";
 import Paragraph from "../../shared/Paragraph";
 
 type PostData = {
