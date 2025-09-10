@@ -11,6 +11,8 @@ import Title from "../shared/Title";
 import Container from "../shared/Container";
 import Button from "../shared/Button";
 import getPosts from "../../utils/posts/getPosts";
+import Paragraph from "../shared/Paragraph";
+import FilterDropDown from "../shared/FilterDropDown";
 
 export default function Dashboard() {
     const navigate = useNavigate();    
@@ -71,6 +73,7 @@ export default function Dashboard() {
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="min-h-screen">
             <div className="mt-24 flex flex-col items-center justify-baseline">
+                <FilterDropDown items={["Recent", "Location", "Liked"]} className="self-start mt-12 " />
                 {posts.length > 0 && posts.map((post: any) => (
                     <Post 
                         key={post.id}
