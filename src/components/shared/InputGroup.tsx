@@ -6,15 +6,15 @@ interface InputGroupProps {
     required?: boolean;
     disabled?: boolean;
     value?: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // <-- add this
+    labelClassName?: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function InputGroup({
-    name, className = "", type="text", placeholder="", value="", required=false, disabled=false, onChange
-}: InputGroupProps) {
+    name, className = "", type="text", placeholder="", value="", required=false, disabled=false, onChange, labelClassName=""}: InputGroupProps) {
     return (
         <div className="flex flex-col gap-y-2">
-            <label className="text-left" htmlFor={name}>{name.charAt(0).toUpperCase() + name.slice(1)}</label>
+            <label className={`text-left ${labelClassName}`} htmlFor={name}>{name.charAt(0).toUpperCase() + name.slice(1)}</label>
             <input 
                 id={name}
                 type={type}

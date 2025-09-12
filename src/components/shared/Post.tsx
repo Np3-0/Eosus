@@ -1,11 +1,12 @@
+import { useState } from "react";
+import { postItems } from "../../utils/items/post_items";
+import likePost from "../../utils/posts/likePost";
+import IconButton from "./IconButton";
+import Paragraph from "./Paragraph";
+import Button from "./Button";
 import CommentIconSVG from "../../assets/CommentIconSVG";
 import LikeIconSVG from "../../assets/LikeIconSVG";
 import MoreIconSVG from "../../assets/MoreIconSVG";
-import { postItems } from "../../utils/items/post_items";
-import IconButton from "./IconButton";
-import Paragraph from "./Paragraph";
-import { useState } from "react";
-import likePost from "../../utils/posts/likePost";
 
 interface PostProps {
     title: string,
@@ -36,6 +37,8 @@ export default function Post({
 }: PostProps) {
 
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+    const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+    const [comment, setComment] = useState("");
     const [isLiked, setIsLiked] = useState(false);
     const [postInfo, setPostInfo] = useState({
         title: title,
@@ -80,7 +83,7 @@ export default function Post({
                         >
                             <LikeIconSVG isToggled={isLiked} />
                         </IconButton>
-                        <IconButton className="px-6 py-3">
+                        <IconButton className="px-6 py-3" onclick={() => setIsCommentsOpen(!isCommentsOpen)}>
                             <CommentIconSVG />
                         </IconButton>
                     </div>
@@ -90,6 +93,33 @@ export default function Post({
 
                 </div>
             </div>
+            {isCommentsOpen && (
+                <div className="transform transition-transform duration-300 ease-in-out">
+                    <div className="flex flex-col lg:flex-row gap-x-3 mt-4">
+                        <input
+                            id="comment"
+                            type="text"
+                            name="comment"
+                            value={comment}
+                            placeholder="Write a comment..."
+                            onChange={(e) => setComment(e.target.value)}
+                            className="flex-1 text-heading-3 font-normal text-base md:text-lg lg:text-xl p-2 border-b-3 outline-none"
+                        />
+                        <Button
+                            className="min-w-max lg:w-1/3 text-white transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                alert(comment);
+                                setComment("");
+                            }}
+                        >
+                            Comment
+                        </Button>
+                    </div>
+
+                </div>
+            )}
+
         </div>
     );
 };

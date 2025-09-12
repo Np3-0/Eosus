@@ -1,6 +1,7 @@
 import { auth, db } from "../../config/firebase";
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { getCoords } from "../getLocation";
+import haversine from "../math/haversine";
 
 export default async function getPosts(type: string) {
     if (!auth.currentUser) {
@@ -31,11 +32,16 @@ export default async function getPosts(type: string) {
             return posts.reverse();
         }
         const { latitude, longitude } = coords as { latitude: number; longitude: number; name: string };
-        const distances: Float32Array = new Float32Array(posts.length);
+        const distances: Array<object> = [];
+
         posts.forEach(post => {
             const [postLat, postLong] = [post.latitude, post.longitude];
-            //implement haversine formula
+            const dist = haversine(latitude, longitude, Number(postLat), Number(postLong));
+            distances.push({ ...post, distance: dist });
         });
+        
+        distances.sort((a: any, b: any) => a.distance - b.distance);
+        return distances;
 
     } else if (type === "liked") {
         const userLikeDoc = collection(db, "users", uid, "likedPosts");
