@@ -68,9 +68,9 @@ export default function Dashboard() {
         
         fetchData();
     }, [user, filterType]);
-
     if (loading) return <h1 className="text-center text-3xl mt-20 text-semibold">Loading...</h1>;
     if (!user) return null; // Redirecting
+    
     return (
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="min-h-screen">

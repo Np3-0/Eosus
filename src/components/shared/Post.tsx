@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { postItems } from "../../utils/items/post_items";
 import likePost from "../../utils/posts/likePost";
+import commentPost from "../../utils/posts/commentPost";
 import IconButton from "./IconButton";
 import Paragraph from "./Paragraph";
 import Button from "./Button";
 import CommentIconSVG from "../../assets/CommentIconSVG";
 import LikeIconSVG from "../../assets/LikeIconSVG";
 import MoreIconSVG from "../../assets/MoreIconSVG";
+import getComments from "../../utils/posts/getComments";
+import type { DocumentData } from "firebase/firestore";
 
 interface PostProps {
     title: string,
@@ -19,7 +22,6 @@ interface PostProps {
     townName: string,
     author: string,
     timestamp: Date,
-    comments: number,
 }
 
 export default function Post({
@@ -33,12 +35,12 @@ export default function Post({
     townName,
     author,
     timestamp,
-    comments,
 }: PostProps) {
 
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
     const [isCommentsOpen, setIsCommentsOpen] = useState(false);
-    const [comment, setComment] = useState("");
+    const [comments, setComments] = useState<DocumentData[]>([]);
+    const [typedComment, setTypedComment] = useState("");
     const [isLiked, setIsLiked] = useState(false);
     const [postInfo, setPostInfo] = useState({
         title: title,
@@ -53,6 +55,16 @@ export default function Post({
         timestamp: timestamp,
         comments: comments,
     });
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            const fetchedComments = await getComments(postInfo.timestamp.toString());
+            setComments(fetchedComments ?? []);
+        };
+
+        fetchComments();
+    }, [postInfo.timestamp]);
+    console.log(comments);
     return (
         <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
                         shadow-lg shadow-box-shadow relative overflow-hidden 
@@ -94,28 +106,39 @@ export default function Post({
                 </div>
             </div>
             {isCommentsOpen && (
+                
                 <div className="transform transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col lg:flex-row gap-x-3 mt-4">
                         <input
                             id="comment"
                             type="text"
                             name="comment"
-                            value={comment}
+                            value={typedComment}
                             placeholder="Write a comment..."
-                            onChange={(e) => setComment(e.target.value)}
+                            onChange={(e) => setTypedComment(e.target.value)}
                             className="flex-1 text-heading-3 font-normal text-base md:text-lg lg:text-xl p-2 border-b-3 outline-none"
                         />
                         <Button
-                            className="min-w-max lg:w-1/3 text-white transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0"
-                            onClick={(e) => {
+                            className="min-w-max lg:w-1/3 text-white font-semibold transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0"
+                            onClick={async (e) => {
                                 e.preventDefault();
-                                alert(comment);
-                                setComment("");
+                                if (typedComment.trim() === "") {    
+                                    alert("Comment cannot be empty.");
+                                    return;
+                                }
+                                setTypedComment("");
+                                await commentPost(postInfo.timestamp.toString(), typedComment);
+                                setComments(await getComments(postInfo.timestamp.toString()) ?? []);
                             }}
                         >
                             Comment
                         </Button>
                     </div>
+                    {comments.map((item, index) => (
+                        <div key={index} className="mt-4 p-4 bg-gray-100 rounded-lg">
+                            <p className="text-sm sm:text-base">{item.comment}</p>
+                        </div>
+                    ))}
 
                 </div>
             )}
