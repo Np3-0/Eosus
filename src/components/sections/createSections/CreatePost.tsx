@@ -148,9 +148,9 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
 
                     {/*Like and comment buttons */}
                     <div className="flex flex-row items-center justify-start mt-4">
-                        <IconButton className="px-6 py-3"><LikeIconSVG /></IconButton>
-                        <IconButton className="px-6 py-3"><CommentIconSVG /></IconButton>
-                        <IconButton className="px-6 py-3 ml-auto"><MoreIconSVG /></IconButton>
+                        <IconButton className="px-6 py-3 hover:bg-platinum "><LikeIconSVG /></IconButton>
+                        <IconButton className="px-6 py-3 hover:bg-platinum "><CommentIconSVG /></IconButton>
+                        <IconButton className="px-6 py-3 ml-auto hover:bg-platinum "><MoreIconSVG /></IconButton>
                     </div>
                 </div>
 

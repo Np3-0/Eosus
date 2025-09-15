@@ -10,6 +10,7 @@ import LikeIconSVG from "../../assets/LikeIconSVG";
 import MoreIconSVG from "../../assets/MoreIconSVG";
 import getComments from "../../utils/posts/getComments";
 import type { DocumentData } from "firebase/firestore";
+import PostComment from "./PostComment";
 
 interface PostProps {
     title: string,
@@ -72,7 +73,7 @@ export default function Post({
         >
             <div className="space-y-4">
                 <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
-                    {title} <span className="text-lg text-gray-500" style={{ color: postItems.find(item => item.title === type)?.color }}>{subType}</span>
+                    {title} <span className="text-lg" style={{ color: postItems.find(item => item.title === type)?.color }}>{subType}</span>
                 </h2>
                 <div className="w-full">
                     <img
@@ -87,19 +88,19 @@ export default function Post({
                 {/*Like and comment buttons */}
                 <div className="flex flex-row items-center justify-between mt-4">
                     <div className="flex flex-row">
-                        <IconButton type="button" className="px-6 py-3"
+                        <IconButton type="button" className="px-6 py-3 hover:bg-platinum "
                             onclick={() => {
                                 setIsLiked(!isLiked);
-                                likePost({ postId: postInfo.timestamp.toString(), likeStatus: isLiked });
+                                likePost(postInfo.timestamp.toString(), isLiked);
                             }}
                         >
                             <LikeIconSVG isToggled={isLiked} />
                         </IconButton>
-                        <IconButton className="px-6 py-3" onclick={() => setIsCommentsOpen(!isCommentsOpen)}>
+                        <IconButton className="px-6 py-3 hover:bg-platinum " onclick={() => setIsCommentsOpen(!isCommentsOpen)}>
                             <CommentIconSVG />
                         </IconButton>
                     </div>
-                    <IconButton className="px-6 py-3" onclick={() => setIsOptionsOpen(!isOptionsOpen)}>
+                    <IconButton className="px-6 py-3 hover:bg-platinum" onclick={() => setIsOptionsOpen(!isOptionsOpen)}>
                         <MoreIconSVG />
                     </IconButton>
 
@@ -134,11 +135,20 @@ export default function Post({
                             Comment
                         </Button>
                     </div>
-                    {comments.map((item, index) => (
-                        <div key={index} className="mt-4 p-4 bg-gray-100 rounded-lg">
-                            <p className="text-sm sm:text-base">{item.comment}</p>
-                        </div>
-                    ))}
+                    <div className="mt-6">
+                        {comments.map((item, index) => (
+                            <PostComment
+                                key={index}
+                                comment={{
+                                    comment: item.comment,
+                                    timeStamp: item.timeStamp,
+                                    author: item.author,
+                                    img: item.img,
+                                }}
+                                index={index.toString()}
+                            />
+                        ))}
+                    </div>
 
                 </div>
             )}

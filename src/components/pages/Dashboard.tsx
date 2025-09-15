@@ -11,7 +11,6 @@ import Title from "../shared/Title";
 import Container from "../shared/Container";
 import Button from "../shared/Button";
 import getPosts from "../../utils/posts/getPosts";
-import Paragraph from "../shared/Paragraph";
 import FilterDropDown from "../shared/FilterDropDown";
 
 export default function Dashboard() {
@@ -93,7 +92,6 @@ export default function Dashboard() {
                         townName={post.townName}
                         author={post.author}
                         timestamp={post.timestamp}
-                        comments={post.comments}
                     />
               ))}
                 <Title className="text-center mt-12 mb-4 ">That's all the posts. Why not create one?</Title>

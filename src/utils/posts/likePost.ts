@@ -1,12 +1,7 @@
 import { auth, db } from "../../config/firebase.ts";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
-interface LikePostProps {
-    postId: string;
-    likeStatus: boolean;
-}
-
-export default async function likePost({ postId, likeStatus }: LikePostProps) {
+export default async function likePost( postId: string, likeStatus: boolean ) {
     if (!auth.currentUser) return;
 
     const uid = auth.currentUser.uid;

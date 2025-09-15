@@ -1,5 +1,5 @@
-import {auth, db} from "../../config/firebase.ts";
-import {collection, doc, setDoc} from "firebase/firestore";``
+import { auth, db } from "../../config/firebase.ts";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 export default async function commentPost(postId: string, comment: string) {
     const user = auth.currentUser;
@@ -9,10 +9,20 @@ export default async function commentPost(postId: string, comment: string) {
     }
 
     const commentRef = doc(db, "posts", postId, "comments", `${user.uid}_${Date.now()}`);
+    const userRef = doc(db, "users", user.uid);
+    const userSnapshot = await getDoc(userRef);
+    const userData = userSnapshot.data();
+
+    if (!userData) {
+        alert("User data not found.");
+        return;
+    }
 
     try {
         await setDoc(commentRef, {
-            userId: user.uid,
+            userId: userData.uid,
+            author: userData.name,
+            img: userData.img,
             comment: comment,
             timestamp: Date.now(),
         });
