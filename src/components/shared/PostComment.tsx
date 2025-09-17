@@ -41,7 +41,9 @@ export default function PostComment({ comment, index }: PostCommentProps) {
                 <PostOptionsModal 
                     anchorRef={buttonRef as React.RefObject<HTMLButtonElement>} 
                     isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)} 
-                    items={["Report", "Send to AI"]}
+                    items={["Delete", "Report", "Send to AI"]}
+                    type="comment"
+                    id={comment.author + comment.timeStamp.toString()}
                 />
             </div>
         </div>

@@ -115,7 +115,9 @@ export default function Post({
                         <PostOptionsModal
                             anchorRef={buttonRef as React.RefObject<HTMLButtonElement>}
                             isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
-                            items={["Report", "Send to AI"]}
+                            items={["Delete", "Report", "Send to AI"]}
+                            type="post"
+                            id={postInfo.timestamp.toString()}
                         />
                     </div>
 
