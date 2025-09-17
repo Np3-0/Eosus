@@ -136,7 +136,6 @@ export default function Create() {
         fetchUserData();
     }, [user]);
 
-    console.log(postData);
     return (
         <Layout
             navType={1}

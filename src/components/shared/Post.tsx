@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import { postItems } from "../../utils/items/post_items";
 import likePost from "../../utils/posts/likePost";
 import commentPost from "../../utils/posts/commentPost";
@@ -11,6 +11,7 @@ import MoreIconSVG from "../../assets/MoreIconSVG";
 import getComments from "../../utils/posts/getComments";
 import type { DocumentData } from "firebase/firestore";
 import PostComment from "./PostComment";
+import PostOptionsModal from "./PostOptionsModal";
 
 interface PostProps {
     title: string,
@@ -43,6 +44,7 @@ export default function Post({
     const [comments, setComments] = useState<DocumentData[]>([]);
     const [typedComment, setTypedComment] = useState("");
     const [isLiked, setIsLiked] = useState(false);
+    const [hasFetchedComments, setHasFetchedComments] = useState(false);
     const [postInfo, setPostInfo] = useState({
         title: title,
         content: content,
@@ -57,14 +59,16 @@ export default function Post({
         comments: comments,
     });
 
-    useEffect(() => {
-        const fetchComments = async () => {
+    const handleCommentsOpen = async () => {
+        setIsCommentsOpen(!isCommentsOpen);
+        if (!hasFetchedComments && !isCommentsOpen) {
             const fetchedComments = await getComments(postInfo.timestamp.toString());
             setComments(fetchedComments ?? []);
-        };
+            setHasFetchedComments(true);
+        }
+    };
 
-        fetchComments();
-    }, [postInfo.timestamp]);
+    const buttonRef = useRef<HTMLButtonElement>(null);
     console.log(comments);
     return (
         <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
@@ -96,18 +100,30 @@ export default function Post({
                         >
                             <LikeIconSVG isToggled={isLiked} />
                         </IconButton>
-                        <IconButton className="px-6 py-3 hover:bg-platinum " onclick={() => setIsCommentsOpen(!isCommentsOpen)}>
+                        <IconButton className="px-6 py-3 hover:bg-platinum " onclick={() => handleCommentsOpen()}>
                             <CommentIconSVG />
                         </IconButton>
                     </div>
-                    <IconButton className="px-6 py-3 hover:bg-platinum" onclick={() => setIsOptionsOpen(!isOptionsOpen)}>
-                        <MoreIconSVG />
-                    </IconButton>
+                    <div className="relative">
+                        <IconButton
+                            className="px-6 py-3 hover:bg-platinum"
+                            onclick={() => setIsOptionsOpen(!isOptionsOpen)}
+                            ref={buttonRef as React.RefObject<HTMLButtonElement>}
+                        >
+                            <MoreIconSVG />
+                        </IconButton>
+                        <PostOptionsModal
+                            anchorRef={buttonRef as React.RefObject<HTMLButtonElement>}
+                            isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
+                            items={["Report", "Send to AI"]}
+                        />
+                    </div>
+
 
                 </div>
             </div>
             {isCommentsOpen && (
-                
+
                 <div className="transform transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col lg:flex-row gap-x-3 mt-4">
                         <input
@@ -123,7 +139,7 @@ export default function Post({
                             className="min-w-max lg:w-1/3 text-white font-semibold transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0"
                             onClick={async (e) => {
                                 e.preventDefault();
-                                if (typedComment.trim() === "") {    
+                                if (typedComment.trim() === "") {
                                     alert("Comment cannot be empty.");
                                     return;
                                 }
@@ -145,7 +161,7 @@ export default function Post({
                                     author: item.author,
                                     img: item.img,
                                 }}
-                                index={index.toString()}
+                                index={index}
                             />
                         ))}
                     </div>
