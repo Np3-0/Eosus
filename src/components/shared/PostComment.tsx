@@ -7,7 +7,8 @@ interface PostCommentProps {
     comment: {
         comment: string;
         timeStamp: Date;
-        author: string;
+        creator: string;
+        userId: string;
         img: string;
     }
     index: number;
@@ -26,7 +27,7 @@ export default function PostComment({ comment, index }: PostCommentProps) {
             <div className="flex flex-row items-center gap-x-3">
                 <img src={comment.img} className="w-6 h-6" />
                 <div className="flex flex-col gap-y-1.5">
-                    <p className="text-heading-3 text-sm lg:text-base font-bold">{comment.author}</p>
+                    <p className="text-heading-3 text-sm lg:text-base font-bold">{comment.creator}</p>
                     <p className="text-base lg:text-lg">{comment.comment}</p>
                 </div>
             </div>
@@ -43,7 +44,9 @@ export default function PostComment({ comment, index }: PostCommentProps) {
                     isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)} 
                     items={["Delete", "Report", "Send to AI"]}
                     type="comment"
-                    id={comment.author + comment.timeStamp.toString()}
+                    author={comment.userId}
+                    id={comment.creator + (comment.timeStamp ? comment.timeStamp.toString() : "")}
+
                 />
             </div>
         </div>

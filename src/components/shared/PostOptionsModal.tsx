@@ -11,9 +11,10 @@ interface PostOptionsModalProps {
     anchorRef?: React.RefObject<HTMLButtonElement>;
     type: string;
     id?: string;
+    author: string;
 }
 
-export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id }: PostOptionsModalProps) {
+export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author }: PostOptionsModalProps) {
     const [position, setPosition] = useState<{top: number, left: number}>({ top: 0, left: 0 });
 
     useEffect(() => {
@@ -60,12 +61,12 @@ export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, ty
                                     alert("Action failed. Please try to log in again.");
                                     return;
                                 }
-                                selectOption(item, type, id);
+                                selectOption(item, type, id, author);
                             }}
                         >
                             <label 
                                 htmlFor={item} 
-                                className="ml-2 pl-2.5 text-lg font-semibold text-heading-1">
+                                className="ml-2 pl-2.5 text-lg font-semibold text-heading-1 cursor-pointer">
                                 {item}
                             </label>
                         </button>

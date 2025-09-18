@@ -117,15 +117,14 @@ export default function Post({
                             isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
                             items={["Delete", "Report", "Send to AI"]}
                             type="post"
+                            author={postInfo.author}
                             id={postInfo.timestamp.toString()}
                         />
                     </div>
-
-
                 </div>
             </div>
-            {isCommentsOpen && (
 
+            {isCommentsOpen && (
                 <div className="transform transition-transform duration-300 ease-in-out">
                     <div className="flex flex-col lg:flex-row gap-x-3 mt-4">
                         <input
@@ -160,7 +159,8 @@ export default function Post({
                                 comment={{
                                     comment: item.comment,
                                     timeStamp: item.timeStamp,
-                                    author: item.author,
+                                    creator: item.author,
+                                    userId: item.userId,
                                     img: item.img,
                                 }}
                                 index={index}
