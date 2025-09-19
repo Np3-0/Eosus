@@ -82,7 +82,7 @@ export default function AppNavbar({ img, name, email }: AppNavbarProps) {
 
                     {/* Collapsed navbar */}
                     <div 
-                        className={`bg-box-bg lg:hidden absolute top-full left-0 w-full shadow-lg rounded-lg mt-2 z-50
+                        className={`bg-platinum lg:hidden absolute top-full left-0 w-full shadow-lg rounded-lg mt-2 z-50
                                   transition-all duration-300 ease-in-out ${
                                       isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
                                   }`}
