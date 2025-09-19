@@ -12,9 +12,10 @@ interface PostOptionsModalProps {
     type: string;
     id?: string;
     author: string;
+    postId?: string;
 }
 
-export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author }: PostOptionsModalProps) {
+export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author, postId }: PostOptionsModalProps) {
     const [position, setPosition] = useState<{top: number, left: number}>({ top: 0, left: 0 });
 
     useEffect(() => {
@@ -61,7 +62,7 @@ export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, ty
                                     alert("Action failed. Please try to log in again.");
                                     return;
                                 }
-                                selectOption(item, type, id, author);
+                                selectOption(item, type, id, author, postId);
                             }}
                         >
                             <label 

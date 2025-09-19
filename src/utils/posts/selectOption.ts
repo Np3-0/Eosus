@@ -1,15 +1,13 @@
 import {auth, db} from "../../config/firebase.ts";
 import { getDoc, deleteDoc, doc } from "firebase/firestore";
 
-export default async function selectOption(option: string, type: string, id: string, author: string) {
+export default async function selectOption(option: string, type: string, id: string, author: string, postId?: string) {
     if (!auth.currentUser) {
         alert("You must be logged in to perform this action.");
         return;
     }
 
-    console.log(`Selected option: ${option}`);
     if (option == "Delete") {
-        console.log(author, auth.currentUser.uid);
         if (author !== auth.currentUser.uid) {
             alert("You can only delete your own posts.");
             return;
@@ -21,19 +19,26 @@ export default async function selectOption(option: string, type: string, id: str
         }
 
         if (type === "post") {
-            // Delete post logic
             const postDoc = await getDoc(doc(db, "posts", id));
-            const postData = postDoc.data();
-            if (!postData) {
+            if (!postDoc.data()) {
                 alert("Post not found or already deleted.");
                 return;
             }
-            console.log(postData);
-
             await deleteDoc(doc(db, "posts", id));
             
         } else if (type === "comment") {
-            alert("Comment deletion not yet implemented.");
+            if (!postId) {
+                alert("Action failed. Please try to log in again.");
+                return;
+            }
+
+            const fullID = `${auth.currentUser.uid}_${id}`;
+            const commentDoc = await getDoc(doc(db, "posts", postId, "comments", fullID));
+            if (!commentDoc.data()) {
+                alert("Comment not found or already deleted.");
+                return;
+            }
+            await deleteDoc(doc(db, "posts", postId, "comments", fullID));
         }
 
         window.location.reload();

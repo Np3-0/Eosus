@@ -69,7 +69,6 @@ export default function Post({
     };
 
     const buttonRef = useRef<HTMLButtonElement>(null);
-    console.log(comments);
     return (
         <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
                         shadow-lg shadow-box-shadow relative overflow-hidden 
@@ -158,12 +157,13 @@ export default function Post({
                                 key={index}
                                 comment={{
                                     comment: item.comment,
-                                    timeStamp: item.timeStamp,
+                                    timestamp: item.timestamp,
                                     creator: item.author,
                                     userId: item.userId,
                                     img: item.img,
                                 }}
                                 index={index}
+                                postId={postInfo.timestamp.toString()}
                             />
                         ))}
                     </div>

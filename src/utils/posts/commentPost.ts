@@ -8,7 +8,9 @@ export default async function commentPost(postId: string, comment: string) {
         return;
     }
 
-    const commentRef = doc(db, "posts", postId, "comments", `${user.uid}_${Date.now()}`);
+    const date = Date.now();
+
+    const commentRef = doc(db, "posts", postId, "comments", `${user.uid}_${date}`);
     const userRef = doc(db, "users", user.uid);
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
@@ -24,7 +26,7 @@ export default async function commentPost(postId: string, comment: string) {
             author: userData.name,
             img: userData.img,
             comment: comment,
-            timestamp: Date.now(),
+            timestamp: date,
         });
     } catch (error) {
         console.error("Error adding comment: ", error);

@@ -6,15 +6,16 @@ import PostOptionsModal from "./PostOptionsModal";
 interface PostCommentProps {
     comment: {
         comment: string;
-        timeStamp: Date;
+        timestamp: Date;
         creator: string;
         userId: string;
         img: string;
     }
     index: number;
+    postId: string;
 }
 
-export default function PostComment({ comment, index }: PostCommentProps) {
+export default function PostComment({ comment, index, postId }: PostCommentProps) {
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -45,8 +46,8 @@ export default function PostComment({ comment, index }: PostCommentProps) {
                     items={["Delete", "Report", "Send to AI"]}
                     type="comment"
                     author={comment.userId}
-                    id={comment.creator + (comment.timeStamp ? comment.timeStamp.toString() : "")}
-
+                    id={comment.timestamp.toString()}
+                    postId={postId}
                 />
             </div>
         </div>
