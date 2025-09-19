@@ -7,6 +7,7 @@ import NotFound from "./components/pages/NotFound";
 import CompleteProfile from "./components/pages/CompleteProfile";
 import PrivacyInfo from "./components/pages/PrivacyInfo";
 import Create from "./components/pages/Create";
+import Map from "./components/pages/Map";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/create" element={<Create />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/map" element={<Map />} />
 
         {/* Misc paths */}
         <Route path="/privacy-info" element={<PrivacyInfo />} />

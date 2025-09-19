@@ -137,12 +137,7 @@ export default function Create() {
     }, [user]);
 
     return (
-        <Layout
-            navType={1}
-            img={userObj.img}
-            email={userObj.email}
-            name={userObj.name}
-        >
+        <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
             <Container className="min-h-screen flex flex-col mt-48 items-center">
                 <Title className="text-center">Create a New Post</Title>
                 {isInTypeSection ?
