@@ -203,6 +203,13 @@ export default function Map() {
             map.on('mouseleave', 'clusters', () => {
                 map.getCanvas().style.cursor = '';
             });
+
+            map.on('mouseenter', 'individual-point', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'individual-point', () => {
+                map.getCanvas().style.cursor = '';
+            });
         });
 
         return () => map.remove();
