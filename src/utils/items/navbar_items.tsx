@@ -9,6 +9,6 @@ export const navbarItems = [
         {href: "/dashboard", text: "Dashboard"},
         {href: "/create", text: "Create"},
         {href: "/map", text: "Map"},
-        //ADD SOME SORT OF "TIPS" THING HERE
+        {href: "/ai", text: "AI"},
     ]
 ]
