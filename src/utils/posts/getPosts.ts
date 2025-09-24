@@ -12,7 +12,7 @@ export default async function getPosts(type: string) {
     const postsRef = collection(db, "posts");
     const snapshot = await getDocs(postsRef);
     const posts = snapshot.docs.map(doc => {
-        const data = doc.data() as { latitude?: number; longitude?: number; [key: string]: any };
+         const data = doc.data() as { latitude?: number; longitude?: number; [key: string]: any };
         return { id: doc.id, ...data };
     });
 

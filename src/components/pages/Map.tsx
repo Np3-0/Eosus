@@ -4,10 +4,10 @@ import type { User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
 import Layout from "../Layout";
-import Container from "../shared/Container";
 import { useNavigate } from "react-router-dom";
 import checkUserStatus from "../../utils/checkUserStatus";
 import mapboxgl from 'mapbox-gl';
+import getPostCoords from "../../utils/posts/getPostCoords";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
@@ -27,6 +27,13 @@ export default function Map() {
         privacy: false,
         location: null,
     });
+    const [postCoords, setPostCoords] = useState<Array<{
+        id: string;
+        latitude: number;
+        longitude: number;
+        type: string;
+        color: string;
+    }> | null>(null);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -46,41 +53,169 @@ export default function Map() {
             const docRef = doc(db, "users", user.uid);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                setUserObj(
-                    docSnap.data() as {
-                        name: string;
-                        img: string;
-                        email: string;
-                        privacy: boolean;
-                        location: string | null;
-                    });
+                setUserObj(docSnap.data() as {
+                    name: string;
+                    img: string;
+                    email: string;
+                    privacy: boolean;
+                    location: string | null;
+                });
             }
         };
+        
+        const fetchPostCoords = async () => {
+            const coords = await getPostCoords();
+            setPostCoords(coords ?? null);
+        };
+
         fetchUserData();
+        fetchPostCoords();
     }, [user]);
 
+    // all the map logic
     useEffect(() => {
+        document.body.style.overflow = 'hidden';
         const mapContainer = document.getElementById('map');
-        if (!mapContainer) return;
+        if (!mapContainer || !postCoords) return;
 
         const map = new mapboxgl.Map({
             container: 'map',
             center: [-74.5, 40],
-            zoom: 9,
-            projection: 'mercator', 
-            style: 'mapbox://styles/mapbox/streets-v11',
+            minZoom: 4,
+            maxZoom: 16,
+            projection: 'mercator',
+            style: 'mapbox://styles/mapbox/streets-v11?optimize=true',
+            antialias: false,
+        });
+
+        map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+        // converts postCoords to GeoJSON for clustering
+        const features: GeoJSON.Feature<GeoJSON.Point, { id: string; type: string; color: string }>[] = postCoords.map(post => ({
+            type: "Feature",
+            properties: {
+                id: post.id,
+                type: post.type,
+                color: post.color,
+            },
+            geometry: {
+                type: "Point",
+                coordinates: [post.longitude, post.latitude],
+            },
+        }));
+
+        map.on('load', () => {
+            map.addSource('posts', {
+                type: 'geojson',
+                data: {
+                    type: "FeatureCollection",
+                    features,
+                },
+                cluster: true,
+                clusterMaxZoom: 14, 
+                clusterRadius: 75, 
+            });
+
+            // Cluster circles
+            map.addLayer({
+                id: 'clusters',
+                type: 'circle',
+                source: 'posts',
+                filter: ['has', 'point_count'],
+                paint: {
+                    'circle-color': '#902D41',
+                    'circle-radius': [
+                        'step',
+                        ['get', 'point_count'],
+                        20, 10,
+                        30, 30,
+                        40
+                    ],
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#FFFFFF',
+                },
+            });
+
+            // cluster labels
+            map.addLayer({
+                id: 'cluster-label',
+                type: 'symbol',
+                source: 'posts',
+                filter: ['has', 'point_count'],
+                layout: {
+                    'text-field': ['get', 'point_count_abbreviated'],
+                    'text-font': ['Raleway', 'Arial Unicode MS Bold'],
+                    'text-size': 16,
+                },
+                paint: {
+                    'text-color': '#FFFFFF',
+                }
+            });
+
+            // Individual points
+            map.addLayer({
+                id: 'individual-point',
+                type: 'circle',
+                source: 'posts',
+                filter: ['!', ['has', 'point_count']],
+                paint: {
+                    'circle-color': ['get', 'color'],
+                    'circle-radius': 12,
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': '#FFFFFF',
+                }
+            });
+
+            // zooms in when cluster is clicked
+            map.on('click', 'clusters', (e) => {
+                const features = map.queryRenderedFeatures(e.point, { layers: ['clusters'] });
+                if (!features[0].properties) return;
+                const clusterId = features[0].properties.cluster_id;
+                const source = map.getSource('posts') as mapboxgl.GeoJSONSource | undefined;
+                if (source && typeof source.getClusterExpansionZoom === 'function') {
+                    source.getClusterExpansionZoom(clusterId, (err, zoom) => {
+                        if (err) return;
+                        if (typeof zoom === 'number') {
+                            map.easeTo({
+                                center: ((features[0].geometry as GeoJSON.Point).coordinates as [number, number]),
+                                zoom: zoom
+                            });
+                        }
+                    });
+                }
+            });
+
+            // Placeholder for popup code
+            map.on('click', 'individual-point', (e) => {
+                if (!e.features) return;
+                const geometry = e.features[0].geometry as GeoJSON.Point;
+                const coordinates = geometry.coordinates.slice();
+                const { type } = (e.features[0].properties as { type: string });
+                new mapboxgl.Popup()
+                    .setLngLat([coordinates[0], coordinates[1]])
+                    .setHTML(type)
+                    .addTo(map);
+            });
+
+            map.on('mouseenter', 'clusters', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'clusters', () => {
+                map.getCanvas().style.cursor = '';
+            });
         });
 
         return () => map.remove();
-    }, []);
+    }, [postCoords]);
 
     return (
         <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
-            <Container className="min-h-screen flex flex-col mt-24 items-center">
-                <div id="map" style={{ width: "100vw", height: "100vh" }}>
-
-                </div>
-            </Container>
+            <div className="w-full h-screen pt-24">
+                <div
+                    id="map"
+                    className="w-full h-full"
+                />
+            </div>
         </Layout>
     );
 }
