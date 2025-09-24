@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import checkUserStatus from "../../utils/checkUserStatus";
 import mapboxgl from 'mapbox-gl';
 import getPostCoords from "../../utils/posts/getPostCoords";
+import { createRoot } from "react-dom/client";
+import Post from "../shared/Post";
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
@@ -28,11 +30,17 @@ export default function Map() {
         location: null,
     });
     const [postCoords, setPostCoords] = useState<Array<{
+        author: string;
+        content: string;
+        title: string;
         id: string;
-        latitude: number;
-        longitude: number;
+        latitude: string;
+        longitude: string;
         type: string;
-        color: string;
+        subType: string;
+        timestamp: number;
+        townName: string;
+        image: string;
     }> | null>(null);
 
     useEffect(() => {
@@ -65,7 +73,17 @@ export default function Map() {
         
         const fetchPostCoords = async () => {
             const coords = await getPostCoords();
-            setPostCoords(coords ?? null);
+            if (coords) {
+                setPostCoords(
+                    coords.map(({ color, latitude, longitude, ...rest }) => ({
+                        ...rest,
+                        latitude: latitude.toString(),
+                        longitude: longitude.toString(),
+                    }))
+                );
+            } else {
+                setPostCoords(null);
+            }
         };
 
         fetchUserData();
@@ -84,7 +102,7 @@ export default function Map() {
             minZoom: 4,
             maxZoom: 16,
             projection: 'mercator',
-            style: 'mapbox://styles/mapbox/streets-v11?optimize=true',
+            style: 'mapbox://styles/mapbox/light-v10',
             antialias: false,
         });
 
@@ -100,7 +118,7 @@ export default function Map() {
             },
             geometry: {
                 type: "Point",
-                coordinates: [post.longitude, post.latitude],
+                coordinates: [Number(post.longitude), Number(post.latitude)],
             },
         }));
 
@@ -190,10 +208,31 @@ export default function Map() {
                 if (!e.features) return;
                 const geometry = e.features[0].geometry as GeoJSON.Point;
                 const coordinates = geometry.coordinates.slice();
-                const { type } = (e.features[0].properties as { type: string });
+                const popupDiv = document.createElement('div');
+
+                const featureId = e.features[0].properties?.id;
+                const post = postCoords.find(p => p.id === featureId);
+                if (!post) return;
+                createRoot(popupDiv).render(
+                    <Post 
+                        title={post.title} 
+                        author={post.author}
+                        content={post.content}
+                        type={post.type}
+                        subType={post.subType}
+                        townName={post.townName}
+                        image={post.image}
+                        latitude={post.latitude}
+                        longitude={post.longitude}
+                        timestamp={new Date(post.timestamp)}
+                        key={post.id}
+                        menuEnabled={false}
+                    ></Post>
+                );
+
                 new mapboxgl.Popup()
                     .setLngLat([coordinates[0], coordinates[1]])
-                    .setHTML(type)
+                    .setDOMContent(popupDiv)
                     .addTo(map);
             });
 

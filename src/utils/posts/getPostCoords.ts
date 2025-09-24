@@ -1,27 +1,34 @@
 import { auth, db } from "../../config/firebase";
 import { collection, getDocs } from "firebase/firestore";
+import getPosts from "./getPosts";
 import { postItems } from "../items/post_items";
 
 export default async function getPostCoords() {
+    type post = {
+        author: string;
+        content: string;
+        title: string;
+        id: string;
+        latitude: string;
+        longitude: string;
+        type: string;
+        subType: string;
+        timestamp: number;
+        townName: string;
+        image: string;
+    }
+    
     if (!auth.currentUser) {
         alert("Authentication failed. Please log in again.");
         return;
     }
-    const postsRef = collection(db, "posts");
-    const snapshot = await getDocs(postsRef);
-    const posts = snapshot.docs.map(doc => {
-        const data = doc.data() as { latitude: any; longitude: any; type: string };
-        return {
-            id: doc.id,
-            latitude: Number(data.latitude),
-            longitude: Number(data.longitude),
-            type: data.type
-        };
-    });
+
+    const posts = await getPosts("recent") as post[];
+    if (!posts || posts.length === 0) return null;
 
     const seenCoords: Record<string, number> = {};
 
-    const modPosts = posts.map(post => {
+    const modPosts = posts.map((post: post) => {
         const key = `${post.latitude},${post.longitude}`;
         const count = seenCoords[key] || 0;
         seenCoords[key] = count + 1;
@@ -32,10 +39,17 @@ export default async function getPostCoords() {
 
         return {
             id: post.id,
-            latitude: post.latitude + offset,
-            longitude: post.longitude + offset,
+            title: post.title,
+            content: post.content,
+            author: post.author,
+            timestamp: post.timestamp,
+            latitude: Number(post.latitude) + offset,
+            longitude: Number(post.longitude) + offset,
             type: post.type,
-            color: postColor
+            subType: post.subType,
+            image: post.image,
+            townName: post.townName,
+            color: postColor,
         };
     });
 

@@ -47,7 +47,7 @@ export default function FilterDropDown({ items, className = "", onConfirm }: Fil
                                 readOnly
                                 checked={selectedItem == item}
                             />
-                            <label htmlFor={item} className="ml-2 pl-2.5 text-lg font-semibold text-heading-2">
+                            <label htmlFor={item} className="ml-2 pl-2.5 text-lg font-semibold text-heading-2 cursor-pointer">
                                 {item}
                             </label>
                         </li>

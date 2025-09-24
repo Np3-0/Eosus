@@ -24,6 +24,7 @@ interface PostProps {
     townName: string,
     author: string,
     timestamp: Date,
+    menuEnabled?: boolean,
 }
 
 export default function Post({
@@ -37,6 +38,7 @@ export default function Post({
     townName,
     author,
     timestamp,
+    menuEnabled = true,
 }: PostProps) {
 
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -70,9 +72,9 @@ export default function Post({
 
     const buttonRef = useRef<HTMLButtonElement>(null);
     return (
-        <div className="flex flex-col my-10 p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
+        <div className={`flex flex-col ${menuEnabled ? "my-10" : ""} p-5 sm:p-6 lg:p-8 rounded-3xl bg-box-bg 
                         shadow-lg shadow-box-shadow relative overflow-hidden 
-                        w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
+                        w-full max-w-md lg:max-w-lg xl:max-w-xl mx-auto`}
         >
             <div className="space-y-4">
                 <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
@@ -89,38 +91,40 @@ export default function Post({
                     <span className="font-semibold mr-2">{townName}</span><span className="font-bold">·</span> {content}
                 </Paragraph>
                 {/*Like and comment buttons */}
-                <div className="flex flex-row items-center justify-between mt-4">
-                    <div className="flex flex-row">
-                        <IconButton type="button" className="px-6 py-3 hover:bg-platinum "
-                            onclick={() => {
-                                setIsLiked(!isLiked);
-                                likePost(postInfo.timestamp.toString(), isLiked);
-                            }}
-                        >
-                            <LikeIconSVG isToggled={isLiked} />
-                        </IconButton>
-                        <IconButton className="px-6 py-3 hover:bg-platinum " onclick={() => handleCommentsOpen()}>
-                            <CommentIconSVG />
-                        </IconButton>
+                {menuEnabled && (
+                    <div className="flex flex-row items-center justify-between mt-4">
+                        <div className="flex flex-row">
+                            <IconButton type="button" className="px-6 py-3 hover:bg-platinum "
+                                onclick={() => {
+                                    setIsLiked(!isLiked);
+                                    likePost(postInfo.timestamp.toString(), isLiked);
+                                }}
+                            >
+                                <LikeIconSVG isToggled={isLiked} />
+                            </IconButton>
+                            <IconButton className="px-6 py-3 hover:bg-platinum " onclick={() => handleCommentsOpen()}>
+                                <CommentIconSVG />
+                            </IconButton>
+                        </div>
+                        <div className="relative">
+                            <IconButton
+                                className="px-6 py-3 hover:bg-platinum"
+                                onclick={() => setIsOptionsOpen(!isOptionsOpen)}
+                                ref={buttonRef as React.RefObject<HTMLButtonElement>}
+                            >
+                                <MoreIconSVG />
+                            </IconButton>
+                            <PostOptionsModal
+                                anchorRef={buttonRef as React.RefObject<HTMLButtonElement>}
+                                isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
+                                items={["Delete", "Report", "Send to AI"]}
+                                type="post"
+                                author={postInfo.author}
+                                id={postInfo.timestamp.toString()}
+                            />
+                        </div>
                     </div>
-                    <div className="relative">
-                        <IconButton
-                            className="px-6 py-3 hover:bg-platinum"
-                            onclick={() => setIsOptionsOpen(!isOptionsOpen)}
-                            ref={buttonRef as React.RefObject<HTMLButtonElement>}
-                        >
-                            <MoreIconSVG />
-                        </IconButton>
-                        <PostOptionsModal
-                            anchorRef={buttonRef as React.RefObject<HTMLButtonElement>}
-                            isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
-                            items={["Delete", "Report", "Send to AI"]}
-                            type="post"
-                            author={postInfo.author}
-                            id={postInfo.timestamp.toString()}
-                        />
-                    </div>
-                </div>
+                )}
             </div>
 
             {isCommentsOpen && (
