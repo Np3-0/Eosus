@@ -70,13 +70,14 @@ export default function Map() {
                 });
             }
         };
-        
+
         const fetchPostCoords = async () => {
             const coords = await getPostCoords();
             if (coords) {
                 setPostCoords(
                     coords.map(({ color, latitude, longitude, ...rest }) => ({
                         ...rest,
+                        color, 
                         latitude: latitude.toString(),
                         longitude: longitude.toString(),
                     }))
@@ -130,8 +131,8 @@ export default function Map() {
                     features,
                 },
                 cluster: true,
-                clusterMaxZoom: 14, 
-                clusterRadius: 75, 
+                clusterMaxZoom: 14,
+                clusterRadius: 75,
             });
 
             // Cluster circles
@@ -203,7 +204,6 @@ export default function Map() {
                 }
             });
 
-            // Placeholder for popup code
             map.on('click', 'individual-point', (e) => {
                 if (!e.features) return;
                 const geometry = e.features[0].geometry as GeoJSON.Point;
@@ -214,8 +214,8 @@ export default function Map() {
                 const post = postCoords.find(p => p.id === featureId);
                 if (!post) return;
                 createRoot(popupDiv).render(
-                    <Post 
-                        title={post.title} 
+                    <Post
+                        title={post.title}
                         author={post.author}
                         content={post.content}
                         type={post.type}

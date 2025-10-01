@@ -10,10 +10,12 @@ import { doc, getDoc } from "firebase/firestore";
 import checkUserStatus from "../../utils/checkUserStatus";
 import Paragraph from "../shared/Paragraph";
 import Button from "../shared/Button";
+import promptAI from "../../utils/promptAI";
 
 export default function AI() {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
+    const [message, setMessage] = useState<string>("");
     const [userObj, setUserObj] = useState<{
         name: string;
         img: string;
@@ -68,7 +70,7 @@ export default function AI() {
                 <div className="mt-10 w-3/4 flex">
                     <div className="flex sm:flex-row flex-col gap-5 w-full">
                         <form 
-                            onSubmit={(e) => alert(e)} 
+                            onSubmit={(e) => e.preventDefault()}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3
                                         shadow-lg shadow-box-shadow border border-box-border
                                         bg-box-bg rounded-full ease-linear focus-within:bg-body
@@ -77,9 +79,23 @@ export default function AI() {
                             <input
                                 type="text"
                                 placeholder="What should I do during a flood?"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
                                 required
                                 className="w-full py-3 outline-none bg-transparent" />
-                            <Button type="submit" className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]">
+                            <Button 
+                                type="button" 
+                                className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if (message.trim() == "" || message.length > 500) {
+                                        alert("Please enter a message.");
+                                        return;
+                                    }
+                                    promptAI(message);
+                                    setMessage("");
+                                }}
+                            >
                                 <span className="relative z-[5]">Ask Pranny</span>
                             </Button>
                         </form>

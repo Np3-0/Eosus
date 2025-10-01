@@ -5,6 +5,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAI, getGenerativeModel, GoogleAIBackend } from "firebase/ai";
+import { systemPrompt } from "../utils/items/systemPrompt";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,5 +29,14 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+const generationConfig = {
+    maxOutputTokens: 768,
+    temperature: 0.35,
+    topP: 0.8,
+    topK: 25,
+    systemInstructions: systemPrompt,
+}
+
 export const ai = getAI(app, { backend: new GoogleAIBackend() });
-export const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
+export const model = getGenerativeModel(ai, { model: "gemini-2.5-flash", ...generationConfig });
