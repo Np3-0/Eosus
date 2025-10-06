@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Layout from "../Layout";
 import Container from "../shared/Container";
 import Title from "../shared/Title";
 import type { User } from "firebase/auth";
@@ -11,6 +10,7 @@ import checkUserStatus from "../../utils/checkUserStatus";
 import Paragraph from "../shared/Paragraph";
 import Button from "../shared/Button";
 import promptAI from "../../utils/promptAI";
+import SidebarLayout from "../sidebarLayout";
 
 export default function AI() {
     const navigate = useNavigate();
@@ -62,19 +62,29 @@ export default function AI() {
     }, [user]);
 
     return (
-        <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
-            <Container className="min-h-screen flex flex-col mt-48 items-center">
-                <Title>Meet Pranny</Title>
-                <img src="/ai_logo.svg" alt="Pranny" className="w-48 h-48 mb-4" />
-                <Paragraph className="font-semibold">An AI assistant programmed to help you stay alert with natural disasters.</Paragraph>
-                <div className="mt-10 w-3/4 flex">
-                    <div className="flex sm:flex-row flex-col gap-5 w-full">
+        <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name}>
+            <Container className="min-h-screen flex flex-col justify-center items-center sm:ml-64 px-4">
+                <div className="flex flex-col items-center max-w-4xl w-full">
+                    <Title>Meet Pranny</Title>
+                    <img src="/ai_logo.svg" alt="Pranny" className="w-32 h-32 sm:w-48 sm:h-48 mb-4" />
+                    <Paragraph className="font-semibold text-center mb-10">
+                        An AI assistant programmed to help you stay alert with natural disasters.
+                    </Paragraph>
+                    <div className="w-full max-w-3xl">
                         <form 
-                            onSubmit={(e) => e.preventDefault()}
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                if (message.trim() === "" || message.length > 500) {
+                                    alert("Please enter a message within the parameters (max 500 characters).");
+                                    return;
+                                }
+                                promptAI(message);
+                                setMessage("");
+                            }}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3
                                         shadow-lg shadow-box-shadow border border-box-border
-                                        bg-box-bg rounded-full ease-linear focus-within:bg-body
-                                        focus-within:border-primary"
+                                        bg-box-bg rounded-full transition-all duration-200
+                                        focus-within:bg-body focus-within:border-primary"
                         >
                             <input
                                 type="text"
@@ -82,19 +92,11 @@ export default function AI() {
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
-                                className="w-full py-3 outline-none bg-transparent" />
+                                className="w-full py-3 outline-none bg-transparent" 
+                            />
                             <Button 
-                                type="button" 
+                                type="submit"
                                 className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    if (message.trim() == "" || message.length > 500) {
-                                        alert("Please enter a message.");
-                                        return;
-                                    }
-                                    promptAI(message);
-                                    setMessage("");
-                                }}
                             >
                                 <span className="relative z-[5]">Ask Pranny</span>
                             </Button>
@@ -102,6 +104,6 @@ export default function AI() {
                     </div>
                 </div>
             </Container>
-        </Layout>
+        </SidebarLayout>
     );
 }

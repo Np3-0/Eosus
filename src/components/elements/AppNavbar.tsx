@@ -13,9 +13,10 @@ interface AppNavbarProps {
     img: string;
     name: string;
     email: string;
+    sidebarOpen?: boolean;
 }
 
-export default function AppNavbar({ img, name, email }: AppNavbarProps) {
+export default function AppNavbar({ img, name, email, sidebarOpen = false }: AppNavbarProps) {
     const { toggleTheme, theme } = useThemeStore();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,7 +27,8 @@ export default function AppNavbar({ img, name, email }: AppNavbarProps) {
             <Container>
                 <nav className="w-full flex justify-between items-center relative">
                     {/* Logo and title */}
-                    <div className="min-w-max inline-flex relative">
+                    
+                    <div className={`min-w-max inline-flex relative ${sidebarOpen ? 'ml-0 md:ml-72' : ''}`}>
                         <a className="relative flex items-center gap-3">
                             <img src="/eosus_logo.svg" alt="Eosus Logo" className="w-10 h-10"/>
                             <div className="inline-flex text-lg font-semibold text-heading-1">Eosus</div>
