@@ -63,15 +63,15 @@ export default function AI() {
 
     return (
         <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name}>
-            <Container className="min-h-screen flex flex-col justify-center items-center sm:ml-64 px-4">
+            <Container className="min-h-screen flex flex-col justify-center items-center px-4">
                 <div className="flex flex-col items-center max-w-4xl w-full">
                     <Title>Meet Pranny</Title>
                     <img src="/ai_logo.svg" alt="Pranny" className="w-32 h-32 sm:w-48 sm:h-48 mb-4" />
                     <Paragraph className="font-semibold text-center mb-10">
                         An AI assistant programmed to help you stay alert with natural disasters.
                     </Paragraph>
-                    <div className="w-full max-w-3xl">
-                        <form 
+                    <div className="w-full max-w-3xl text-heading-1">
+                        <form
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 if (message.trim() === "" || message.length > 500) {
@@ -81,7 +81,7 @@ export default function AI() {
                                 promptAI(message);
                                 setMessage("");
                             }}
-                            className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-3
+                            className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                                         shadow-lg shadow-box-shadow border border-box-border
                                         bg-box-bg rounded-full transition-all duration-200
                                         focus-within:bg-body focus-within:border-primary"
@@ -92,9 +92,9 @@ export default function AI() {
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
-                                className="w-full py-3 outline-none bg-transparent" 
+                                className="w-full py-3 outline-none bg-transparent text-gray-500"
                             />
-                            <Button 
+                            <Button
                                 type="submit"
                                 className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]"
                             >
