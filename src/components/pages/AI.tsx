@@ -9,7 +9,8 @@ import { doc, getDoc } from "firebase/firestore";
 import checkUserStatus from "../../utils/checkUserStatus";
 import Paragraph from "../shared/Paragraph";
 import Button from "../shared/Button";
-import promptAI from "../../utils/promptAI";
+import promptAI from "../../utils/ai/promptAI";
+import saveAIChat from "../../utils/ai/saveAIChat";
 import SidebarLayout from "../sidebarLayout";
 
 export default function AI() {
@@ -72,14 +73,16 @@ export default function AI() {
                     </Paragraph>
                     <div className="w-full max-w-3xl text-heading-1">
                         <form
-                            onSubmit={(e) => {
+                            onSubmit={async (e) => {
                                 e.preventDefault();
                                 if (message.trim() === "" || message.length > 500) {
                                     alert("Please enter a message within the parameters (max 500 characters).");
                                     return;
                                 }
-                                promptAI(message);
+                                const response = await promptAI(message);
+                                await saveAIChat(message, response);
                                 setMessage("");
+                                window.location.reload();
                             }}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                                         shadow-lg shadow-box-shadow border border-box-border

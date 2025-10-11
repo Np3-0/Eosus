@@ -1,14 +1,39 @@
+import {auth} from "../../config/firebase.ts";
+import { useNavigate } from "react-router-dom";
 import {useState, useEffect} from "react";
-import getAIChats from "../../utils/getAIChats";
+import getAIChats from "../../utils/ai/getAIChats.ts";
+import { onAuthStateChanged } from "firebase/auth";
+import type { User } from "firebase/auth";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
 
 export default function Sidebar() {
-
+    const navigate = useNavigate();
     const [chats, setChats] = useState<Array<{ id: string; message: string }>>([]);
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+            const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+                setUser(firebaseUser);
+                if (firebaseUser) {
+                    checkUserStatus(navigate);
+                } else {
+                    navigate("/signup");
+                }
+            });
+            return () => unsubscribe();
+        }, [navigate]);
 
     useEffect(() => {
         const fetchChats = async () => {
+            if (!user) return;
             const fetchedChats = await getAIChats();
-            setChats(fetchedChats ?? []);
+            console.log("Fetched chats:", fetchedChats);
+            setChats(
+                (fetchedChats ?? []).map((chat: { id: string; message?: string }) => ({
+                    id: chat.id,
+                    message: chat.message ?? ""
+                }))
+            );
         };
         fetchChats();
     }, []);
