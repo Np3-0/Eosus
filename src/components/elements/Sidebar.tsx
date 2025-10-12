@@ -6,9 +6,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import type { User } from "firebase/auth";
 import checkUserStatus from "../../utils/checkUserStatus.ts";
 
-export default function Sidebar() {
+interface SidebarProps{
+    data: Array<{ id: string; messages: Array<string> }>;
+}
+
+export default function Sidebar({ data }: SidebarProps) {
     const navigate = useNavigate();
-    const [chats, setChats] = useState<Array<{ id: string; message: string }>>([]);
+    
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
@@ -28,15 +32,10 @@ export default function Sidebar() {
             if (!user) return;
             const fetchedChats = await getAIChats();
             console.log("Fetched chats:", fetchedChats);
-            setChats(
-                (fetchedChats ?? []).map((chat: { id: string; message?: string }) => ({
-                    id: chat.id,
-                    message: chat.message ?? ""
-                }))
-            );
+            
         };
         fetchChats();
-    }, []);
+    }, [user]);
 
     return (
         <div className="w-64 bg-box-bg shadow-xl fixed h-full px-4 py-2 hidden lg:block">
@@ -48,14 +47,22 @@ export default function Sidebar() {
             </div>
             <hr className="text-heading-1 mb-3" />
             <ul className="mt-3">
-                {chats.length === 0 ? (
+                {data.length === 0 ? (
                     <li className="mb-2 rounded-full text-heading-1 px-6 py-3 ">
                         <a href="/#" className="font-semibold">No chats found.</a>
                     </li>
                 ) : (
-                    <li className="mb-2 rounded-full hover:bg-platinum text-heading-1 hover:text-cordovan cursor-pointer px-6 py-3 transition-colors duration-300">
-                        <a href="/#" className="font-semibold">Menu Item 1</a>
-                    </li>
+                    data.map((item) => (
+                        <li 
+                            key={item.id} 
+                            className="mb-2 rounded-full text-heading-1 px-6 py-3 cursor-pointer hover:bg-cordovan hover:scale-[1.05] transform transition duration-300"
+                            onClick={() => navigate(`/ai/${item.id}`)}
+                        >
+                            <a className="font-semibold">
+                                {item.messages[0].length > 30 ? item.messages[0].substring(0, 30) + "..." : item.messages[0]}
+                            </a>
+                        </li>
+                    ))
                 )}
                 
             </ul>

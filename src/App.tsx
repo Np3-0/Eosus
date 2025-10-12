@@ -8,7 +8,8 @@ import CompleteProfile from "./components/pages/CompleteProfile";
 import PrivacyInfo from "./components/pages/PrivacyInfo";
 import Create from "./components/pages/Create";
 import Map from "./components/pages/Map";
-import AI from "./components/pages/AI";
+import AILanding from "./components/pages/AILanding";
+import AIChat from "./components/pages/AIChat";
 
 export default function App() {
   return (
@@ -21,7 +22,8 @@ export default function App() {
         <Route path="/create" element={<Create />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/map" element={<Map />} />
-        <Route path="/ai" element={<AI />} />
+        <Route path="/ai" element={<AILanding />} />
+        <Route path="/ai/:chatId" element={<AIChat />} />
 
         {/* Misc paths */}
         <Route path="/privacy-info" element={<PrivacyInfo />} />

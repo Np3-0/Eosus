@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Container from "../shared/Container";
 import Title from "../shared/Title";
@@ -11,12 +11,14 @@ import Paragraph from "../shared/Paragraph";
 import Button from "../shared/Button";
 import promptAI from "../../utils/ai/promptAI";
 import saveAIChat from "../../utils/ai/saveAIChat";
-import SidebarLayout from "../sidebarLayout";
+import SidebarLayout from "../SidebarLayout";
+import getAIChats from "../../utils/ai/getAIChats";
 
-export default function AI() {
+export default function AILanding() {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [message, setMessage] = useState<string>("");
+    const [chats, setChats] = useState<Array<{ id: string; messages: Array<string> }>>([]);
     const [userObj, setUserObj] = useState<{
         name: string;
         img: string;
@@ -30,6 +32,11 @@ export default function AI() {
         privacy: false,
         location: null,
     });
+
+    const getChats = async () => {
+        const chats = await getAIChats();
+        return chats;
+    };
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -59,11 +66,23 @@ export default function AI() {
                     });
             }
         };
+
+        const fetchChats = async () => {
+            const fetchedChats = await getChats();
+            setChats(
+                (fetchedChats ?? []).map((chat: { id: string; messages?: Array<string> }) => ({
+                    id: chat.id,
+                    messages: chat.messages ?? []
+                }))
+            );
+        };
+
         fetchUserData();
+        fetchChats();
     }, [user]);
 
     return (
-        <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name}>
+        <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name} sidebarData={chats}>
             <Container className="min-h-screen flex flex-col justify-center items-center px-4">
                 <div className="flex flex-col items-center max-w-4xl w-full">
                     <Title>Meet Pranny</Title>
@@ -81,8 +100,16 @@ export default function AI() {
                                 }
                                 const response = await promptAI(message);
                                 await saveAIChat(message, response);
+                                const fetchedChats = await getChats();
+                                setChats(
+                                    (fetchedChats ?? []).map((chat: { id: string; messages?: Array<string> }) => ({
+                                        id: chat.id,
+                                        messages: chat.messages ?? []
+                                    }))
+                                );
+                                const chatId = fetchedChats?.[fetchedChats.length - 1];
+                                navigate(`/ai/${chatId}`);
                                 setMessage("");
-                                window.location.reload();
                             }}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                                         shadow-lg shadow-box-shadow border border-box-border
@@ -95,7 +122,7 @@ export default function AI() {
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
-                                className="w-full py-3 outline-none bg-transparent text-gray-500"
+                                className="text-heading-3 w-full py-3 outline-none bg-transparent"
                             />
                             <Button
                                 type="submit"

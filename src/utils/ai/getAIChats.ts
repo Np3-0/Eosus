@@ -1,15 +1,15 @@
 import { auth, db } from "../../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export default async function getAIChats() {
-
-    if (auth.currentUser) {
-        const chatsRef = collection(db, "chats");
-        const snapshot = await getDocs(chatsRef);
-        const chats = snapshot.docs.map(doc => {
-            const data = doc.data();
-            return { id: doc.id, ...data };
-        });
-        return chats;
+    if (!auth.currentUser) {
+        alert("User not authenticated");
+        return;
     }
-};
+    const chatsRef = collection(db, "chats");
+    const q = query(chatsRef, where("uid", "==", auth.currentUser.uid));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+}
+
