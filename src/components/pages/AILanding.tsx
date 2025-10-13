@@ -13,10 +13,12 @@ import promptAI from "../../utils/ai/promptAI";
 import saveAIChat from "../../utils/ai/saveAIChat";
 import SidebarLayout from "../SidebarLayout";
 import getAIChats from "../../utils/ai/getAIChats";
+import AILoadingAnim from "../shared/AILoadingAnim";
 
 export default function AILanding() {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
+    const [isMessageLoading, setIsMessageLoading] = useState<boolean>(false);
     const [message, setMessage] = useState<string>("");
     const [chats, setChats] = useState<Array<{ id: string; messages: Array<string> }>>([]);
     const [userObj, setUserObj] = useState<{
@@ -90,7 +92,8 @@ export default function AILanding() {
                     <Paragraph className="font-semibold text-center mb-10">
                         An AI assistant programmed to help you stay alert with natural disasters.
                     </Paragraph>
-                    <div className="w-full max-w-3xl text-heading-1">
+                    
+                    <div className="w-full max-w-3xl text-heading-1 mt-12">
                         <form
                             onSubmit={async (e) => {
                                 e.preventDefault();
@@ -98,7 +101,8 @@ export default function AILanding() {
                                     alert("Please enter a message within the parameters (max 500 characters).");
                                     return;
                                 }
-                                const response = await promptAI(message);
+                                setIsMessageLoading(true);
+                                const response = await promptAI([message]);
                                 await saveAIChat(message, response);
                                 const fetchedChats = await getChats();
                                 setChats(
@@ -108,8 +112,14 @@ export default function AILanding() {
                                     }))
                                 );
                                 const chatId = fetchedChats?.[fetchedChats.length - 1];
-                                navigate(`/ai/${chatId}`);
+                                if (!chatId) {
+                                    setIsMessageLoading(false);
+                                    return;
+                                }
+                                navigate(`/ai/${chatId.id}`);
                                 setMessage("");
+                                setIsMessageLoading(false);
+                                
                             }}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                                         shadow-lg shadow-box-shadow border border-box-border
@@ -131,6 +141,9 @@ export default function AILanding() {
                                 <span className="relative z-[5]">Ask Pranny</span>
                             </Button>
                         </form>
+                    </div>
+                    <div className="mt-6">
+                        {isMessageLoading && <AILoadingAnim />}
                     </div>
                 </div>
             </Container>

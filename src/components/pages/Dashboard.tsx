@@ -73,7 +73,7 @@ export default function Dashboard() {
     return (
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="min-h-screen">
-            <div className="mt-24 flex flex-col items-center justify-baseline">
+            <div className="mt-12 flex flex-col items-center justify-baseline">
                 <FilterDropDown 
                     items={["Recent", "Location", "Liked"]} 
                     className="self-start mt-12 " 

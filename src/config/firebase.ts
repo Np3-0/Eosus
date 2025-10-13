@@ -39,4 +39,4 @@ const generationConfig = {
 }
 
 export const ai = getAI(app, { backend: new GoogleAIBackend() });
-export const model = getGenerativeModel(ai, { model: "gemini-2.5-flash", ...generationConfig });
+export const model = getGenerativeModel(ai, { model: "gemini-2.5-flash-lite", ...generationConfig });

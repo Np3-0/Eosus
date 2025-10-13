@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import { useNavigate } from "react-router-dom";
 import CrossIconSVG from "../../assets/CrossIconSVG";
 import IconButton from "./IconButton";
 import selectOption from "../../utils/posts/selectOption";
@@ -17,7 +18,8 @@ interface PostOptionsModalProps {
 
 export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author, postId }: PostOptionsModalProps) {
     const [position, setPosition] = useState<{top: number, left: number}>({ top: 0, left: 0 });
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         if (isOpen && anchorRef?.current) {
             const rect = anchorRef.current.getBoundingClientRect();
@@ -62,7 +64,7 @@ export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, ty
                                     alert("Action failed. Please try to log in again.");
                                     return;
                                 }
-                                selectOption(item, type, id, author, postId);
+                                selectOption(item, type, id, author, postId, navigate);
                             }}
                         >
                             <label 

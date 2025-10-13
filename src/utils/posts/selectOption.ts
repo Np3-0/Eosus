@@ -1,10 +1,44 @@
-import {auth, db} from "../../config/firebase.ts";
+import { auth, db } from "../../config/firebase.ts";
 import { getDoc, deleteDoc, doc } from "firebase/firestore";
+import promptAI from "../ai/promptAI.ts";
+import saveAIChat from "../ai/saveAIChat.ts";
+import getChats from "../ai/getAIChats.ts";
 
-export default async function selectOption(option: string, type: string, id: string, author: string, postId?: string) {
+export default async function selectOption(option: string, type: string, id: string, author: string, postId?: string, navigate?: (path: string) => void) {
     if (!auth.currentUser) {
         alert("You must be logged in to perform this action.");
         return;
+    }
+
+    if (option == "Send to AI") {
+        if (type !== "post") {
+            alert("This action can only be performed on posts.");
+            return;
+        }
+        const postDoc = await getDoc(doc(db, "posts", id));
+        const postData = postDoc.data();
+        if (!postData) {
+            alert("Post not found or has been deleted.");
+            return;
+        }
+        const data = {
+            title: postData.title,
+            content: postData.content,
+            latitude: postData.latitude,
+            longitude: postData.longitude,
+            townName: postData.townName,
+            type: postData.type,
+            subType: postData.subType,
+        }
+        const message = "Analyze the following post and provide a short summary of its content. Also, give important information on risks, and next steps to take. Post data: " + JSON.stringify(data);
+        const response = await promptAI([message]);
+        await saveAIChat(message, response);
+        const fetchedChats = await getChats();
+        const chatId = fetchedChats?.[fetchedChats.length - 1];
+        if (!chatId) {
+            return;
+        }
+        navigate(`/ai/${chatId.id}`);
     }
 
     if (option == "Delete") {
@@ -25,7 +59,7 @@ export default async function selectOption(option: string, type: string, id: str
                 return;
             }
             await deleteDoc(doc(db, "posts", id));
-            
+
         } else if (type === "comment") {
             if (!postId) {
                 alert("Action failed. Please try to log in again.");

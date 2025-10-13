@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Markdown from 'react-markdown'
 import type { User } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../config/firebase";
@@ -12,11 +13,14 @@ import Button from "../shared/Button";
 import promptAI from "../../utils/ai/promptAI";
 import saveAIChat from "../../utils/ai/saveAIChat";
 import getCurrentChat from "../../utils/ai/getCurrentChat";
+import AILoadingAnim from "../shared/AILoadingAnim";
 
 
 export default function AIChat() {
     const navigate = useNavigate();
     const { chatId } = useParams();
+    const lastMessageRef = useRef<HTMLDivElement>(null);
+    const [isMessageLoading, setIsMessageLoading] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
     const [message, setMessage] = useState<string>("");
     const [chat, setChat] = useState<Array<{ id: string; messages: Array<string> }>>([]);
@@ -84,26 +88,38 @@ export default function AIChat() {
         fetchChats();
     }, [user, chatId]);
 
+    useEffect(() => {
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [chat]);
 
     return (
         <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name} sidebarData={chats}>
-            <Container className="min-h-screen flex flex-col items-center px-4">
+            <Container className="min-h-screen flex flex-col items-center px-4 py-8">
                 <div className="flex flex-col w-full gap-y-6 mt-32 flex-1">
                     {chat[0]?.messages &&
-                        chat[0].messages.map((msg, index) => (
-                            <div
-                                key={index}
-                                className={`bg-box-bg shadow-xl mt-4 text-center text-lg text-heading-2 px-6 py-4 rounded-xl ${index % 2 === 0 ? "self-end" : "self-start"}`}
-                            >
-                                <img src={index % 2 === 0 ? userObj.img : "/ai_logo.svg"} alt="icon" className={`relative top-0 left-0 mr-2 mb-1 ${index % 2 === 0 ? "w-8 h-8" : "w-10 h-10"}`} />
-                                <p className="font-semibold mt-4">
-                                    {msg}
-                                </p>
-                            </div>
-                        ))
+                        chat[0].messages.map((msg, index) => {
+                            const isLast = index === chat[0].messages.length - 1;
+                            return (
+                                <div
+                                    key={index}
+                                    ref={isLast ? lastMessageRef : undefined}
+                                    className={`bg-box-bg shadow-xl mt-4 text-lg text-heading-2 px-6 py-4 rounded-xl ${index % 2 === 0 ? "self-end" : "self-start"}`}
+                                >
+                                    <img src={index % 2 === 0 ? userObj.img : "/ai_logo.svg"} alt="icon" className={`relative top-0 left-0 mr-2 mb-1 ${index % 2 === 0 ? "w-8 h-8" : "w-10 h-10"}`} />
+                                    <div className="mt-4 mx-4 leading-loose">
+                                        <Markdown>{msg}</Markdown>
+                                    </div>
+                                </div>
+                            );
+                        })
                     }
+                    {isMessageLoading && (
+                        <AILoadingAnim />
+                    )}
                 </div>
-                <div className="w-full max-w-3xl text-heading-1 flex mb-8">
+                <div className="w-full max-w-3xl text-heading-1 flex my-12">
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();
@@ -111,9 +127,17 @@ export default function AIChat() {
                                 alert("Please enter a message within the parameters (max 500 characters).");
                                 return;
                             }
-                            const response = await promptAI(message);
+                            setIsMessageLoading(true);
+                            const prevMessages = chat[0]?.messages ?? [];
+                            const updatedMessages = [...prevMessages, message];
+
+                            let response = await promptAI(updatedMessages);
+                            if (response.slice(0, 3) === "AI:") {
+                                response = response.slice(3).trim();
+                            }
+
                             await saveAIChat(message, response, chat[0].id);
-                            
+
                             const fetchedChat = await getCurrentChat(chat[0]?.id);
                             setChat(
                                 (Array.isArray(fetchedChat) ? fetchedChat : []).map((chat: { id: string; messages?: Array<string> }) => ({
@@ -122,6 +146,7 @@ export default function AIChat() {
                                 }))
                             );
                             setMessage("");
+                            setIsMessageLoading(false);
                         }}
                         className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                             shadow-lg shadow-box-shadow border border-box-border
