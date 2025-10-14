@@ -38,7 +38,9 @@ export default async function selectOption(option: string, type: string, id: str
         if (!chatId) {
             return;
         }
-        navigate(`/ai/${chatId.id}`);
+        if (navigate) {
+            navigate(`/ai/${chatId.id}`);
+        }
     }
 
     if (option == "Delete") {

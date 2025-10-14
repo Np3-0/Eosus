@@ -10,6 +10,7 @@ import Create from "./components/pages/Create";
 import Map from "./components/pages/Map";
 import AILanding from "./components/pages/AILanding";
 import AIChat from "./components/pages/AIChat";
+import Profile from "./components/pages/Profile";
 
 export default function App() {
   return (
@@ -24,7 +25,7 @@ export default function App() {
         <Route path="/map" element={<Map />} />
         <Route path="/ai" element={<AILanding />} />
         <Route path="/ai/:chatId" element={<AIChat />} />
-
+        <Route path="/profile" element={<Profile />} />
         {/* Misc paths */}
         <Route path="/privacy-info" element={<PrivacyInfo />} />
         <Route path="*" element={<NotFound />} />

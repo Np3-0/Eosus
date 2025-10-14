@@ -48,16 +48,13 @@ export default function CompleteProfile() {
                         ...prev,
                         email: firebaseUser.email ?? "",
                         name: firebaseUser.displayName ?? "User",
-                    }));
-                    // If user already has a photo URL, fetch and convert to File
-                    
+                    }));                    
                 }
             }
         });
         return () => checkStatus();
     }, [navigate]);
 
-    console.log(userData);
     return (
         <section className="relative flex justify-center pt-32 lg:pt-36">
             <Container className="flex flex-col items-center justify-center w-full">

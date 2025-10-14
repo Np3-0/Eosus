@@ -12,7 +12,7 @@ export default async function getPosts(type: string) {
     const postsRef = collection(db, "posts");
     const snapshot = await getDocs(postsRef);
     const posts = snapshot.docs.map(doc => {
-         const data = doc.data() as { latitude?: number; longitude?: number; [key: string]: any };
+        const data = doc.data() as { latitude?: number; longitude?: number; author?: string; [key: string]: any };
         return { id: doc.id, ...data };
     });
 
@@ -48,5 +48,8 @@ export default async function getPosts(type: string) {
         const userLikeSnapshot = await getDocs(userLikeDoc);
         const likedPostIds = userLikeSnapshot.docs.map(doc => doc.id);
         return posts.filter(post => likedPostIds.includes(post.id)).reverse();
+    } else if (type === "own") {
+        console.log(uid, posts);
+        return posts.filter(post => post.author === uid).reverse();
     }
 };
