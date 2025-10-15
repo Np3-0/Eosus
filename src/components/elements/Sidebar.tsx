@@ -38,7 +38,7 @@ export default function Sidebar({ data }: SidebarProps) {
     }, [user]);
 
     return (
-        <div className="w-64 bg-box-bg shadow-xl fixed h-full px-4 py-2 hidden lg:block">
+        <div className="w-64 bg-box-bg shadow-xl fixed h-full px-4 py-2 hidden lg:block overflow-y-auto">
             <div className="min-w-max inline-flex mb-4 pt-4">
                 <a className="relative flex items-center gap-3">
                     <img src="/eosus_logo.svg" alt="Eosus Logo" className="w-10 h-10" />

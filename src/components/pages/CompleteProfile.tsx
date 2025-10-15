@@ -48,7 +48,7 @@ export default function CompleteProfile() {
                         ...prev,
                         email: firebaseUser.email ?? "",
                         name: firebaseUser.displayName ?? "User",
-                    }));                    
+                    }));
                 }
             }
         });
@@ -100,33 +100,32 @@ export default function CompleteProfile() {
                                     </Button>
                                 </div>
                             </div>
-                            
-                        
+
                             <div className="gap-y-2">
                                 <label className="text-heading-2">Profile Visibility</label>
-                                <p 
+                                <p
                                     className="text-gray-500 text-sm md:text-base lg:text-lg mb-4"
                                 >
                                     Not sure? Check out our <a className="underline hover:text-cordovan transition duration-300" href="/privacy-info" target="_blank">Privacy Policy</a>
                                 </p>
-                                <RadioInput items ={["Public", "Private"]} clickFunction={(e) => setUserData(e)}/>
+                                <RadioInput items={["Public", "Private"]} clickFunction={(e) => setUserData(e)} />
                             </div>
-                            { /* Submit button to save profile data */ }
+                            { /* Submit button to save profile data */}
 
                             <Button onClick={async (e) => {
-                            e.preventDefault();
-                            try {
-                                if (user) {
-                                    await updateProfile(userData);
-                                    checkUserStatus(navigate);
+                                e.preventDefault();
+                                try {
+                                    if (user) {
+                                        await updateProfile(userData);
+                                        checkUserStatus(navigate);
+                                    }
+                                } catch (err) {
+                                    console.error("Error updating profile:", err);
+                                    alert("There was an error updating your profile. Please try again.");
                                 }
-                            } catch (err) {
-                                console.error("Error updating profile:", err);
-                                alert("There was an error updating your profile. Please try again.");
-                            }
-                        }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
-                            Complete Profile
-                        </Button>
+                            }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
+                                Complete Profile
+                            </Button>
                         </div>
                     </form>
                 </div>

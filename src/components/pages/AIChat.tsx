@@ -97,7 +97,7 @@ export default function AIChat() {
     return (
         <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name} sidebarData={chats}>
             <Container className="min-h-screen flex flex-col items-center px-4 py-8">
-                <div className="flex flex-col w-full gap-y-6 mt-32 flex-1">
+                <div className="flex flex-col w-full gap-y-6 mt-32 flex-1 sm:mt-36 max-w-3xl">
                     {chat[0]?.messages &&
                         chat[0].messages.map((msg, index) => {
                             const isLast = index === chat[0].messages.length - 1;
@@ -125,6 +125,8 @@ export default function AIChat() {
                             e.preventDefault();
                             if (message.trim() === "" || message.length > 500) {
                                 alert("Please enter a message within the parameters (max 500 characters).");
+                                return;
+                            } else if (isMessageLoading) {
                                 return;
                             }
                             setIsMessageLoading(true);

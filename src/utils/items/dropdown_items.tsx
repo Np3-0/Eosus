@@ -9,7 +9,7 @@ export const dropdownItems = [
     },
     {
         text: "Settings",
-        href: "profile/settings"
+        href: "/profile#settings"
     },
     
 ]

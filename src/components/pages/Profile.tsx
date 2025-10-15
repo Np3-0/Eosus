@@ -10,6 +10,9 @@ import checkUserStatus from "../../utils/checkUserStatus";
 import getPosts from "../../utils/posts/getPosts";
 import Title from "../shared/Title";
 import Post from "../shared/Post";
+import InputGroup from "../shared/InputGroup";
+import LocationInput from "../shared/LocationInput";
+import Button from "../shared/Button";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -64,13 +67,12 @@ export default function Profile() {
     }, [user]);
 
     return (
-        console.log(posts),
         <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
             <Container className="min-h-screen">
                 <div className="mt-36 w-full">
                     <Title className="text-center"><span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange">Hi, {userObj.name}</span></Title>
                     <Title className="mt-12">Your Posts</Title>
-                    <div className="mt-12 grid lg:grid-cols-2 lg:gap-x-4 items-center justify-baseline">
+                    <div className="mt-12 grid lg:grid-cols-2 lg:gap-x-4 items-center justify-baseline" id="posts">
                         {posts.length > 0 && posts.map((post: any) => (
                             <Post
                                 key={post.id}
@@ -86,6 +88,31 @@ export default function Profile() {
                                 timestamp={post.timestamp}
                             />
                         ))}
+                    </div>
+                </div>
+                <div className="my-12" id="settings">
+                    <Title className="mt-12 text-left">Your Settings</Title>
+                    <div className="flex flex-col justify-center items-center mt-12 p-5 sm:p-6 w-full max-w-4xl mx-auto rounded-3xl bg-box-bg shadow-lg shadow-box-shadow">
+                        <form className="w-full text-heading-2">
+                            <div className="flex flex-col justify-center gap-y-6 w-full max-w-2xl mx-auto text-heading-2 text-2xl font-semibold">
+                                <InputGroup name="email" type="email" value={userObj.email} required={true} disabled={true} onChange={(e) => setUserObj({ ...userObj, email: e.target.value })} />
+                                <InputGroup name="name" value={userObj.name} required={true} onChange={(e) => setUserObj({ ...userObj, name: e.target.value })} />
+                                <LocationInput value={userObj.location || ""} onChange={(e) => setUserObj({ ...userObj, location: e.target.value })} />
+                                <Button onClick={async (e) => {
+                                    e.preventDefault();
+                                    try {
+                                        if (user) {
+                                            console.log("I NEED TO FINISH THIS");
+                                        }
+                                    } catch (err) {
+                                        console.error("Error updating profile:", err);
+                                        alert("There was an error updating your profile. Please try again.");
+                                    }
+                                }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
+                                    Update Profile
+                                </Button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </Container>

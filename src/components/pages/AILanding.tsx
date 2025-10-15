@@ -100,6 +100,8 @@ export default function AILanding() {
                                 if (message.trim() === "" || message.length > 500) {
                                     alert("Please enter a message within the parameters (max 500 characters).");
                                     return;
+                                } else if (isMessageLoading) {
+                                    return;
                                 }
                                 setIsMessageLoading(true);
                                 const response = await promptAI([message]);
