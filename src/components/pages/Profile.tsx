@@ -13,6 +13,8 @@ import Post from "../shared/Post";
 import InputGroup from "../shared/InputGroup";
 import LocationInput from "../shared/LocationInput";
 import Button from "../shared/Button";
+import updateProfile from "../../utils/updateProfile";
+import changeUserName from "../../utils/changeUserName";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -102,7 +104,15 @@ export default function Profile() {
                                     e.preventDefault();
                                     try {
                                         if (user) {
-                                            console.log("I NEED TO FINISH THIS");
+                                        //    await updateProfile({
+                                          //      email: userObj.email,
+                                         //       name: userObj.name,
+                                          //      location: userObj.location ?? "N/A",
+                                           //     privacy: userObj.privacy,
+                                            //    img: userObj.img
+                                            //});
+                                            changeUserName(userObj.name);
+                                            alert("Profile updated successfully!");
                                         }
                                     } catch (err) {
                                         console.error("Error updating profile:", err);

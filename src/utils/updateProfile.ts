@@ -7,17 +7,23 @@ interface userData {
     name: string;
     location: string | "N/A";
     privacy: boolean;
+    img?: string;
 }
 
-export default async function updateProfile({ email, name, location, privacy } : userData) {
+export default async function updateProfile({ email, name, location, privacy, img } : userData) {
     const userUid = auth.currentUser?.uid;
     if (!userUid) {
         throw new Error("User is not authenticated");
     }
-     
-    const randomNum = Math.floor(Math.random() * (16 - 1) + 1);
-    const imgPath = `avatars/icon_${randomNum}.svg`;
-    const imgURL = await fetchDownloadURL(imgPath);
+    
+    let imgURL = "";
+    if (!img || img === "") {
+        const randomNum = Math.floor(Math.random() * (16 - 1) + 1);
+        const imgPath = `avatars/icon_${randomNum}.svg`;
+        imgURL = await fetchDownloadURL(imgPath);
+    } else {
+        imgURL = img;
+    }
 
     const userDoc = doc(db, "users", userUid);
     const data = {
@@ -28,6 +34,5 @@ export default async function updateProfile({ email, name, location, privacy } :
         privacy: privacy,
         uid: userUid,
     };
-
     await setDoc(userDoc, data, { merge: true });
 };
