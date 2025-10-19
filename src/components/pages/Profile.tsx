@@ -14,7 +14,8 @@ import InputGroup from "../shared/InputGroup";
 import LocationInput from "../shared/LocationInput";
 import Button from "../shared/Button";
 import updateProfile from "../../utils/updateProfile";
-import changeUserName from "../../utils/changeUserName";
+import Paragraph from "../shared/Paragraph";
+import deleteProfile from "../../utils/deleteProfile";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -104,15 +105,15 @@ export default function Profile() {
                                     e.preventDefault();
                                     try {
                                         if (user) {
-                                        //    await updateProfile({
-                                          //      email: userObj.email,
-                                         //       name: userObj.name,
-                                          //      location: userObj.location ?? "N/A",
-                                           //     privacy: userObj.privacy,
-                                            //    img: userObj.img
-                                            //});
-                                            changeUserName(userObj.name);
+                                            await updateProfile({
+                                                email: userObj.email,
+                                                name: userObj.name,
+                                                location: userObj.location ?? "N/A",
+                                                privacy: userObj.privacy,
+                                                img: userObj.img
+                                            });
                                             alert("Profile updated successfully!");
+                                            navigate(0);
                                         }
                                     } catch (err) {
                                         console.error("Error updating profile:", err);
@@ -123,6 +124,25 @@ export default function Profile() {
                                 </Button>
                             </div>
                         </form>
+                    </div>
+                    <Title className="mt-18">Delete Account</Title>
+                    <Paragraph className="mt-4">
+                        Clicking this button will delete all saved data from your account, including location, posts, comments, and AI usage. This process is irreversible.
+                    </Paragraph>
+                    <div className="flex justify-center my-6">
+                        <Button 
+                            className="min-w-max text-white text-xl transform transition duration-300 hover:scale-[1.05] py-3 px-12 font-bold"
+                            onClick={async () => {
+                                const confirm = prompt("Are you sure you want to delete your account? Type 'DELETE' to confirm.");
+                                if (confirm !== 'DELETE') {
+                                    alert("Profile deletion cancelled.");
+                                    return;
+                                }
+                                deleteProfile(navigate);
+                            }}
+                        >
+                            Delete Account
+                        </Button>
                     </div>
                 </div>
             </Container>
