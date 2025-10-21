@@ -19,7 +19,7 @@ interface PostOptionsModalProps {
 export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author, postId }: PostOptionsModalProps) {
     const [position, setPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
     const navigate = useNavigate();
-
+    
     // positioning for the modal
     useEffect(() => {
         if (isOpen && anchorRef?.current) {

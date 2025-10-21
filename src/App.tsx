@@ -11,6 +11,7 @@ import Map from "./components/pages/Map.tsx";
 import AILanding from "./components/pages/AILanding.tsx";
 import AIChat from "./components/pages/AIChat.tsx";
 import Profile from "./components/pages/Profile.tsx";
+import AdminView from "./components/pages/AdminView.tsx";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/ai" element={<AILanding />} />
         <Route path="/ai/:chatId" element={<AIChat />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin" element={<AdminView />} />
         {/* Misc paths */}
         <Route path="/privacy-info" element={<PrivacyInfo />} />
         <Route path="*" element={<NotFound />} />

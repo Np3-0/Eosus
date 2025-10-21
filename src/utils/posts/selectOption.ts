@@ -10,7 +10,7 @@ export default async function selectOption(option: string, type: string, id: str
         alert("You must be logged in to perform this action.");
         return;
     }
-
+    
     // Handle "Send to AI" option
     if (option == "Send to AI") {
         if (type !== "post") {
@@ -85,5 +85,12 @@ export default async function selectOption(option: string, type: string, id: str
         // reload the page to reflect changes
         window.location.reload();
         return true;
+    }
+    
+    if (option == "Report") {
+        if (type == "post") {
+            const path = db + "/posts/" + id;
+            console.log(db);
+        }
     }
 }

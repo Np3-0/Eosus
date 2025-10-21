@@ -1,4 +1,4 @@
-import { services } from "../../utils/items/services_data.ts";
+import { services } from "../../utils/items/services_data.tsx";
 import Container from "../shared/Container.tsx";
 import Paragraph from "../shared/Paragraph.tsx";
 import Service from "../cards/Service.tsx";
