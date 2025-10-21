@@ -1,10 +1,10 @@
-import { useThemeStore } from "../../store/ThemeStore";
-import { navbarItems } from "../../utils/items/navbar_items";
-import BtnLink from "../shared/BtnLink";
-import Container from "../shared/Container";
-import NavItem from "../shared/NavItem";
-import MoonSVG from "../../assets/MoonSVG";
-import SunSVG from "../../assets/SunSVG";
+import { useThemeStore } from "../../store/ThemeStore.ts";
+import { navbarItems } from "../../utils/items/navbar_items.ts";
+import BtnLink from "../shared/BtnLink.tsx";
+import Container from "../shared/Container.tsx";
+import NavItem from "../shared/NavItem.tsx";
+import MoonSVG from "../../assets/MoonSVG.tsx";
+import SunSVG from "../../assets/SunSVG.tsx";
 
 export default function Navbar() {
     const { toggleTheme, theme } = useThemeStore();

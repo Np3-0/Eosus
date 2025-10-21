@@ -1,5 +1,5 @@
-import Container from "../shared/Container";
-import Title from "../shared/Title";
+import Container from "../shared/Container.tsx";
+import Title from "../shared/Title.tsx";
 
 const logos = ["EPA", "FEMA", "NASA", "NOAA", "NPS", "CDC", "USGS"];
 

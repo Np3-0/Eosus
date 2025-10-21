@@ -1,13 +1,16 @@
-import { auth, db } from "../../config/firebase";
-import { collection, getDocs, getDoc, doc } from "firebase/firestore";
-import { getCoords } from "../getLocation";
-import haversine from "../math/haversine";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore"
+import { auth, db } from "../../config/firebase.ts";
+import { getCoords } from "../getLocation.ts";
+import haversine from "../math/haversine.ts";
 
 export default async function getPosts(type: string) {
+    // Ensure user is authenticated
     if (!auth.currentUser) {
         alert("Authentication failed. Please log in again.");
         return;
     }
+
+    // gets the posts from firestore
     const uid = auth.currentUser.uid;
     const postsRef = collection(db, "posts");
     const snapshot = await getDocs(postsRef);
@@ -16,9 +19,11 @@ export default async function getPosts(type: string) {
         return { id: doc.id, ...data };
     });
 
+    // returns posts, with recent ones first.
     if (type === "recent") {
         return posts.reverse();
     } else if (type === "location") {
+        // returns posts based on where they are located, compared to the user
         const userDoc = await getDoc(doc(db, "users", uid));
         const userData = userDoc.data();
         if (!userData || !userData.location || userData.location === "N/A") {
@@ -44,12 +49,13 @@ export default async function getPosts(type: string) {
         return distances;
 
     } else if (type === "liked") {
+        // returns posts that the user has liked
         const userLikeDoc = collection(db, "users", uid, "likedPosts");
         const userLikeSnapshot = await getDocs(userLikeDoc);
         const likedPostIds = userLikeSnapshot.docs.map(doc => doc.id);
         return posts.filter(post => likedPostIds.includes(post.id)).reverse();
     } else if (type === "own") {
-        console.log(uid, posts);
+        // returns posts by user, mainly for profile page
         return posts.filter(post => post.author === uid).reverse();
     }
 };

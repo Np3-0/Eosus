@@ -1,8 +1,8 @@
-import LightningSVG from "../../assets/LightningSVG";
-import Info from "../cards/Info";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
-import Title from "../shared/Title";
+import LightningSVG from "../../assets/LightningSVG.tsx";
+import Info from "../cards/Info.tsx";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Title from "../shared/Title.tsx";
 
 export default function AboutUs() {
     return(

@@ -1,7 +1,6 @@
-import { auth, db } from "../../config/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import getPosts from "./getPosts";
-import { postItems } from "../items/post_items";
+import { auth } from "../../config/firebase.ts";
+import getPosts from "./getPosts.ts";
+import { postItems } from "../items/post_items.ts";
 
 export default async function getPostCoords() {
     type post = {
@@ -17,15 +16,18 @@ export default async function getPostCoords() {
         townName: string;
         image: string;
     }
-    
+
+    // Ensure user is authenticated
     if (!auth.currentUser) {
         alert("Authentication failed. Please log in again.");
         return;
     }
 
+    // gets the posts
     const posts = await getPosts("recent") as post[];
     if (!posts || posts.length === 0) return null;
 
+    // goes through posts, and records them
     const seenCoords: Record<string, number> = {};
 
     const modPosts = posts.map((post: post) => {
@@ -33,10 +35,12 @@ export default async function getPostCoords() {
         const count = seenCoords[key] || 0;
         seenCoords[key] = count + 1;
 
+        // offsets the coords slightly based on how many times we've seen them
         const offset = count * 0.005 * (Math.random() > 0.5 ? 1 : -1);
         const postItem = postItems.find(item => item.title === post.type);
         const postColor = postItem ? postItem.color : "gray";
 
+        // returns the modified post with adjusted coordinates
         return {
             id: post.id,
             title: post.title,

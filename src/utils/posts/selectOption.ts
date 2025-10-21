@@ -1,15 +1,17 @@
-import { auth, db } from "../../config/firebase.ts";
 import { getDoc, deleteDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase.ts";
 import promptAI from "../ai/promptAI.ts";
 import saveAIChat from "../ai/saveAIChat.ts";
 import getChats from "../ai/getAIChats.ts";
 
 export default async function selectOption(option: string, type: string, id: string, author: string, postId?: string, navigate?: (path: string) => void) {
+    // Ensure user is authenticated
     if (!auth.currentUser) {
         alert("You must be logged in to perform this action.");
         return;
     }
 
+    // Handle "Send to AI" option
     if (option == "Send to AI") {
         if (type !== "post") {
             alert("This action can only be performed on posts.");
@@ -30,6 +32,8 @@ export default async function selectOption(option: string, type: string, id: str
             type: postData.type,
             subType: postData.subType,
         }
+        
+        // sends post data to AI and saves the chat
         const message = "Analyze the following post and provide a short summary of its content. Also, give important information on risks, and next steps to take. Post data: " + JSON.stringify(data);
         const response = await promptAI([message]);
         await saveAIChat(message, response);
@@ -43,6 +47,7 @@ export default async function selectOption(option: string, type: string, id: str
         }
     }
 
+    // Handle "Delete" option
     if (option == "Delete") {
         if (author !== auth.currentUser.uid) {
             alert("You can only delete your own posts.");
@@ -77,6 +82,7 @@ export default async function selectOption(option: string, type: string, id: str
             await deleteDoc(doc(db, "posts", postId, "comments", fullID));
         }
 
+        // reload the page to reflect changes
         window.location.reload();
         return true;
     }

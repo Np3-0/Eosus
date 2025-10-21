@@ -1,17 +1,17 @@
 import { useState, useRef } from "react";
-import { postItems } from "../../utils/items/post_items";
-import likePost from "../../utils/posts/likePost";
-import commentPost from "../../utils/posts/commentPost";
-import IconButton from "./IconButton";
-import Paragraph from "./Paragraph";
-import Button from "./Button";
-import CommentIconSVG from "../../assets/CommentIconSVG";
-import LikeIconSVG from "../../assets/LikeIconSVG";
-import MoreIconSVG from "../../assets/MoreIconSVG";
-import getComments from "../../utils/posts/getComments";
 import type { DocumentData } from "firebase/firestore";
-import PostComment from "./PostComment";
-import PostOptionsModal from "./PostOptionsModal";
+import { postItems } from "../../utils/items/post_items.ts";
+import likePost from "../../utils/posts/likePost.ts";
+import commentPost from "../../utils/posts/commentPost.ts";
+import getComments from "../../utils/posts/getComments.ts";
+import IconButton from "./IconButton.tsx";
+import Paragraph from "./Paragraph.tsx";
+import Button from "./Button.tsx";
+import CommentIconSVG from "../../assets/CommentIconSVG.tsx";
+import LikeIconSVG from "../../assets/LikeIconSVG.tsx";
+import MoreIconSVG from "../../assets/MoreIconSVG.tsx";
+import PostComment from "./PostComment.tsx";
+import PostOptionsModal from "./PostOptionsModal.tsx";
 
 interface PostProps {
     title: string,

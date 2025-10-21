@@ -1,11 +1,15 @@
-import { auth, db } from "../../config/firebase.ts";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase.ts";
 
 export default async function likePost( postId: string, likeStatus: boolean ) {
-    if (!auth.currentUser) return;
+    // Ensure the user is authenticated
+    if (!auth.currentUser) {
+        alert("Authentication required to like posts.");
+        return;
+    }
 
-    const uid = auth.currentUser.uid;
-    const likeRef = doc(db, "users", uid, "likedPosts", postId);
+    // creates a reference to the like document, and saves or deletes it based on likeStatus
+    const likeRef = doc(db, "users", auth.currentUser.uid, "likedPosts", postId);
 
     if (!likeStatus) {
         await setDoc(likeRef, { title: postId });

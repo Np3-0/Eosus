@@ -1,16 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LandingPage from "./components/pages/LandingPage";
-import Signup from "./components/pages/Signup";
-import Dashboard from "./components/pages/Dashboard";
-import AuthController from "./components/pages/AuthController";
-import NotFound from "./components/pages/NotFound";
-import CompleteProfile from "./components/pages/CompleteProfile";
-import PrivacyInfo from "./components/pages/PrivacyInfo";
-import Create from "./components/pages/Create";
-import Map from "./components/pages/Map";
-import AILanding from "./components/pages/AILanding";
-import AIChat from "./components/pages/AIChat";
-import Profile from "./components/pages/Profile";
+import LandingPage from "./components/pages/LandingPage.tsx";
+import Signup from "./components/pages/Signup.tsx";
+import Dashboard from "./components/pages/Dashboard.tsx";
+import AuthController from "./components/pages/AuthController.tsx";
+import NotFound from "./components/pages/NotFound.tsx";
+import CompleteProfile from "./components/pages/CompleteProfile.tsx";
+import PrivacyInfo from "./components/pages/PrivacyInfo.tsx";
+import Create from "./components/pages/Create.tsx";
+import Map from "./components/pages/Map.tsx";
+import AILanding from "./components/pages/AILanding.tsx";
+import AIChat from "./components/pages/AIChat.tsx";
+import Profile from "./components/pages/Profile.tsx";
 
 export default function App() {
   return (

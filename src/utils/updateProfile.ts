@@ -1,6 +1,6 @@
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../config/firebase";
-import fetchDownloadURL from "./fetchDownloadURL";
+import { auth, db } from "../config/firebase.ts";
+import fetchDownloadURL from "./fetchDownloadURL.ts";
 
 interface userData {
     email: string;
@@ -11,11 +11,11 @@ interface userData {
 }
 
 export default async function updateProfile({ email, name, location, privacy, img } : userData) {
-    const userUid = auth.currentUser?.uid;
-    if (!userUid) {
+    if (!auth.currentUser) {
         throw new Error("User is not authenticated");
     }
     
+    // gets the random profile image URL, if not there already
     let imgURL = "";
     if (!img || img === "") {
         const randomNum = Math.floor(Math.random() * (16 - 1) + 1);
@@ -25,14 +25,15 @@ export default async function updateProfile({ email, name, location, privacy, im
         imgURL = img;
     }
 
-    const userDoc = doc(db, "users", userUid);
+    // saves data to firestore
+    const userDoc = doc(db, "users", auth.currentUser.uid);
     const data = {
         email: email,
         location: location || "N/A",
         img: imgURL,
         name: name,
         privacy: privacy,
-        uid: userUid,
+        uid: auth.currentUser.uid,
     };
     await setDoc(userDoc, data, { merge: true });
 };

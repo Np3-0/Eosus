@@ -1,19 +1,18 @@
-import { useNavigate, } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Container from "../shared/Container";
-import Title from "../shared/Title";
-import type { User } from "firebase/auth";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { auth, db } from "../../config/firebase.ts";
 import { doc, getDoc } from "firebase/firestore";
-import checkUserStatus from "../../utils/checkUserStatus";
-import Paragraph from "../shared/Paragraph";
-import Button from "../shared/Button";
-import promptAI from "../../utils/ai/promptAI";
-import saveAIChat from "../../utils/ai/saveAIChat";
-import SidebarLayout from "../SidebarLayout";
-import getAIChats from "../../utils/ai/getAIChats";
-import AILoadingAnim from "../shared/AILoadingAnim";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import promptAI from "../../utils/ai/promptAI.ts";
+import saveAIChat from "../../utils/ai/saveAIChat.ts";
+import getAIChats from "../../utils/ai/getAIChats.ts";
+import Container from "../shared/Container.tsx";
+import Title from "../shared/Title.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Button from "../shared/Button.tsx";
+import SidebarLayout from "../SidebarLayout.tsx";
+import AILoadingAnim from "../shared/AILoadingAnim.tsx";
 
 export default function AILanding() {
     const navigate = useNavigate();
@@ -92,8 +91,9 @@ export default function AILanding() {
                     <Paragraph className="font-semibold text-center mb-10">
                         An AI assistant programmed to help you stay alert with natural disasters.
                     </Paragraph>
-                    
+
                     <div className="w-full max-w-3xl text-heading-1 mt-12">
+                        {/* Message input*/}
                         <form
                             onSubmit={async (e) => {
                                 e.preventDefault();
@@ -121,7 +121,7 @@ export default function AILanding() {
                                 navigate(`/ai/${chatId.id}`);
                                 setMessage("");
                                 setIsMessageLoading(false);
-                                
+
                             }}
                             className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
                                         shadow-lg shadow-box-shadow border border-box-border

@@ -1,7 +1,7 @@
-import { postItems } from "../../../utils/items/post_items";
-import Paragraph from "../../shared/Paragraph";
-import Button from "../../shared/Button";
-import { capitalize } from "../../../utils/capitalize";
+import { postItems } from "../../../utils/items/post_items.ts";
+import { capitalize } from "../../../utils/capitalize.ts";
+import Paragraph from "../../shared/Paragraph.tsx";
+import Button from "../../shared/Button.tsx";
 
 interface TypeSelectionProps {
     postData: {
@@ -27,11 +27,12 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
         >
             <div className={`flex flex-row items-start mt-12 gap-x-5 relative transition-all duration-500
                             ${postData.type ? "justify-center" : "justify-between"}`}>
+                {/* Displays all the post types */}
                 {postItems.map((item, key) => {
                     const itemValue = capitalize(item.title);
                     const isSelected = postData.type === itemValue;
-                    const isAnySelected = postData.type !== "";                    
-                            
+                    const isAnySelected = postData.type !== "";
+
                     return (
                         <div className="flex flex-col items-center" key={key}>
                             <label
@@ -61,6 +62,7 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
                                 </div>
                             </label>
                             <div className={`flex flex-col items-start gap-y-2 mt-5 ${isSelected ? "block" : "hidden"}`}>
+                                {/* Displays sub-items when a type is selected */}
                                 {item.subItems.map((subItem, subKey) => {
                                     const isSubSelected = postData.subType === subItem;
                                     return (
@@ -86,7 +88,7 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
                     );
                 })}
             </div>
-                    
+
             {/* Reset button to show all items again */}
             {postData.type && (
                 <div className="flex flex-col lg:flex-row justify-center mt-12 gap-4">

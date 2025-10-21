@@ -12,7 +12,7 @@ export default function RadioInput({ items, clickFunction }: RadioInputProps) {
     function handleClick(e: React.MouseEvent<HTMLInputElement>, item: string) {
         setSelectedItem(item);
         e.currentTarget.checked = true;
-        
+
         // Pass the updated userData object to the parent
         const isPublic = item === "Public";
         clickFunction?.((prevData: any) => ({
@@ -28,21 +28,21 @@ export default function RadioInput({ items, clickFunction }: RadioInputProps) {
                     <label className={`rounded-3xl px-6 py-3 mb-2 hover:cursor-pointer text-2xl transition duration-300 ease-linear
                                         ${selectedItem === item ? "bg-cordovan text-white rounded-3xl hover:bg-cordovan hover:text-white" : "hover:bg-platinum"} 
                     `}>
-                    <input 
-                        id={`${item}Toggle`} 
-                        type="radio" 
-                        name="public" 
-                        className="appearance-none"
-                        onClick={(e) => handleClick(e, item)}
-                        value={item === "Public" ? "public" : "private"}
-                        checked={selectedItem === item}
-                        onChange={() => {}}
-                    />
+                        <input
+                            id={`${item}Toggle`}
+                            type="radio"
+                            name="public"
+                            className="appearance-none"
+                            onClick={(e) => handleClick(e, item)}
+                            value={item === "Public" ? "public" : "private"}
+                            checked={selectedItem === item}
+                            onChange={() => { }}
+                        />
                         {item}
                     </label>
                 </div>
             ))}
-            
+
         </div>
     );
 

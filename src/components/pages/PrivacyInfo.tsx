@@ -1,7 +1,7 @@
-import Layout from "../Layout";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
-import Title from "../shared/Title";
+import Layout from "../Layout.tsx";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Title from "../shared/Title.tsx";
 
 export default function PrivacyInfo() {
     return (

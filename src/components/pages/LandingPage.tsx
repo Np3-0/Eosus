@@ -1,9 +1,9 @@
-import Layout from "../Layout";
-import AboutUs from "../sections/AboutUs";
-import Brands from "../sections/Brands";
-import CallToAction from "../sections/CallToAction";
-import Hero from "../sections/Hero";
-import Services from "../sections/Services";
+import Layout from "../Layout.tsx";
+import AboutUs from "../sections/AboutUs.tsx";
+import Brands from "../sections/Brands.tsx";
+import CallToAction from "../sections/CallToAction.tsx";
+import Hero from "../sections/Hero.tsx";
+import Services from "../sections/Services.tsx";
 
 export default function LandingPage() {
     return (

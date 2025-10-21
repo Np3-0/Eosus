@@ -1,5 +1,5 @@
-import { auth } from "../config/firebase.ts";
 import { sendSignInLinkToEmail, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../config/firebase.ts";
 
 export async function handleSignIn(
     event: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>,

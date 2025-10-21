@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useThemeStore } from "../../store/ThemeStore";
-import { navbarItems } from "../../utils/items/navbar_items";
-import Container from "../shared/Container";
-import NavItem from "../shared/NavItem";
-import MoonSVG from "../../assets/MoonSVG";
-import SunSVG from "../../assets/SunSVG";
-import DropDown from "../shared/DropDown";
-import HamburgerSVG from "../../assets/HamburgerSVG";
 import { useNavigate } from "react-router-dom";
+import { useThemeStore } from "../../store/ThemeStore.ts";
+import { navbarItems }  from "../../utils/items/navbar_items.ts";
+import Container from "../shared/Container.tsx";
+import NavItem from "../shared/NavItem.tsx";
+import DropDown from "../shared/DropDown.tsx";
+import MoonSVG from "../../assets/MoonSVG.tsx";
+import SunSVG from "../../assets/SunSVG.tsx";
+import HamburgerSVG from "../../assets/HamburgerSVG.tsx";
 
 interface AppNavbarProps {
     img: string;
@@ -129,7 +129,6 @@ export default function AppNavbar({ img, name, email, sidebarOpen = false }: App
                                             className="w-6 h-6"
                                             alt="Profile"
                                         />
- 
                                         <span className="text-sm">Account</span>
                                     </button>
                                 </div>

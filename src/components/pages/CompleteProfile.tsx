@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { auth } from "../../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import updateProfile from "../../utils/updateProfile";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
-import Title from "../shared/Title";
-import InputGroup from "../shared/InputGroup";
-import Button from "../shared/Button";
-import { getLocation } from "../../utils/getLocation";
-import RadioInput from "../shared/RadioInput";
-import checkUserStatus from "../../utils/checkUserStatus";
+import { auth, db } from "../../config/firebase.ts";
+import updateProfile from "../../utils/updateProfile.ts";
+import { getLocation } from "../../utils/getLocation.ts";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Title from "../shared/Title.tsx";
+import InputGroup from "../shared/InputGroup.tsx";
+import Button from "../shared/Button.tsx";
+import RadioInput from "../shared/RadioInput.tsx";
 
 export default function CompleteProfile() {
     const navigate = useNavigate();
@@ -24,6 +23,7 @@ export default function CompleteProfile() {
         privacy: false,
     });
 
+    {/* Handles input changes for the form fields */ }
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setUserData((prevData) => ({
@@ -65,8 +65,10 @@ export default function CompleteProfile() {
                 <div className="flex flex-col justify-center items-center mt-10 p-5 sm:p-6 w-4/5 rounded-3xl bg-box-bg shadow-lg shadow-box-shadow">
                     <form className="w-full">
                         <div className="flex flex-col justify-center gap-y-6 w-2/3 mx-auto lg:mg-0 text-heading-2 text-2xl font-semibold">
+                            {/* Email and name input fields */}
                             <InputGroup name="email" type="email" value={userData.email} required={true} disabled={true} onChange={(e) => handleInputChange(e)} />
                             <InputGroup name="name" value={userData.name} required={true} onChange={(e) => handleInputChange(e)} />
+
                             {/* Not using InputGroup for location to allow for more customization */}
                             <div className="gap-y-2">
                                 <label htmlFor="location" className="text-heading-2">Location</label>
@@ -101,6 +103,7 @@ export default function CompleteProfile() {
                                 </div>
                             </div>
 
+                            {/* Profile visibility radio buttons */}
                             <div className="gap-y-2">
                                 <label className="text-heading-2">Profile Visibility</label>
                                 <p
@@ -110,8 +113,8 @@ export default function CompleteProfile() {
                                 </p>
                                 <RadioInput items={["Public", "Private"]} clickFunction={(e) => setUserData(e)} />
                             </div>
-                            { /* Submit button to save profile data */}
 
+                            { /* Submit button to save profile data */}
                             <Button onClick={async (e) => {
                                 e.preventDefault();
                                 try {
@@ -126,6 +129,7 @@ export default function CompleteProfile() {
                             }} className="min-w-max text-white transform transition duration-300 hover:scale-[1.02] mt-8">
                                 Complete Profile
                             </Button>
+                            
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
-import MoreIconSVG from "../../assets/MoreIconSVG";
-import IconButton from "./IconButton";
-import PostOptionsModal from "./PostOptionsModal";
+import MoreIconSVG from "../../assets/MoreIconSVG.tsx";
+import IconButton from "./IconButton.tsx";
+import PostOptionsModal from "./PostOptionsModal.tsx";
 
 interface PostCommentProps {
     comment: {
@@ -20,11 +20,12 @@ export default function PostComment({ comment, index, postId }: PostCommentProps
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     return (
-        <div 
-            key={index} 
+        <div
+            key={index}
             className="flex flex-row items-center justify-between mt-4 p-4
                         bg-platinum text-heading-1 font-semibold rounded-lg relative"
         >
+            {/* Shows commenter's profile image + name + comment*/}
             <div className="flex flex-row items-center gap-x-3">
                 <img src={comment.img} className="w-6 h-6" />
                 <div className="flex flex-col gap-y-1.5">
@@ -33,16 +34,17 @@ export default function PostComment({ comment, index, postId }: PostCommentProps
                 </div>
             </div>
             <div className="relative">
-                <IconButton 
-                    className="ml-auto px-6 py-3 transform transition hover:bg-cordovan" 
+                {/* Options button and modal */}
+                <IconButton
+                    className="ml-auto px-6 py-3 transform transition hover:bg-cordovan"
                     onclick={() => setIsOptionsOpen(!isOptionsOpen)}
                     ref={buttonRef as React.RefObject<HTMLButtonElement>}
                 >
                     <MoreIconSVG />
                 </IconButton>
-                <PostOptionsModal 
-                    anchorRef={buttonRef as React.RefObject<HTMLButtonElement>} 
-                    isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)} 
+                <PostOptionsModal
+                    anchorRef={buttonRef as React.RefObject<HTMLButtonElement>}
+                    isOpen={isOptionsOpen} onClose={() => setIsOptionsOpen(false)}
                     items={["Delete", "Report", "Send to AI"]}
                     type="comment"
                     author={comment.userId}

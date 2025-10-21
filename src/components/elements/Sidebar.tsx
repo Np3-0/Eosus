@@ -1,41 +1,30 @@
-import {auth} from "../../config/firebase.ts";
+import { useState, useEffect } from "react";
+import { auth } from "../../config/firebase.ts";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import {useState, useEffect} from "react";
-import getAIChats from "../../utils/ai/getAIChats.ts";
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
 import checkUserStatus from "../../utils/checkUserStatus.ts";
 
-interface SidebarProps{
+interface SidebarProps {
     data: Array<{ id: string; messages: Array<string> }>;
 }
 
 export default function Sidebar({ data }: SidebarProps) {
     const navigate = useNavigate();
-    
+
     const [user, setUser] = useState<User | null>(null);
 
+    {/* Check user status on mount */ }
     useEffect(() => {
-            const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-                setUser(firebaseUser);
-                if (firebaseUser) {
-                    checkUserStatus(navigate);
-                } else {
-                    navigate("/signup");
-                }
-            });
-            return () => unsubscribe();
-        }, [navigate]);
-
-    useEffect(() => {
-        const fetchChats = async () => {
-            if (!user) return;
-            const fetchedChats = await getAIChats();
-            console.log("Fetched chats:", fetchedChats);
-            
-        };
-        fetchChats();
-    }, [user]);
+        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+            setUser(firebaseUser);
+            if (firebaseUser) {
+                checkUserStatus(navigate);
+            } else {
+                navigate("/signup");
+            }
+        });
+        return () => unsubscribe();
+    }, [navigate]);
 
     return (
         <div className="w-64 bg-box-bg shadow-xl fixed h-full px-4 py-2 hidden lg:block overflow-y-auto">
@@ -53,8 +42,8 @@ export default function Sidebar({ data }: SidebarProps) {
                     </li>
                 ) : (
                     data.map((item) => (
-                        <li 
-                            key={item.id} 
+                        <li
+                            key={item.id}
                             className="mb-2 rounded-full text-heading-1 px-6 py-3 cursor-pointer hover:bg-cordovan hover:scale-[1.05] transform transition duration-300"
                             onClick={() => navigate(`/ai/${item.id}`)}
                         >
@@ -64,7 +53,7 @@ export default function Sidebar({ data }: SidebarProps) {
                         </li>
                     ))
                 )}
-                
+
             </ul>
         </div>
     );

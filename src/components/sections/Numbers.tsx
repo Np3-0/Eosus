@@ -1,5 +1,5 @@
-import Container from "../shared/Container";
-import NumberItem from "../shared/NumberItem";
+import Container from "../shared/Container.tsx";
+import NumberItem from "../shared/NumberItem.tsx";
 
 export default function Numbers() {
     return (

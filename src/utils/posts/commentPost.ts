@@ -1,17 +1,19 @@
-import { auth, db } from "../../config/firebase.ts";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase.ts";
 
 export default async function commentPost(postId: string, comment: string) {
-    const user = auth.currentUser;
-    if (!user) {
+    // check if user is authenticated
+    if (!auth.currentUser) {
         alert("You must be logged in to comment.");
         return;
     }
 
+    // gets the current date for timestamp
     const date = Date.now();
+    const commentRef = doc(db, "posts", postId, "comments", `${auth.currentUser.uid}_${date}`);
+    const userRef = doc(db, "users", auth.currentUser.uid);
 
-    const commentRef = doc(db, "posts", postId, "comments", `${user.uid}_${date}`);
-    const userRef = doc(db, "users", user.uid);
+    // gets user data
     const userSnapshot = await getDoc(userRef);
     const userData = userSnapshot.data();
 
@@ -20,6 +22,7 @@ export default async function commentPost(postId: string, comment: string) {
         return;
     }
 
+    // saves the comment to the database
     try {
         await setDoc(commentRef, {
             userId: userData.uid,

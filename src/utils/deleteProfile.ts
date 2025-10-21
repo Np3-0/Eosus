@@ -1,5 +1,5 @@
-import { auth, db } from "../config/firebase.ts"
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { auth, db } from "../config/firebase.ts"
 import getPosts from "./posts/getPosts.ts";
 import getAIChats from "./ai/getAIChats.ts";
 import { handleSignOut } from "./handleSignIn.ts";

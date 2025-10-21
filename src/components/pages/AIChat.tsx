@@ -1,20 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Markdown from 'react-markdown'
-import type { User } from "firebase/auth";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../../config/firebase";
+import { auth, db } from "../../config/firebase.ts";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import checkUserStatus from "../../utils/checkUserStatus";
-import getAIChats from "../../utils/ai/getAIChats";
-import SidebarLayout from "../SidebarLayout";
-import Container from "../shared/Container";
-import Button from "../shared/Button";
-import promptAI from "../../utils/ai/promptAI";
-import saveAIChat from "../../utils/ai/saveAIChat";
-import getCurrentChat from "../../utils/ai/getCurrentChat";
-import AILoadingAnim from "../shared/AILoadingAnim";
-
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import getAIChats from "../../utils/ai/getAIChats.ts";
+import promptAI from "../../utils/ai/promptAI.ts";
+import saveAIChat from "../../utils/ai/saveAIChat.ts";
+import getCurrentChat from "../../utils/ai/getCurrentChat.ts";
+import SidebarLayout from "../SidebarLayout.tsx";
+import Container from "../shared/Container.tsx";
+import Button from "../shared/Button.tsx";
+import AILoadingAnim from "../shared/AILoadingAnim.tsx";
 
 export default function AIChat() {
     const navigate = useNavigate();
@@ -64,10 +62,12 @@ export default function AIChat() {
                         email: string;
                         privacy: boolean;
                         location: string | null;
-                    });
+                    }
+                );
             }
         };
 
+        // gets chats
         const fetchChats = async () => {
             const fetchedChats = await getAIChats();
             const mappedChats = (fetchedChats ?? []).map((chat: { id: string; messages?: Array<string> }) => ({
@@ -98,6 +98,7 @@ export default function AIChat() {
         <SidebarLayout img={userObj.img} email={userObj.email} name={userObj.name} sidebarData={chats}>
             <Container className="min-h-screen flex flex-col items-center px-4 py-8">
                 <div className="flex flex-col w-full gap-y-6 mt-32 flex-1 sm:mt-36 max-w-3xl">
+                    {/* Chat messages */}
                     {chat[0]?.messages &&
                         chat[0].messages.map((msg, index) => {
                             const isLast = index === chat[0].messages.length - 1;
@@ -115,11 +116,15 @@ export default function AIChat() {
                             );
                         })
                     }
+
+                    {/* Loading animation */}
                     {isMessageLoading && (
                         <AILoadingAnim />
                     )}
+
                 </div>
                 <div className="w-full max-w-3xl text-heading-1 flex my-12">
+                    {/* Message input*/}
                     <form
                         onSubmit={async (e) => {
                             e.preventDefault();

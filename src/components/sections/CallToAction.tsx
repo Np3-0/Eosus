@@ -1,6 +1,6 @@
-import BtnLink from "../shared/BtnLink";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
+import BtnLink from "../shared/BtnLink.tsx";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
 
 export default function CallToAction() {
     return (

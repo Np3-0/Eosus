@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from "../../config/firebase";
-import Layout from "../Layout";
-import { useNavigate } from "react-router-dom";
-import checkUserStatus from "../../utils/checkUserStatus";
-import mapboxgl from 'mapbox-gl';
-import getPostCoords from "../../utils/posts/getPostCoords";
 import { createRoot } from "react-dom/client";
-import Post from "../shared/Post";
+import { useNavigate } from "react-router-dom";
+import mapboxgl from 'mapbox-gl';
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../config/firebase.ts";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import getPostCoords from "../../utils/posts/getPostCoords.ts";
+import Layout from "../Layout.tsx";
+import Post from "../shared/Post.tsx";
 
+// token for mapbox
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_TOKEN;
 
 export default function Map() {
@@ -71,6 +71,7 @@ export default function Map() {
             }
         };
 
+        // gets data for map
         const fetchPostCoords = async () => {
             const coords = await getPostCoords();
             if (coords) {
@@ -97,6 +98,7 @@ export default function Map() {
         const mapContainer = document.getElementById('map');
         if (!mapContainer || !postCoords) return;
 
+        // settings for mapbox
         const map = new mapboxgl.Map({
             container: 'map',
             center: [-74.5, 40],
@@ -122,7 +124,7 @@ export default function Map() {
                 coordinates: [Number(post.longitude), Number(post.latitude)],
             },
         }));
-
+        
         map.on('load', () => {
             map.addSource('posts', {
                 type: 'geojson',

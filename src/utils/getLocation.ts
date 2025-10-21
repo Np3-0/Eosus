@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export async function getLocation() {
+    // Check if geolocation is supported
     if (!navigator.geolocation) {
         throw new Error("Geolocation is not supported by this browser.");
     }
@@ -13,7 +14,7 @@ export async function getLocation() {
         );
     });
 
-    // geocoding API call
+    // sends coords to api to get location name
     try {
         const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${(await data).latitude}&lon=${(await data).longitude}&format=json`);
         return response.data.address.city || response.data.address.town || response.data.address.village || "Unknown Location";
@@ -24,6 +25,7 @@ export async function getLocation() {
     
 }
 
+// gets coords from town name
 export async function getCoords(town: string) {
     try {
         const response = await axios.get(`https://nominatim.openstreetmap.org/search?city=${town}&format=json`);

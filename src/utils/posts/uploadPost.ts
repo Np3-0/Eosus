@@ -1,5 +1,5 @@
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../../config/firebase";
+import { auth, db } from "../../config/firebase.ts";
 
 type PostData = {
     title: string;
@@ -12,20 +12,14 @@ type PostData = {
     townName: string | null;
 };
 
-interface UploadProps {
-    postData: PostData;
-    date: number;
-}
-
-export default async function uploadPost({ postData, date }: UploadProps) {
+export default async function uploadPost(postData: PostData, date: number): Promise<void> {
     if (!auth.currentUser) {
         alert("Authentication failed. Please log in again.");
         return;
     }
-
-    const uid = auth.currentUser.uid;
+    
+    // Create a document reference with the date as the ID
     const postDoc = doc(db, "posts", date.toString());
-
     const data = {
         title: postData.title,
         content: postData.content,
@@ -35,9 +29,10 @@ export default async function uploadPost({ postData, date }: UploadProps) {
         latitude: postData.lat,
         longitude: postData.long,
         townName: postData.townName,
-        author: uid,
+        author: auth.currentUser.uid,
         timestamp: date,
     };
 
+    // Upload the post data to Firestore
     await setDoc(postDoc, data, { merge: true });
 };

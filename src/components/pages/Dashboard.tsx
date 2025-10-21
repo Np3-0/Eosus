@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../config/firebase";
-import { onAuthStateChanged } from "firebase/auth";
-import type { User } from "firebase/auth";
+import { onAuthStateChanged, type User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import checkUserStatus from "../../utils/checkUserStatus";
-import Layout from "../Layout";
-import Post from "../shared/Post";
-import Title from "../shared/Title";
-import Container from "../shared/Container";
-import Button from "../shared/Button";
-import getPosts from "../../utils/posts/getPosts";
-import FilterDropDown from "../shared/FilterDropDown";
+import { auth, db } from "../../config/firebase.ts";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import getPosts from "../../utils/posts/getPosts.ts";
+import Layout from "../Layout.tsx";
+import Post from "../shared/Post.tsx";
+import Title from "../shared/Title.tsx";
+import Container from "../shared/Container.tsx";
+import Button from "../shared/Button.tsx";
+import FilterDropDown from "../shared/FilterDropDown.tsx";
 
 export default function Dashboard() {
     const navigate = useNavigate();    
@@ -74,6 +73,7 @@ export default function Dashboard() {
     <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
         <Container className="min-h-screen">
             <div className="mt-12 flex flex-col items-center justify-baseline">
+                {/* Lets user filter posts by location, recency, or liked */}
                 <FilterDropDown 
                     items={["Recent", "Location", "Liked"]} 
                     className="self-start mt-12 " 

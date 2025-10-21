@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../Layout";
-import Container from "../shared/Container";
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { auth } from "../../config/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../config/firebase";
-import checkUserStatus from "../../utils/checkUserStatus";
-import getPosts from "../../utils/posts/getPosts";
-import Title from "../shared/Title";
-import Post from "../shared/Post";
-import InputGroup from "../shared/InputGroup";
-import LocationInput from "../shared/LocationInput";
-import Button from "../shared/Button";
-import updateProfile from "../../utils/updateProfile";
-import Paragraph from "../shared/Paragraph";
-import deleteProfile from "../../utils/deleteProfile";
+import { auth, db } from "../../config/firebase.ts";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import getPosts from "../../utils/posts/getPosts.ts";
+import updateProfile from "../../utils/updateProfile.ts";
+import deleteProfile from "../../utils/deleteProfile.ts";
+import Layout from "../Layout.tsx";
+import Container from "../shared/Container.tsx";
+import Title from "../shared/Title.tsx";
+import Post from "../shared/Post.tsx";
+import InputGroup from "../shared/InputGroup.tsx";
+import LocationInput from "../shared/LocationInput.tsx";
+import Button from "../shared/Button.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -74,6 +73,8 @@ export default function Profile() {
             <Container className="min-h-screen">
                 <div className="mt-36 w-full">
                     <Title className="text-center"><span className="text-transparent bg-clip-text bg-gradient-to-r from-cordovan to-gr-orange">Hi, {userObj.name}</span></Title>
+
+                    {/* Posts Section */}
                     <Title className="mt-12">Your Posts</Title>
                     <div className="mt-12 grid lg:grid-cols-2 lg:gap-x-4 items-center justify-baseline" id="posts">
                         {posts.length > 0 && posts.map((post: any) => (
@@ -93,6 +94,7 @@ export default function Profile() {
                         ))}
                     </div>
                 </div>
+                {/* Settings Section */}
                 <div className="my-12" id="settings">
                     <Title className="mt-12 text-left">Your Settings</Title>
                     <div className="flex flex-col justify-center items-center mt-12 p-5 sm:p-6 w-full max-w-4xl mx-auto rounded-3xl bg-box-bg shadow-lg shadow-box-shadow">
@@ -125,6 +127,7 @@ export default function Profile() {
                             </div>
                         </form>
                     </div>
+                    {/* Delete Profile Section */}
                     <Title className="mt-18">Delete Account</Title>
                     <Paragraph className="mt-4">
                         Clicking this button will delete all saved data from your account, including location, posts, comments, and AI usage. This process is irreversible.

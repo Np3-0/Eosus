@@ -1,7 +1,7 @@
-import Layout from "../Layout";
-import BtnLink from "../shared/BtnLink";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
+import Layout from "../Layout.tsx";
+import BtnLink from "../shared/BtnLink.tsx";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
 
 export default function NotFound() {
     return (

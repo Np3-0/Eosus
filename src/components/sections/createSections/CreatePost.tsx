@@ -1,13 +1,13 @@
 import { useState } from "react";
-import CommentIconSVG from "../../../assets/CommentIconSVG";
-import LikeIconSVG from "../../../assets/LikeIconSVG";
-import MoreIconSVG from "../../../assets/MoreIconSVG";
-import IconButton from "../../shared/IconButton";
-import DocPlusSVG from "../../../assets/DocPlusSVG";
-import { postItems } from "../../../utils/items/post_items";
-import { getCoords, getLocation } from "../../../utils/getLocation";
-import Button from "../../shared/Button";
-import Paragraph from "../../shared/Paragraph";
+import { postItems } from "../../../utils/items/post_items.ts";
+import { getCoords, getLocation } from "../../../utils/getLocation.ts";
+import CommentIconSVG from "../../../assets/CommentIconSVG.tsx";
+import LikeIconSVG from "../../../assets/LikeIconSVG.tsx";
+import MoreIconSVG from "../../../assets/MoreIconSVG.tsx";
+import IconButton from "../../shared/IconButton.tsx";
+import DocPlusSVG from "../../../assets/DocPlusSVG.tsx";
+import Button from "../../shared/Button.tsx";
+import Paragraph from "../../shared/Paragraph.tsx";
 
 type PostData = {
     title: string;
@@ -38,6 +38,7 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
             >
                 <div className="space-y-4">
                     <h2 className="text-2xl md:text-3xl font-semibold text-heading-2">
+                        {/* Title input */}
                         <input
                             type="text"
                             placeholder="Title"
@@ -54,6 +55,7 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
                         />
                         <span className="text-lg min-w-max" style={{ color: postItems.find(item => item.title === postData.type)?.color }}>{postData.subType}</span>
                     </h2>
+                    {/* Image upload */}
                     <div className="w-full relative">
                         <img
                             src="https://images.pexels.com/photos/25682006/pexels-photo-25682006.jpeg"
@@ -86,6 +88,7 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
                     <Paragraph className="font-semibold">
                         {postData.image instanceof File ? postData.image.name : "No image selected"}
                     </Paragraph>
+                    {/* Location and description */}
                     <div className="flex flex-col lg:flex-row gap-x-2">
                         <input
                             id="location"
@@ -168,12 +171,13 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
                 <Button
                     type="submit"
                     onClick={async (e) => {
+                        /* Submit handler */
                         e.preventDefault();
                         if (!postData.type || !postData.subType || !postData.townName || !postData.content || !postData.title || !postData.image) {
                             alert("Please fill in all options.");
                             return;
                         }
-                        
+
                         let latitude = postData.lat;
                         let longitude = postData.long;
 
@@ -198,7 +202,7 @@ export default function CreatePost({ postData, changeHandler, reset, submitData 
                             long: longitude,
                         });
                         alert("Post created successfully!");
-                        
+
                     }}
                     className="text-xl text-white bg-cordovan hover:scale-[1.1] transition transform"
                 >

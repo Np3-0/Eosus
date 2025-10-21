@@ -30,6 +30,7 @@ export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
+// AI Setup
 const generationConfig = {
     maxOutputTokens: 768,
     temperature: 0.35,

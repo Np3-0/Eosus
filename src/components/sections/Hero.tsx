@@ -1,10 +1,10 @@
 import { useState } from "react";
-import EmailIconSVG from "../../assets/EmailIconSVG";
-import { handleSignIn } from "../../utils/handleSignIn";
-import Button from "../shared/Button";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
-import Numbers from "./Numbers";
+import { handleSignIn } from "../../utils/handleSignIn.ts";
+import EmailIconSVG from "../../assets/EmailIconSVG.tsx";
+import Button from "../shared/Button.tsx";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Numbers from "./Numbers.tsx";
 
 export default function Hero() {
 

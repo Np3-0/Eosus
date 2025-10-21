@@ -1,6 +1,6 @@
-import Footer from "./elements/Footer";
-import AppNavbar from "./elements/AppNavbar";
-import LandingNavbar from "./elements/LandingNavbar";
+import Footer from "./elements/Footer.tsx";
+import AppNavbar from "./elements/AppNavbar.tsx";
+import LandingNavbar from "./elements/LandingNavbar.tsx";
 
 interface LayoutProps {
     navType: number;

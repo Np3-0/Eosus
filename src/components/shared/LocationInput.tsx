@@ -1,5 +1,5 @@
-import { getLocation } from "../../utils/getLocation";
-import Button from "./Button";
+import { getLocation } from "../../utils/getLocation.ts";
+import Button from "./Button.tsx";
 
 interface LocationInputProps {
     value: string;

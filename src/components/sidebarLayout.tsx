@@ -1,6 +1,6 @@
-import AppNavbar from "./elements/AppNavbar";
-import Footer from "./elements/Footer";
-import Sidebar from "./elements/Sidebar";
+import AppNavbar from "./elements/AppNavbar.tsx";
+import Footer from "./elements/Footer.tsx";
+import Sidebar from "./elements/Sidebar.tsx";
 
 interface SidebarLayoutProps {
     img?: string;
@@ -12,6 +12,7 @@ interface SidebarLayoutProps {
 
 export default function SidebarLayout({ img, email, name, children, sidebarData }: SidebarLayoutProps) {
     return (
+        /* The same as Layout but with Sidebar included */
         <div className="min-h-screen flex flex-col bg-body">
             <AppNavbar img={img ?? ""} email={email ?? ""} name={name ?? ""} sidebarOpen={true} />
 

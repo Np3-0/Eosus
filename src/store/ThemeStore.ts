@@ -8,6 +8,7 @@ interface ThemeStore {
   toggleTheme: () => void;
 }
 
+// controls whether the app is in light or dark mode
 export const useThemeStore = create<ThemeStore>()(
     persist(
         (set, get) => ({

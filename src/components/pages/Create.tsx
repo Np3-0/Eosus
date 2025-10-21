@@ -1,18 +1,17 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db, storage } from "../../config/firebase";
-import type { User } from "firebase/auth";
-import { ref, uploadBytes } from "firebase/storage";
-import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import fetchDownloadURL from "../../utils/fetchDownloadURL";
-import checkUserStatus from "../../utils/checkUserStatus";
-import Layout from "../Layout";
-import Container from "../shared/Container";
-import Title from "../shared/Title";
-import TypeSelection from "../sections/createSections/TypeSelection";
-import CreatePost from "../sections/createSections/CreatePost";
-import uploadPost from "../../utils/posts/uploadPost";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { ref, uploadBytes } from "firebase/storage";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db, storage } from "../../config/firebase.ts";
+import fetchDownloadURL from "../../utils/fetchDownloadURL.ts";
+import checkUserStatus from "../../utils/checkUserStatus.ts";
+import uploadPost from "../../utils/posts/uploadPost.ts";
+import Layout from "../Layout.tsx";
+import Container from "../shared/Container.tsx";
+import Title from "../shared/Title.tsx";
+import TypeSelection from "../sections/createSections/TypeSelection.tsx";
+import CreatePost from "../sections/createSections/CreatePost.tsx";
 
 type PostData = {
     title: string;
@@ -63,6 +62,7 @@ export default function Create() {
         townName: null,
     });
 
+    // handle functions for post creation
     const handleChange = (updatedData: typeof postData) => {
         setPostData(updatedData);
     };
@@ -81,6 +81,7 @@ export default function Create() {
         setIsInTypeSection(true);
     }
 
+    // formats data, and sends to upload function
     const submitData = async (postData: PostData) => {
         if (!(postData.image instanceof File)) {
             return;
@@ -95,7 +96,7 @@ export default function Create() {
 
                 // a copy is made because react doesnt update the data in time
                 const updatedPostData = { ...postData, image: url };
-                await uploadPost({ postData: updatedPostData, date });
+                await uploadPost(updatedPostData, date);
                 navigate("/dashboard");
             } catch (error) {
                 console.error("Error uploading image:", error);
@@ -140,6 +141,7 @@ export default function Create() {
         <Layout navType={1} img={userObj.img} email={userObj.email} name={userObj.name}>
             <Container className="min-h-screen flex flex-col mt-48 items-center">
                 <Title className="text-center">Create a New Post</Title>
+                {/* Display type selection or post creation based on state */}
                 {isInTypeSection ?
                     <TypeSelection postData={postData} changeHandler={handleChange} onComplete={() => setIsInTypeSection(false)} />
                     : <CreatePost postData={postData} changeHandler={handleChange} reset={fullReset} submitData={submitData} />}

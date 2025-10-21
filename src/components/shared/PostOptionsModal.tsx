@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import CrossIconSVG from "../../assets/CrossIconSVG";
-import IconButton from "./IconButton";
-import selectOption from "../../utils/posts/selectOption";
+import selectOption from "../../utils/posts/selectOption.ts";
+import CrossIconSVG from "../../assets/CrossIconSVG.tsx";
+import IconButton from "./IconButton.tsx";
 
 interface PostOptionsModalProps {
     items: string[];
@@ -17,9 +17,10 @@ interface PostOptionsModalProps {
 }
 
 export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, type, id, author, postId }: PostOptionsModalProps) {
-    const [position, setPosition] = useState<{top: number, left: number}>({ top: 0, left: 0 });
+    const [position, setPosition] = useState<{ top: number, left: number }>({ top: 0, left: 0 });
     const navigate = useNavigate();
-    
+
+    // positioning for the modal
     useEffect(() => {
         if (isOpen && anchorRef?.current) {
             const rect = anchorRef.current.getBoundingClientRect();
@@ -53,9 +54,10 @@ export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, ty
                 <IconButton className="hover:bg-cordovan hover:text-white p-1.5" onclick={onClose}><CrossIconSVG /></IconButton>
             </div>
             <ul className="p-2 space-y-2">
+                {/* Lists options */}
                 {items.map((item, index) => (
                     <li key={index}>
-                        <button 
+                        <button
                             className="w-full text-left text-sm bg-transparent rounded-full cursor-pointer 
                                        transform transition hover:bg-cordovan hover:scale-[1.05] hover:text-white px-2 py-2"
                             onClick={(e) => {
@@ -67,8 +69,8 @@ export default function PostOptionsModal({ isOpen, onClose, items, anchorRef, ty
                                 selectOption(item, type, id, author, postId, navigate);
                             }}
                         >
-                            <label 
-                                htmlFor={item} 
+                            <label
+                                htmlFor={item}
                                 className="ml-2 pl-2.5 text-lg font-semibold text-heading-1 cursor-pointer">
                                 {item}
                             </label>

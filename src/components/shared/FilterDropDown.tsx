@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "./Button";
+import Button from "./Button.tsx";
 
 interface FilterDropDownProps {
     items: string[];
@@ -33,6 +33,7 @@ export default function FilterDropDown({ items, className = "", onConfirm }: Fil
                     Category
                 </h6>
                 <ul className="space-y-2 text-sm">
+                    {/* Render each item as a radio button */}
                     {items.map((item, index) => (
                         <li 
                             key={index} 
@@ -54,6 +55,7 @@ export default function FilterDropDown({ items, className = "", onConfirm }: Fil
                     ))}
                 </ul>
                 <div className="flex justify-center mt-4">
+                    {/* Confirm Button */}
                     <Button 
                         className="text-white font-semibold transform transition hover:scale-[1.05]"
                         onClick={() => {

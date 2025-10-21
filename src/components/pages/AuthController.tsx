@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../config/firebase";
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
+import { auth } from "../../config/firebase.ts";
 
 export default function AuthController() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        /* Finishes the sign in process */
         async function completeSignIn() {
             if (isSignInWithEmailLink(auth, window.location.href)) {
                 let email = window.localStorage.getItem("emailForSignIn");

@@ -4,10 +4,10 @@ interface FileUploadProps {
     uploadFunction?: (file: File) => void;
 }
 
-export default function FileUpload({uploadFunction}: FileUploadProps) {
+export default function FileUpload({ uploadFunction }: FileUploadProps) {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
-    const handleClick  = () => {
+    const handleClick = () => {
         fileInputRef.current?.click();
     };
 
@@ -21,10 +21,14 @@ export default function FileUpload({uploadFunction}: FileUploadProps) {
 
     return (
         <>
-            <button type="button" className="cursor-pointer bg-cordovan text-white px-6 py-3 rounded-full min-w-max lg:w-1/3 text-white transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0" onClick={handleClick}>
+            <button 
+                type="button" 
+                className="cursor-pointer bg-cordovan px-6 py-3 rounded-full min-w-max lg:w-1/3 text-white transform transition duration-300 hover:scale-[1.02] mt-2 lg:mt-0" 
+                onClick={handleClick}
+            >
                 Upload File
             </button>
-            <input 
+            <input
                 type="file"
                 className="hidden"
                 ref={fileInputRef}

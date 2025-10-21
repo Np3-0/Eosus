@@ -1,8 +1,8 @@
-import { services } from "../../utils/items/services_data";
-import Container from "../shared/Container";
-import Paragraph from "../shared/Paragraph";
-import Service from "../cards/Service";
-import Title from "../shared/Title";
+import { services } from "../../utils/items/services_data.ts";
+import Container from "../shared/Container.tsx";
+import Paragraph from "../shared/Paragraph.tsx";
+import Service from "../cards/Service.tsx";
+import Title from "../shared/Title.tsx";
 
 export default function Services() {
     return (
