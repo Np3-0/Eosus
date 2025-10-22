@@ -106,7 +106,7 @@ export default function AIChat() {
                                 <div
                                     key={index}
                                     ref={isLast ? lastMessageRef : undefined}
-                                    className={`bg-box-bg shadow-xl mt-4 text-lg text-heading-2 px-6 py-4 rounded-xl ${index % 2 === 0 ? "self-end" : "self-start"}`}
+                                    className={`bg-box-bg shadow-xl mt-4 text-heading-3 text-lg px-6 py-4 rounded-xl ${index % 2 === 0 ? "self-end" : "self-start"}`}
                                 >
                                     <img src={index % 2 === 0 ? userObj.img : "/ai_logo.svg"} alt="icon" className={`relative top-0 left-0 mr-2 mb-1 ${index % 2 === 0 ? "w-8 h-8" : "w-10 h-10"}`} />
                                     <div className="mt-4 mx-4 leading-loose">

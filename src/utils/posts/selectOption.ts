@@ -1,4 +1,4 @@
-import { getDoc, deleteDoc, doc } from "firebase/firestore";
+import { getDoc, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../../config/firebase.ts";
 import promptAI from "../ai/promptAI.ts";
 import saveAIChat from "../ai/saveAIChat.ts";
@@ -10,7 +10,7 @@ export default async function selectOption(option: string, type: string, id: str
         alert("You must be logged in to perform this action.");
         return;
     }
-    
+
     // Handle "Send to AI" option
     if (option == "Send to AI") {
         if (type !== "post") {
@@ -32,7 +32,7 @@ export default async function selectOption(option: string, type: string, id: str
             type: postData.type,
             subType: postData.subType,
         }
-        
+
         // sends post data to AI and saves the chat
         const message = "Analyze the following post and provide a short summary of its content. Also, give important information on risks, and next steps to take. Post data: " + JSON.stringify(data);
         const response = await promptAI([message]);
@@ -86,11 +86,40 @@ export default async function selectOption(option: string, type: string, id: str
         window.location.reload();
         return true;
     }
-    
+
     if (option == "Report") {
+        const timestamp = Date.now();
+
+        let data = {
+            id: auth.currentUser.uid + "_" + timestamp,
+            type: "",
+            reportedID: "",
+            reportedUser: author,
+            reportingUser: auth.currentUser.uid,
+            timestamp: timestamp,
+            postId: ""
+        };
+
         if (type == "post") {
-            const path = db + "/posts/" + id;
-            console.log(db);
+            data = {
+                ...data,
+                type: "post",
+                reportedID: id,
+            }
+
+            
+        } else if (type == "comment" && postId) {
+            data = {
+                ...data,
+                type: "comment",
+                reportedID: author + "_" + id,
+                postId: postId
+            }
+            
         }
+
+        const reportRef = doc(db, "reports", data.id);
+        await setDoc(reportRef, data);
+        return alert("Thank you for your report. Our team will review it shortly.");
     }
 }
