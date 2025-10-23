@@ -3,7 +3,7 @@ import { auth, db } from "../../config/firebase.ts";
 import { getCoords } from "../getLocation.ts";
 import haversine from "../math/haversine.ts";
 
-export default async function getPosts(type: string) {
+export default async function getPosts(type: string, userId?: string) {
     // Ensure user is authenticated
     if (!auth.currentUser) {
         alert("Authentication failed. Please log in again.");
@@ -11,7 +11,7 @@ export default async function getPosts(type: string) {
     }
 
     // gets the posts from firestore
-    const uid = auth.currentUser.uid;
+    const uid = userId || auth.currentUser.uid;
     const postsRef = collection(db, "posts");
     const snapshot = await getDocs(postsRef);
     const posts = snapshot.docs.map(doc => {
@@ -56,6 +56,6 @@ export default async function getPosts(type: string) {
         return posts.filter(post => likedPostIds.includes(post.id)).reverse();
     } else if (type === "own") {
         // returns posts by user, mainly for profile page
-        return posts.filter(post => post.author === uid).reverse();
+        return posts.filter(post => post.author === userId).reverse();
     }
 };

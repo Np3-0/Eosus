@@ -5,12 +5,13 @@ import getAIChats from "./ai/getAIChats.ts";
 import { handleSignOut } from "./handleSignIn.ts";
 import type { NavigateFunction } from "react-router-dom";
 
-export default async function deleteProfile(navigate: NavigateFunction) {
+export default async function deleteProfile(navigate: NavigateFunction, uid?: string) {
     if (!auth.currentUser) {
         alert("No user is currently logged in.");
         return;
     }
 
+    const userId = uid || auth.currentUser.uid;
     // all posts are gathered because we need to find comments created by the user too
     const posts = await getPosts("recent");
     const userPosts = await getPosts("own");
@@ -29,7 +30,7 @@ export default async function deleteProfile(navigate: NavigateFunction) {
         }
         for (const commentDoc of commentsSnap.docs) {
             const commentData = commentDoc.data();
-            if (commentData.userId === auth.currentUser.uid) {
+            if (commentData.userId === userId) {
                 await deleteDoc(commentDoc.ref);
             }
         }
@@ -52,7 +53,7 @@ export default async function deleteProfile(navigate: NavigateFunction) {
     }
 
     // deletes user's likedPosts
-    const likeRef = collection(db, "users", auth.currentUser.uid, "likedPosts");
+    const likeRef = collection(db, "users", userId, "likedPosts");
     if (likeRef) {
         const likeSnap = await getDocs(likeRef);
         for (const likeDoc of likeSnap.docs) {
@@ -61,9 +62,12 @@ export default async function deleteProfile(navigate: NavigateFunction) {
     }
 
     // lastly, deletes user profile, signs them out, and redirects to homepage
-    const userRef = doc(db, "users", auth.currentUser.uid);
-    navigate("/");
+    const userRef = doc(db, "users", userId);
     await deleteDoc(userRef);
-    await handleSignOut();
-    auth.currentUser.delete();
+    if (userId === auth.currentUser.uid) {
+        navigate("/");
+        await handleSignOut();
+        auth.currentUser.delete();
+    }
+    
 };

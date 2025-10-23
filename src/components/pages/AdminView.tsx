@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { auth, db } from "../../config/firebase.ts";
 import { onAuthStateChanged, type User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import checkUserStatus from "../../utils/checkUserStatus.ts";
 import getReportedItems from "../../utils/posts/getReportedItems.ts";
@@ -11,6 +11,8 @@ import Title from "../shared/Title.tsx";
 import Paragraph from "../shared/Paragraph.tsx";
 import PostComment from "../shared/PostComment.tsx";
 import Post from "../shared/Post.tsx";
+import Button from "../shared/Button.tsx";
+import deleteProfile from "../../utils/deleteProfile.ts";
 
 export default function AdminView() {
     const navigate = useNavigate();
@@ -41,16 +43,37 @@ export default function AdminView() {
             const docRef = doc(db, "posts", postId!, "comments", id);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
+                console.log(docSnap.data());
                 const data = {
-                    comment: docSnap.data(),
+                    comment: {
+                        comment: docSnap.data().comment,
+                        timestamp: docSnap.data().timestamp,
+                        creator: docSnap.data().author,
+                        userId: docSnap.data().userId,
+                        img: docSnap.data().img
+                    },
                     postId: postId
                 };
                 return data;
-                }
             }
-            return null;
         }
-        
+        return null;
+    }
+
+    async function handleReport(item: any, action: string) {
+        // Handle the report action (e.g., take action or dismiss report)
+        if (action === "delete" || action === "ban") {
+            const itemRef = item.type === "post" ? doc(db, "posts", item.reportedID) : doc(db, "posts", item.postId, "comments", item.reportedID);
+            await deleteDoc(itemRef);
+        } if (action === "ban") {
+            deleteProfile(navigate, item.reportedUser);
+
+        }
+        const reportRef = doc(db, "reports", item.id);
+        await deleteDoc(reportRef);
+        setReportedItems(reportedItems.filter((i) => i.id !== item.id));
+    }
+    
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -106,38 +129,61 @@ export default function AdminView() {
 
     return (
         <Layout navType={1} img={userObj.img} name={userObj.name} email={userObj.email}>
-            <Container className="mt-48 min-h-screen flex flex-col items-center">
+            <Container className="mt-48 mb-12 min-h-screen flex flex-col items-center">
                 <Title>Admin View</Title>
                 <Paragraph>Welcome to the admin panel. Here you can manage users and content.</Paragraph>
                 <section className="w-full mt-24">
                     <Title>Reported Items</Title>
-                    <div className="grid grid-cols-2">
+                    <div className="grid lg:grid-cols-2">
                         {reportedItems.length === 0 ? (
                             <Paragraph>No reported items at the moment.</Paragraph>
                         ) : (
                             reportedItems.map((item, index) => (
                                 <div key={index} className="border p-4 m-2">
                                     {item.type == "post" && item.details ? (
-                                        <Post
-                                            title={item.details.title}
-                                            content={item.details.content}
-                                            type={item.details.type}
-                                            subType={item.details.subType}
-                                            image={item.details.image}
-                                            latitude={item.details.latitude}
-                                            longitude={item.details.longitude}
-                                            townName={item.details.townName}
-                                            author={item.details.author}
-                                            timestamp={item.details.timestamp}
-                                        />
+                                        <div className="mb-8">
+                                            <Post
+                                                title={item.details.title}
+                                                content={item.details.content}
+                                                type={item.details.type}
+                                                subType={item.details.subType}
+                                                image={item.details.image}
+                                                latitude={item.details.latitude}
+                                                longitude={item.details.longitude}
+                                                townName={item.details.townName}
+                                                author={item.details.author}
+                                                timestamp={item.details.timestamp}
+                                                menuEnabled={false}
+                                            />
+                                        </div>
                                     ) : item.type == "comment" && item.details ? (
-                                        
-                                        <PostComment comment={item.details.comment} index={index} postId={item.details.postId}/>
+                                        <div className="mt-12 mb-8">
+                                            <PostComment comment={item.details.comment} index={index} postId={item.details.postId} />
+                                        </div>
                                     ) : (
                                         <Paragraph>Item details not found.</Paragraph>
                                     )}
-                                    <Paragraph><strong>Item ID:</strong> {item.id}</Paragraph>
-                                    <Paragraph><strong>Reported By:</strong> {item.reportingUser}</Paragraph>
+
+                                    <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-y-0 justify-between text-heading-3 font-semibold">
+                                        <Button 
+                                            className="transform transition hover:scale-[1.05]" 
+                                            onClick={() => handleReport(item, "delete")}
+                                        >
+                                            Delete Content
+                                        </Button>
+                                        <Button 
+                                            className="transform transition hover:scale-[1.05]" 
+                                            onClick={() => handleReport(item, "ban")}
+                                        >
+                                            Reset User
+                                        </Button>
+                                        <Button 
+                                            className="transform transition hover:scale-[1.05]" 
+                                            onClick={() => handleReport(item, "dismiss")}
+                                        >
+                                            Dismiss Report
+                                        </Button>
+                                    </div>
                                 </div>
                             ))
                         )}
