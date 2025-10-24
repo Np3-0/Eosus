@@ -44,7 +44,7 @@ export default function Sidebar({ data }: SidebarProps) {
                     data.map((item) => (
                         <li
                             key={item.id}
-                            className="mb-2 rounded-full text-heading-1 px-6 py-3 cursor-pointer hover:bg-cordovan hover:scale-[1.05] transform transition duration-300"
+                            className="mb-2 rounded-full text-heading-1 px-6 py-3 cursor-pointer hover:bg-cordovan hover:text-white hover:scale-[1.05] transform transition duration-300"
                             onClick={() => navigate(`/ai/${item.id}`)}
                         >
                             <a className="font-semibold">

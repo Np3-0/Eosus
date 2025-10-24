@@ -19,7 +19,7 @@ export async function getLocation() {
         const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?lat=${(await data).latitude}&lon=${(await data).longitude}&format=json`);
         return response.data.address.city || response.data.address.town || response.data.address.village || "Unknown Location";
     } catch (err) {
-        console.error("Error fetching location data:", err);
+        console.error(err);
         return "Unknown Location";
     }
     

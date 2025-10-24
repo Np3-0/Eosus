@@ -19,7 +19,7 @@ export default function DropDown({ name, email }: DropDownProps) {
             <ul className="py-2 text-sm" aria-labelledby="dropdownInformationButton">
                 {dropdownItems.map((item, key) => (
                     <li key={key}>
-                        <a href={item.href} className="duration-300 ease-linear block px-4 py-2 hover:bg-cordovan rounded-full">{item.text}</a>
+                        <a href={item.href} className="duration-300 ease-linear block px-4 py-2 hover:bg-cordovan hover:text-white rounded-full">{item.text}</a>
                     </li>
                 ))}
             </ul>

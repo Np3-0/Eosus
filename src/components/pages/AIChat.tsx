@@ -123,7 +123,7 @@ export default function AIChat() {
                     )}
 
                 </div>
-                <div className="w-full max-w-3xl text-heading-1 flex my-12">
+                <div className="w-full max-w-3xl flex my-12">
                     {/* Message input*/}
                     <form
                         onSubmit={async (e) => {
@@ -155,7 +155,7 @@ export default function AIChat() {
                             setMessage("");
                             setIsMessageLoading(false);
                         }}
-                        className="py-1 pl-6 w-full pr-1 flex gap-3 items-center text-heading-1
+                        className="py-1 pl-6 w-full pr-1 flex gap-3 items-center
                             shadow-lg shadow-box-shadow border border-box-border
                             bg-box-bg rounded-full transition-all duration-200
                             focus-within:bg-body focus-within:border-primary"
@@ -166,7 +166,7 @@ export default function AIChat() {
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             required
-                            className="text-heading-3 w-full py-3 outline-none bg-transparent"
+                            className="font-semibold bg-transparent outline-none flex-1 text-heading-3"
                         />
                         <Button
                             type="submit"
@@ -180,4 +180,3 @@ export default function AIChat() {
         </SidebarLayout>
     )
 };
-
