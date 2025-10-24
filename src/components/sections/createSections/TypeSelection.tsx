@@ -25,7 +25,7 @@ export default function TypeSelection({ postData, changeHandler, onComplete }: T
                 e.preventDefault();
             }}
         >
-            <div className={`flex flex-row items-start mt-12 gap-x-5 relative transition-all duration-500
+            <div className={`flex flex-col md:flex-row items-start mt-12 gap-x-5 relative transition-all duration-500
                             ${postData.type ? "justify-center" : "justify-between"}`}>
                 {/* Displays all the post types */}
                 {postItems.map((item, key) => {

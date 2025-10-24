@@ -131,7 +131,7 @@ export default function AdminView() {
         <Layout navType={1} img={userObj.img} name={userObj.name} email={userObj.email}>
             <Container className="mt-48 mb-12 min-h-screen flex flex-col items-center">
                 <Title>Admin View</Title>
-                <Paragraph>Welcome to the admin panel. Here you can manage users and content.</Paragraph>
+                <Paragraph className="ml-2 lg:ml-0">Welcome to the admin panel. Here you can manage users and content.</Paragraph>
                 <section className="w-full mt-24">
                     <Title>Reported Items</Title>
                     <div className="grid lg:grid-cols-2">
@@ -139,7 +139,7 @@ export default function AdminView() {
                             <Paragraph>No reported items at the moment.</Paragraph>
                         ) : (
                             reportedItems.map((item, index) => (
-                                <div key={index} className="border p-4 m-2">
+                                <div key={index} className="p-4 m-2">
                                     {item.type == "post" && item.details ? (
                                         <div className="mb-8">
                                             <Post
@@ -164,7 +164,7 @@ export default function AdminView() {
                                         <Paragraph>Item details not found.</Paragraph>
                                     )}
 
-                                    <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-y-0 justify-between text-heading-3 font-semibold">
+                                    <div className="flex flex-col gap-y-6 lg:flex-row lg:gap-y-0 justify-between text-white font-semibold">
                                         <Button 
                                             className="transform transition hover:scale-[1.05]" 
                                             onClick={() => handleReport(item, "delete")}
