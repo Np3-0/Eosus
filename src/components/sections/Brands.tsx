@@ -1,7 +1,7 @@
 import Container from "../shared/Container.tsx";
 import Title from "../shared/Title.tsx";
 
-const logos = ["EPA", "FEMA", "NASA", "NOAA", "NPS", "CDC", "USGS"];
+const logos = ["EPA", "FEMA", "NASA", "NOAA", "GOOGLE", "RUTGERS"];
 
 export default function Brands() {
     
@@ -16,8 +16,8 @@ export default function Brands() {
                         <div key={key} className="p-4 sm:p-5 rounded-xl bg-body border border-box-border group">
                             <img 
                                 src={`src/assets/logos/${logo}_logo.png`} 
-                                width={100} 
-                                height={60} 
+                                width={100}
+                                height={80} 
                                 alt={logo}
                                 className="h-7 sm:h-10 w-auto ease-linear duration-300 grayscale group-hover:!grayscale-0 group-hover:scale-105"
                             />
