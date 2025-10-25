@@ -47,7 +47,7 @@ export default function Post({
     const [typedComment, setTypedComment] = useState("");
     const [isLiked, setIsLiked] = useState(false);
     const [hasFetchedComments, setHasFetchedComments] = useState(false);
-    const [postInfo, setPostInfo] = useState({
+    const postInfo = {
         title: title,
         content: content,
         type: type,
@@ -59,7 +59,7 @@ export default function Post({
         author: author,
         timestamp: timestamp,
         comments: comments,
-    });
+    };
 
     const handleCommentsOpen = async () => {
         setIsCommentsOpen(!isCommentsOpen);

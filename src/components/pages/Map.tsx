@@ -41,6 +41,7 @@ export default function Map() {
         timestamp: number;
         townName: string;
         image: string;
+        color: string;
     }> | null>(null);
 
     useEffect(() => {
