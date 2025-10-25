@@ -32,7 +32,7 @@ export default function Hero() {
                         </span>
                     </h1>
                     <Paragraph className="mt-8">
-                        Eosus allows for you to report and get up-to-date information on fires, floods, and 
+                        Eosus allows you to report and get up-to-date information on fires, floods, and 
                         other natural disasters in your area. Never get stuck waiting for current information again, 
                         and contribute to your local community.
                     </Paragraph>
@@ -54,7 +54,7 @@ export default function Hero() {
                                     required
                                     className="w-full py-3 outline-none bg-transparent"/>
                                 <Button type="submit" className="min-w-max text-white transform transition duration-300 hover:scale-[1.02]">
-                                    <span className="relative z-[5]">Get Started</span>
+                                    <span className="relative z-[5]">Sign Up!</span>
                                 </Button>
                             </form>
                         </div>
