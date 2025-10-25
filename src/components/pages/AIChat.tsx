@@ -9,7 +9,7 @@ import getAIChats from "../../utils/ai/getAIChats.ts";
 import promptAI from "../../utils/ai/promptAI.ts";
 import saveAIChat from "../../utils/ai/saveAIChat.ts";
 import getCurrentChat from "../../utils/ai/getCurrentChat.ts";
-import SidebarLayout from "../SidebarLayout.tsx";
+import SidebarLayout from "../SidebarLayout";
 import Container from "../shared/Container.tsx";
 import Button from "../shared/Button.tsx";
 import AILoadingAnim from "../shared/AILoadingAnim.tsx";
