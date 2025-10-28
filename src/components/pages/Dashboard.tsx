@@ -79,6 +79,7 @@ export default function Dashboard() {
                     className="self-start mt-12 " 
                     onConfirm={(value) => setFilterType(value)}
                 />
+                
                 {posts.length > 0 && posts.map((post: any) => (
                     <Post 
                         key={post.id}
