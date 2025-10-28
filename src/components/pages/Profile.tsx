@@ -61,7 +61,7 @@ export default function Profile() {
                 });
             }
 
-            const fetchedPosts = await getPosts("own");
+            const fetchedPosts = await getPosts("own", auth.currentUser?.uid);
             setPosts(fetchedPosts ?? []);
         };
 
