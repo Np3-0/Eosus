@@ -11,7 +11,7 @@ import Container from "../shared/Container.tsx";
 import Title from "../shared/Title.tsx";
 import Paragraph from "../shared/Paragraph.tsx";
 import Button from "../shared/Button.tsx";
-import SidebarLayout from "../SidebarLayout.tsx";
+import SidebarLayout from "../SidebarLayout";
 import AILoadingAnim from "../shared/AILoadingAnim.tsx";
 
 export default function AILanding() {

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { auth } from "../../config/firebase.ts";
-import { onAuthStateChanged, type User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import checkUserStatus from "../../utils/checkUserStatus.ts";
 
@@ -11,12 +11,9 @@ interface SidebarProps {
 export default function Sidebar({ data }: SidebarProps) {
     const navigate = useNavigate();
 
-    const [user, setUser] = useState<User | null>(null);
-
     {/* Check user status on mount */ }
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            setUser(firebaseUser);
             if (firebaseUser) {
                 checkUserStatus(navigate);
             } else {
