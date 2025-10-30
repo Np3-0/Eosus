@@ -1,6 +1,6 @@
-import AppNavbar from "./elements/AppNavbar.tsx";
-import Footer from "./elements/Footer.tsx";
-import Sidebar from "./elements/Sidebar.tsx";
+import AppNavbar from "../elements/AppNavbar.tsx";
+import Footer from "../elements/Footer.tsx";
+import Sidebar from "../elements/Sidebar.tsx";
 
 interface SidebarLayoutProps {
     img?: string;
